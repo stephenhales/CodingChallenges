@@ -8,7 +8,7 @@ import todo.user.model.User;
 @Service
 public class UserServiceBean {
 
-	public User createUser(String name){
+	public User createUser(String name) throws UserException{
 		//validation
 		isNameValid(name);
 
@@ -17,9 +17,10 @@ public class UserServiceBean {
 		return user;
 	}
 
-	private void isNameValid(String name){
+	private Boolean isNameValid(String name) throws UserException{
 		if(name == null){throw new UserException("Name is required"); }
 		if(name.isEmpty()){throw new UserException("Name is empty"); }
 		if(name.length() > 100){throw new UserException("Name is too long"); }
+		return true;
 	}
 }

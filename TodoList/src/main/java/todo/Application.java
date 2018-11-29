@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
 
+import todo.exception.UserException;
 import todo.user.api.UserController;
 import todo.user.model.User;
 
@@ -36,7 +37,13 @@ public class Application implements CommandLineRunner {
 	private User getUserDetails(Scanner userInput){
 		String name = getUserInput("Enter your first name: ", userInput);
 		//String email = getUserInput("Enter your email address: ", userInput);
-		return userController.createUser(name);
+		try{
+			return userController.createUser(name);
+		}
+		catch (UserException e){
+			System.out.println("Invalid input(s): " + e.getMessage());
+			return getUserDetails(userInput);
+		}
 	}
 
 	private String getMenuChoice(Scanner userInput){

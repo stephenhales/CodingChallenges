@@ -1,0 +1,11 @@
+*.zip
+*/.idea/*
+
+*/lib/*
+*/src/main/resources/*
+node_modules/*
+
+*/target/*
+*/out/*
+
+ClassLoaderProxy/*

@@ -4,14 +4,16 @@ Objects:
 		-Name
 		-Email
 		-Tasks
-		newTask()
-		completeTask()
-		completedTasks()
-		incompletedTasks()
+		addNewTask()
+		completeUserTask()
+		completedTasksForUser()
+		incompleteTasksForUser()
 	Task
-		Id
-		Description
-		isCompleted
+		-Id
+		-Description
+		-isCompleted
+		completedTasks()
+		incompleteTasks()
 
 Validation:
 	User

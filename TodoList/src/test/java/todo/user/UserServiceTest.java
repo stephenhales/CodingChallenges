@@ -7,6 +7,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.apache.commons.lang3.StringUtils;
 
 import todo.exception.UserException;
 import todo.user.service.UserServiceBean;
@@ -21,7 +22,7 @@ public class UserServiceTest {
 	public ExpectedException thrown = ExpectedException.none();
 
 	@Test
-	public void NullNameThrowsException() {
+	public void NullNameThrowsException() throws UserException {
 		//Arrange
 		String name = null;
 
@@ -34,7 +35,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void EmptyNameThrowsException() {
+	public void EmptyNameThrowsException() throws UserException {
 		//Arrange
 		String name = "";
 
@@ -47,9 +48,9 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void LongNameThrowsException() {
+	public void LongNameThrowsException() throws UserException {
 		//Arrange
-		String name = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab";
+		String name = StringUtils.repeat("a", 101);
 
 		//Assert
 		Assert.assertTrue(name.length() > 100);
@@ -61,7 +62,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void NameContainsNumberThrowsException() {
+	public void NameContainsNumberThrowsException() throws UserException {
 		//Arrange
 		String name = "1";
 
