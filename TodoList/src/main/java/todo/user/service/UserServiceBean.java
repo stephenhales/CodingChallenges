@@ -34,12 +34,7 @@ public class UserServiceBean {
 	}
 
 	private Boolean stringHasNumber(String string){
-		char[] ch = string.toCharArray();
-		for(int i = 0; i< ch.length; i++){
-			if(Character.isDigit(ch[i])){
-				return true;
-			}
-		}
-		return false;
+		String numbers = string.replaceAll("[^0-9]","");
+		return !numbers.isEmpty();
 	}
 }
