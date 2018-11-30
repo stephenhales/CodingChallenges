@@ -4,8 +4,20 @@ Objects:
 		-Name
 		-Email
 		-Tasks
+<<<<<<< Updated upstream
 		newTask()
 		completeTask()
+=======
+		addNewTask()
+		completeUserTask()
+		completedTasksForUser()
+		incompleteTasksForUser()
+	Task
+		-Id
+		-Description
+		-isCompleted
+		createNewTask()
+>>>>>>> Stashed changes
 		completedTasks()
 		incompletedTasks()
 	Task

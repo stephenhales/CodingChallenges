@@ -1,0 +1,11 @@
+*.zip
+*.idea
+
+
+*/lib/*
+node_modules/*
+*/src/main/resources/*
+
+*/target/*
+*/out/*
+
