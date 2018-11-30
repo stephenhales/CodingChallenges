@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import todo.exception.UserException;
+import todo.exception.ValidationException;
 import todo.user.model.User;
 import todo.user.service.UserServiceBean;
 import todo.task.model.Task;
@@ -17,7 +18,7 @@ public class UserController {
 	@Autowired
 	private UserServiceBean userService;
 
-	public User createUser(String name) throws UserException {
+	public User createUser(String name) throws ValidationException, UserException {
 		return userService.createUser(name);
 	}
 

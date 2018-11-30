@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
 
 import todo.exception.UserException;
+import todo.exception.ValidationException;
 import todo.task.api.TaskController;
 import todo.task.model.Task;
 import todo.user.api.UserController;
@@ -45,8 +46,12 @@ public class Application implements CommandLineRunner {
 		try{
 			return userController.createUser(name);
 		}
-		catch (UserException e){
+		catch (ValidationException e){
 			System.out.println("Invalid input(s): " + e.getMessage());
+			return getUserDetails(userInput);
+		}
+		catch (UserException e){
+			System.out.println("Invalid input: " + e.getMessage());
 			return getUserDetails(userInput);
 		}
 	}
