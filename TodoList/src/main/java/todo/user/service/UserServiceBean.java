@@ -12,7 +12,7 @@ import todo.user.model.User;
 @Service
 public class UserServiceBean {
 
-	public User createUser(String name){
+	public User createUser(String name) throws ValidationException, UserException {
 		//validation
 		isNameValid(name);
 
@@ -21,7 +21,7 @@ public class UserServiceBean {
 		return user;
 	}
 
-	private void isNameValid(String name){
+	private void isNameValid(String name) throws ValidationException, UserException {
 		List<String> errors = new ArrayList<>();
 		if(name == null){throw new UserException("Name is required"); }
 		if(name.isEmpty()){errors.add("Name is empty"); }

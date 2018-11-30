@@ -4,26 +4,24 @@ Objects:
 		-Name
 		-Email
 		-Tasks
-<<<<<<< Updated upstream
-		newTask()
-		completeTask()
-=======
 		addNewTask()
 		completeUserTask()
 		completedTasksForUser()
 		incompleteTasksForUser()
+
 	Task
 		-Id
 		-Description
 		-isCompleted
-		createNewTask()
->>>>>>> Stashed changes
+		createTask()
 		completedTasks()
 		incompletedTasks()
 	Task
-		Id
-		Description
-		isCompleted
+		-Id
+		-Description
+		-isCompleted
+		completedTasks()
+		incompleteTasks()
 
 Validation:
 	User
@@ -39,4 +37,3 @@ Validation:
 
 	Task
 		Description is null
-

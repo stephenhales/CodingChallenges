@@ -10,8 +10,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.apache.commons.lang3.StringUtils;
 
 
-import com.sun.xml.internal.ws.developer.MemberSubmissionAddressing.Validation;
-
 import todo.exception.UserException;
 import todo.exception.ValidationException;
 import todo.user.service.UserServiceBean;
@@ -26,7 +24,7 @@ public class UserServiceTest {
 	public ExpectedException thrown = ExpectedException.none();
 
 	@Test
-	public void NullNameThrowsException() {
+	public void NullNameThrowsException() throws ValidationException, UserException {
 		//Arrange
 		String name = null;
 
@@ -39,7 +37,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void EmptyNameThrowsException() {
+	public void EmptyNameThrowsException() throws ValidationException, UserException {
 		//Arrange
 		String name = "";
 
@@ -52,7 +50,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void LongNameThrowsException() {
+	public void LongNameThrowsException() throws ValidationException, UserException {
 		//Arrange
 		String name = StringUtils.repeat("a", 101);
 
@@ -66,7 +64,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void NameContainsNumberThrowsException() {
+	public void NameContainsNumberThrowsException() throws ValidationException, UserException {
 		//Arrange
 		String name = "1";
 
@@ -79,7 +77,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void NameContainsNumberAndTooLongThrowsException() {
+	public void NameContainsNumberAndTooLongThrowsException() throws ValidationException, UserException {
 		//Arrange
 		String name = StringUtils.repeat("1", 101);
 

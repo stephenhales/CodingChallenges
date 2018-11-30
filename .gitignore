@@ -1,5 +1,5 @@
 *.zip
-*.idea
+*/.idea
 
 
 */lib/*
@@ -8,4 +8,3 @@ node_modules/*
 
 */target/*
 */out/*
-
