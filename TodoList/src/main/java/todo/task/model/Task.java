@@ -4,15 +4,12 @@ package todo.task.model;
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter
+@Setter
 public class Task {
 
-	@Getter @Setter private String description;
-	@Getter @Setter private Boolean isCompleted;
+	private int id;
+	private String description;
+	private Boolean isCompleted;
 
-	public boolean validate() {
-		if (description == null) {
-			return false;
-		}
-		return true;
-	}
 }

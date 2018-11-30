@@ -21,11 +21,11 @@ public class UserController {
 		return userService.createUser(name);
 	}
 
-	public void createTask(User user){
+	public void addNewTask(User user, Task task){
 
 	}
 
-	public void completeTask(User user){
+	public void completeTask(User user, String taskId){
 
 	}
 

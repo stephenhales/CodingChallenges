@@ -7,15 +7,10 @@ import todo.task.model.Task;
 @Service
 public class TaskServiceBean {
 
-	public Task createTask(String description){
-		isDescriptionValid(description);
+	public Task createTask(String id, String description){
+		//validation
 
-		Task task = new Task();
-		task.setDescription(description);
-		return task;
-	}
-
-	private void isDescriptionValid(String name){
-
+		//creation
+		return new Task();
 	}
 }

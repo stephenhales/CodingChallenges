@@ -8,6 +8,14 @@ Objects:
 		completeUserTask()
 		completedTasksForUser()
 		incompleteTasksForUser()
+
+	Task
+		-Id
+		-Description
+		-isCompleted
+		createTask()
+		completedTasks()
+		incompletedTasks()
 	Task
 		-Id
 		-Description
@@ -29,4 +37,3 @@ Validation:
 
 	Task
 		Description is null
-

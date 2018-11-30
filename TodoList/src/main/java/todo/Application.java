@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
 
 import todo.exception.UserException;
+import todo.task.api.TaskController;
+import todo.task.model.Task;
 import todo.user.api.UserController;
 import todo.user.model.User;
 
@@ -17,6 +19,9 @@ public class Application implements CommandLineRunner {
 
 	@Autowired
 	private UserController userController;
+
+	@Autowired
+	private TaskController taskController;
 
 
 	public static void main(String[] args){
@@ -46,6 +51,12 @@ public class Application implements CommandLineRunner {
 		}
 	}
 
+	private Task getNewTask(Scanner userInput){
+		String taskId = getUserInput("what is the Task ID? ", userInput);
+		String taskDescription = getUserInput("what is the Task Description? ", userInput);
+		return taskController.createTask(taskId, taskDescription);
+	}
+
 	private String getMenuChoice(Scanner userInput){
 		System.out.println();
 		System.out.println("1. create a todo.task");
@@ -65,13 +76,17 @@ public class Application implements CommandLineRunner {
 		return userInput.next( );
 	}
 
+	private String getTaskId(Scanner userInput){
+		return getUserInput("what is the Task ID? ", userInput);
+	}
+
 	private void runProgram(User user, Scanner userInput) {
 		switch (getMenuChoice(userInput)) {
 			case "1":
-				userController.createTask(user);
+				userController.addNewTask(user, getNewTask(userInput));
 				break;
 			case "2":
-				userController.completeTask(user);
+				userController.completeTask(user, getTaskId(userInput));
 				break;
 			case "3":
 				userController.getCompletedTasks(user);
