@@ -23,8 +23,10 @@ public class UserServiceTest {
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
+	private String emailString = "";
+
 	@Test
-	public void NullNameThrowsException() throws ValidationException, UserException {
+	public void nullNameThrowsException() throws ValidationException, UserException {
 		//Arrange
 		String name = null;
 
@@ -33,11 +35,11 @@ public class UserServiceTest {
 		thrown.expectMessage("Name is required");
 
 		//Act
-		userService.createUser(name);
+		userService.createUser(name, emailString);
 	}
 
 	@Test
-	public void EmptyNameThrowsException() throws ValidationException, UserException {
+	public void emptyNameThrowsException() throws ValidationException, UserException {
 		//Arrange
 		String name = "";
 
@@ -46,11 +48,11 @@ public class UserServiceTest {
 		thrown.expectMessage("Name is empty");
 
 		//Act
-		userService.createUser(name);
+		userService.createUser(name, emailString);
 	}
 
 	@Test
-	public void LongNameThrowsException() throws ValidationException, UserException {
+	public void longNameThrowsException() throws ValidationException, UserException {
 		//Arrange
 		String name = StringUtils.repeat("a", 101);
 
@@ -60,11 +62,11 @@ public class UserServiceTest {
 		thrown.expectMessage("Name is too long");
 
 		//Act
-		userService.createUser(name);
+		userService.createUser(name, emailString);
 	}
 
 	@Test
-	public void NameContainsNumberThrowsException() throws ValidationException, UserException {
+	public void nameContainsNumberThrowsException() throws ValidationException, UserException {
 		//Arrange
 		String name = "1";
 
@@ -73,11 +75,11 @@ public class UserServiceTest {
 		thrown.expectMessage("Name contains numbers");
 
 		//Act
-		userService.createUser(name);
+		userService.createUser(name, emailString);
 	}
 
 	@Test
-	public void NameContainsNumberAndTooLongThrowsException() throws ValidationException, UserException {
+	public void nameContainsNumberAndTooLongThrowsException() throws ValidationException, UserException {
 		//Arrange
 		String name = StringUtils.repeat("1", 101);
 
@@ -87,6 +89,34 @@ public class UserServiceTest {
 		thrown.expectMessage("Name is too long");
 
 		//Act
-		userService.createUser(name);
+		userService.createUser(name, emailString);
+	}
+
+	@Test
+	public void emailNoAMPThrowsException() throws ValidationException, UserException {
+		//Arrange
+		String name = "a";
+		String email = "a";
+
+		//Assert
+		thrown.expect(ValidationException.class);
+		thrown.expectMessage("Email has no @");
+
+		//Act
+		userService.createUser(name, email);
+	}
+
+	@Test
+	public void emailMaxOneAMPThrowsException() throws ValidationException, UserException {
+		//Arrange
+		String name = "a";
+		String email = "@@";
+
+		//Assert
+		thrown.expect(ValidationException.class);
+		thrown.expectMessage("Email has multiple @");
+
+		//Act
+		userService.createUser(name, email);
 	}
 }
