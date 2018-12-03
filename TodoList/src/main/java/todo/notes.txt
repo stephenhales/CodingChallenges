@@ -27,10 +27,11 @@ Validation:
 	User
 		-Name is null
 		-Name is empty
-		Name has numbers
+		-Name has numbers
 		-Name is too long
 
-		Email doesn’t have “@”
+		-Email doesn’t have “@”
+		-Email only has one @
 		Email doesn’t have something before @
 		Email doesn’t have something after @
 		Email doesn’t have .com after @

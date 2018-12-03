@@ -3,6 +3,7 @@ package todo.user.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,13 @@ import todo.user.model.User;
 @Service
 public class UserServiceBean {
 
-	public User createUser(String name) throws ValidationException, UserException {
+	public User createUser(String name, String email) throws ValidationException, UserException {
 		validateName(name);
+		validateEmail(email);
 
 		User user = new User();
 		user.setName(name);
+		user.setEmail(email);
 		return user;
 	}
 
@@ -35,10 +38,23 @@ public class UserServiceBean {
 		return errors;
 	}
 
-	private List<String> validateEmail(String email) {
+	private List<String> validateEmail(String email) throws ValidationException {
 		List<String> errors = new ArrayList<>();
+		if(!emailHasAMP(email)){ errors.add("Email has no @"); }
+		if(!emailHasMaxOneAMP(email)){ errors.add("Email has multiple @"); }
 
+		if(!errors.isEmpty()){
+			throw new ValidationException(errors);
+		}
 		return errors;
+	}
+
+	private Boolean emailHasMaxOneAMP(String email){
+		return StringUtils.countMatches(email,"@") <= 1;
+	}
+
+	private Boolean emailHasAMP(String email){
+		return email.contains("@");
 	}
 
 	private Boolean stringHasNumber(String string){

@@ -19,7 +19,7 @@ public class UserController {
 	private UserServiceBean userService;
 
 	public User createUser(String name) throws ValidationException, UserException {
-		return userService.createUser(name);
+		return userService.createUser(name, "");
 	}
 
 	public void addNewTask(User user, Task task){
