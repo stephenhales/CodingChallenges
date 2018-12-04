@@ -7,13 +7,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import todo.common.Enums;
 import todo.common.ValidationService;
 import todo.exception.UserException;
 import todo.exception.ValidationException;
 import todo.user.model.User;
 
+
 @Service
 public class UserServiceBean {
+
+	@Autowired
+	private ValidationService validationService;
 
 	public User createUser(String name, String email) throws ValidationException, UserException {
 		validateName(name);
@@ -25,28 +30,26 @@ public class UserServiceBean {
 		return user;
 	}
 
-	private List<String> validateName(String name) throws ValidationException, UserException {
+	private void validateName(String name) throws ValidationException, UserException {
 		List<String> errors = new ArrayList<>();
-		if(name == null){throw new UserException("Name is required"); }
-		if(name.isEmpty()){errors.add("Name is empty"); }
-		if(name.length() > 100){errors.add("Name is too long"); }
-		if(stringHasNumber(name)){errors.add("Name contains numbers");}
+		if(name == null){throw new UserException(Enums.NAMEREQUIRED); }
+		if(name.isEmpty()){errors.add(Enums.NAMEEMPTY); }
+		if(name.length() > 100){errors.add(Enums.NAMETOOLONG); }
+		if(stringHasNumber(name)){errors.add(Enums.NAMEHASNUMBERS);}
 
 		if(!errors.isEmpty()){
 			throw new ValidationException(errors);
 		}
-		return errors;
 	}
 
-	private List<String> validateEmail(String email) throws ValidationException {
+	private void validateEmail(String email) throws ValidationException {
 		List<String> errors = new ArrayList<>();
-		if(!emailHasAMP(email)){ errors.add("Email has no @"); }
-		if(!emailHasMaxOneAMP(email)){ errors.add("Email has multiple @"); }
+		if(!emailHasAMP(email)){ errors.add(Enums.EMAILHASNOAMP); }
+		if(!emailHasMaxOneAMP(email)){ errors.add(Enums.EMAILHASTOOMANYAMP); }
 
 		if(!errors.isEmpty()){
 			throw new ValidationException(errors);
 		}
-		return errors;
 	}
 
 	private Boolean emailHasMaxOneAMP(String email){

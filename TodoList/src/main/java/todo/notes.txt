@@ -32,9 +32,9 @@ Validation:
 
 		-Email doesn’t have “@”
 		-Email only has one @
-		Email doesn’t have something before @
-		Email doesn’t have something after @
-		Email doesn’t have .com after @
+		x Email doesn’t have something before @
+		x Email doesn’t have something after @
+		x Email doesn’t have .com after @
 
 	Task
 		Description is null

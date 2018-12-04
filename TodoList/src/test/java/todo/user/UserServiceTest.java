@@ -10,6 +10,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.apache.commons.lang3.StringUtils;
 
 
+import todo.common.Enums;
 import todo.exception.UserException;
 import todo.exception.ValidationException;
 import todo.user.service.UserServiceBean;
@@ -32,7 +33,7 @@ public class UserServiceTest {
 
 		//Assert
 		thrown.expect(UserException.class);
-		thrown.expectMessage("Name is required");
+		thrown.expectMessage(Enums.NAMEREQUIRED);
 
 		//Act
 		userService.createUser(name, emailString);
@@ -45,7 +46,7 @@ public class UserServiceTest {
 
 		//Assert
 		thrown.expect(ValidationException.class);
-		thrown.expectMessage("Name is empty");
+		thrown.expectMessage(Enums.NAMEEMPTY);
 
 		//Act
 		userService.createUser(name, emailString);
@@ -59,7 +60,7 @@ public class UserServiceTest {
 		//Assert
 		Assert.assertTrue(name.length() > 100);
 		thrown.expect(ValidationException.class);
-		thrown.expectMessage("Name is too long");
+		thrown.expectMessage(Enums.NAMETOOLONG);
 
 		//Act
 		userService.createUser(name, emailString);
@@ -72,7 +73,7 @@ public class UserServiceTest {
 
 		//Assert
 		thrown.expect(ValidationException.class);
-		thrown.expectMessage("Name contains numbers");
+		thrown.expectMessage(Enums.NAMEHASNUMBERS);
 
 		//Act
 		userService.createUser(name, emailString);
@@ -85,8 +86,8 @@ public class UserServiceTest {
 
 		//Assert
 		thrown.expect(ValidationException.class);
-		thrown.expectMessage("Name contains numbers");
-		thrown.expectMessage("Name is too long");
+		thrown.expectMessage(Enums.NAMEHASNUMBERS);
+		thrown.expectMessage(Enums.NAMETOOLONG);
 
 		//Act
 		userService.createUser(name, emailString);
@@ -100,7 +101,7 @@ public class UserServiceTest {
 
 		//Assert
 		thrown.expect(ValidationException.class);
-		thrown.expectMessage("Email has no @");
+		thrown.expectMessage(Enums.EMAILHASNOAMP);
 
 		//Act
 		userService.createUser(name, email);
@@ -114,7 +115,7 @@ public class UserServiceTest {
 
 		//Assert
 		thrown.expect(ValidationException.class);
-		thrown.expectMessage("Email has multiple @");
+		thrown.expectMessage(Enums.EMAILHASTOOMANYAMP);
 
 		//Act
 		userService.createUser(name, email);
