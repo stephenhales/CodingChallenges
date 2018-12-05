@@ -18,16 +18,16 @@ public class UserController {
 	@Autowired
 	private UserServiceBean userService;
 
-	public User createUser(String name) throws ValidationException, UserException {
-		return userService.createUser(name, "");
+	public User createUser(String name, String email) throws ValidationException, UserException {
+		return userService.createUser(name, email);
 	}
 
-	public void addNewTask(User user, Task task){
-
+	public User addNewTask(User user, String taskDescription){
+		return userService.createTaskForUser(user, taskDescription);
 	}
 
-	public void completeTask(User user, String taskId){
-
+	public User completeTask(User user, int taskId){
+		return user;
 	}
 
 	public List<Task> getCompletedTasks(User user){

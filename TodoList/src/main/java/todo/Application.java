@@ -42,9 +42,9 @@ public class Application implements CommandLineRunner {
 
 	private User getUserDetails(Scanner userInput){
 		String name = getUserInput("Enter your first name: ", userInput);
-		//String email = getUserInput("Enter your email address: ", userInput);
+		String email = getUserInput("Enter your email address: ", userInput);
 		try{
-			return userController.createUser(name);
+			return userController.createUser(name, email);
 		}
 		catch (ValidationException e){
 			System.out.println("Invalid input(s): " + e.getMessage());
@@ -56,10 +56,9 @@ public class Application implements CommandLineRunner {
 		}
 	}
 
-	private Task getNewTask(Scanner userInput){
-		String taskId = getUserInput("what is the Task ID? ", userInput);
+	private User addNewTask(User user, Scanner userInput){
 		String taskDescription = getUserInput("what is the Task Description? ", userInput);
-		return taskController.createTask(taskId, taskDescription);
+		return userController.addNewTask(user, taskDescription);
 	}
 
 	private String getMenuChoice(Scanner userInput){
@@ -78,17 +77,22 @@ public class Application implements CommandLineRunner {
 
 	private String getUserInput(String text, Scanner userInput){
 		System.out.println(text);
-		return userInput.next( );
+		return userInput.next();
 	}
 
-	private String getTaskId(Scanner userInput){
-		return getUserInput("what is the Task ID? ", userInput);
+	private int getUserInputInt(String text, Scanner userInput){
+		System.out.println(text);
+		return userInput.nextInt();
+	}
+
+	private int getTaskId(Scanner userInput){
+		return getUserInputInt("what is the Task ID? ", userInput);
 	}
 
 	private void runProgram(User user, Scanner userInput) {
 		switch (getMenuChoice(userInput)) {
 			case "1":
-				userController.addNewTask(user, getNewTask(userInput));
+				user = addNewTask(user, userInput);
 				break;
 			case "2":
 				userController.completeTask(user, getTaskId(userInput));

@@ -7,45 +7,53 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import todo.common.Enums;
 import todo.common.ValidationService;
 import todo.exception.UserException;
 import todo.exception.ValidationException;
+import todo.task.service.TaskServiceBean;
 import todo.user.model.User;
+
 
 @Service
 public class UserServiceBean {
 
-	public User createUser(String name, String email) throws ValidationException, UserException {
-		validateName(name);
-		validateEmail(email);
+	@Autowired
+	private ValidationService validationService;
 
-		User user = new User();
-		user.setName(name);
-		user.setEmail(email);
-		return user;
+	@Autowired
+	private TaskServiceBean taskService;
+
+	public User createUser(String name, String email) throws ValidationException, UserException {
+		validationService.validate(validateName(name), validateEmail(email));
+		return new User(name, email);
 	}
 
-	private List<String> validateName(String name) throws ValidationException, UserException {
-		List<String> errors = new ArrayList<>();
-		if(name == null){throw new UserException("Name is required"); }
-		if(name.isEmpty()){errors.add("Name is empty"); }
-		if(name.length() > 100){errors.add("Name is too long"); }
-		if(stringHasNumber(name)){errors.add("Name contains numbers");}
+	public User createTaskForUser(User user, String taskDescription){
+		//this needs to add a task to the list of tasks
+		return null;
+	}
 
-		if(!errors.isEmpty()){
-			throw new ValidationException(errors);
-		}
+	public User completeTaskForUser(User user, int taskId){
+		//this needs to add a task to the list of tasks
+		return null;
+	}
+
+	private List<String> validateName(String name) throws UserException {
+		List<String> errors = new ArrayList<>();
+		if(name == null){throw new UserException(Enums.NAMEREQUIRED); }
+		if(name.isEmpty()){errors.add(Enums.NAMEEMPTY); }
+		if(name.length() > 100){errors.add(Enums.NAMETOOLONG); }
+		if(stringHasNumber(name)){errors.add(Enums.NAMEHASNUMBERS);}
 		return errors;
 	}
 
-	private List<String> validateEmail(String email) throws ValidationException {
+	private List<String> validateEmail(String email) {
 		List<String> errors = new ArrayList<>();
-		if(!emailHasAMP(email)){ errors.add("Email has no @"); }
-		if(!emailHasMaxOneAMP(email)){ errors.add("Email has multiple @"); }
-
-		if(!errors.isEmpty()){
-			throw new ValidationException(errors);
-		}
+		if(!emailHasAMP(email)){ errors.add(Enums.EMAILHASNOAMP); }
+		if(!emailHasMaxOneAMP(email)){ errors.add(Enums.EMAILHASTOOMANYAMP); }
+		if(emailNullBeforeAMP(email)) {errors.add(Enums.EMAILNULLBEFOREAMP); }
+		if(emailNullAfterAMP(email)) {errors.add(Enums.EMAILNULLAFTERAMP); }
 		return errors;
 	}
 
@@ -55,6 +63,14 @@ public class UserServiceBean {
 
 	private Boolean emailHasAMP(String email){
 		return email.contains("@");
+	}
+
+	private Boolean emailNullBeforeAMP(String email){
+		return StringUtils.substringBefore(email, "@").isEmpty();
+	}
+
+	private Boolean emailNullAfterAMP(String email){
+		return StringUtils.substringAfter(email, "@").isEmpty();
 	}
 
 	private Boolean stringHasNumber(String string){

@@ -1,16 +1,37 @@
 package todo.task.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import todo.common.Enums;
+import todo.common.ValidationService;
+import todo.exception.ValidationException;
 import todo.task.model.Task;
 
 @Service
 public class TaskServiceBean {
 
-	public Task createTask(String id, String description){
-		//validation
+	@Autowired
+	private ValidationService validationService;
 
-		//creation
-		return new Task();
+	private int nextTaskId = 0;
+
+	public Task createTask(String description) throws ValidationException {
+		validationService.validate(validateDescription(description));
+		return new Task(nextTaskId++, description);
+	}
+
+	public List<Task> completeTask(int taskId, List<Task> tasks){
+		//TODO
+		return null;
+	}
+
+	private List<String> validateDescription(String description){
+		List<String> errors = new ArrayList<>();
+		if(description.isEmpty()) { errors.add(Enums.DESCRIPTIONEMPTY); }
+		return errors;
 	}
 }

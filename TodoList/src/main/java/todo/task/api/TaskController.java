@@ -18,7 +18,7 @@ public class TaskController {
 	@Autowired
 	private TaskServiceBean taskService;
 
-	public Task createTask(String id, String description) {
-		return taskService.createTask(id, description);
+	public Task createTask(String description) {
+		return null;
 	}
 }

@@ -7,21 +7,15 @@ Objects:
 		addNewTask()
 		completeUserTask()
 		completedTasksForUser()
-		incompleteTasksForUser()
+		getIncompleteTasksForUser()
 
 	Task
 		-Id
 		-Description
 		-isCompleted
-		createTask()
-		completedTasks()
-		incompletedTasks()
-	Task
-		-Id
-		-Description
-		-isCompleted
-		completedTasks()
-		incompleteTasks()
+		-createTask()
+		completeTask()
+		getIncompleteTasks()
 
 Validation:
 	User
@@ -32,9 +26,12 @@ Validation:
 
 		-Email doesn’t have “@”
 		-Email only has one @
-		Email doesn’t have something before @
-		Email doesn’t have something after @
-		Email doesn’t have .com after @
+		-Email doesn’t have something before @
+		-Email doesn’t have something after @
 
 	Task
-		Description is null
+		-Description is null
+
+Things to look into:
+	-auto-generate id (counter)
+	-using constructors for objects

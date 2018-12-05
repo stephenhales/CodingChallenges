@@ -6,16 +6,29 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.apache.commons.lang3.StringUtils;
 
-
+import todo.common.Enums;
+import todo.common.ValidationService;
 import todo.exception.UserException;
 import todo.exception.ValidationException;
+import todo.task.service.TaskServiceBean;
+import todo.user.model.User;
 import todo.user.service.UserServiceBean;
+
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
+
+	@Mock
+	private ValidationService validationService;
+
+	@Mock
+	private TaskServiceBean taskService;
 
 	@InjectMocks
 	private UserServiceBean userService;
@@ -23,7 +36,8 @@ public class UserServiceTest {
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
-	private String emailString = "";
+	private String validName = "a";
+	private String validEmail = "a@a.com";
 
 	@Test
 	public void nullNameThrowsException() throws ValidationException, UserException {
@@ -32,10 +46,10 @@ public class UserServiceTest {
 
 		//Assert
 		thrown.expect(UserException.class);
-		thrown.expectMessage("Name is required");
+		thrown.expectMessage(Enums.NAMEREQUIRED);
 
 		//Act
-		userService.createUser(name, emailString);
+		userService.createUser(name, validEmail);
 	}
 
 	@Test
@@ -45,10 +59,10 @@ public class UserServiceTest {
 
 		//Assert
 		thrown.expect(ValidationException.class);
-		thrown.expectMessage("Name is empty");
+		thrown.expectMessage(Enums.NAMEEMPTY);
 
 		//Act
-		userService.createUser(name, emailString);
+		userService.createUser(name, validEmail);
 	}
 
 	@Test
@@ -59,10 +73,10 @@ public class UserServiceTest {
 		//Assert
 		Assert.assertTrue(name.length() > 100);
 		thrown.expect(ValidationException.class);
-		thrown.expectMessage("Name is too long");
+		thrown.expectMessage(Enums.NAMETOOLONG);
 
 		//Act
-		userService.createUser(name, emailString);
+		userService.createUser(name, validEmail);
 	}
 
 	@Test
@@ -72,10 +86,10 @@ public class UserServiceTest {
 
 		//Assert
 		thrown.expect(ValidationException.class);
-		thrown.expectMessage("Name contains numbers");
+		thrown.expectMessage(Enums.NAMEHASNUMBERS);
 
 		//Act
-		userService.createUser(name, emailString);
+		userService.createUser(name, validEmail);
 	}
 
 	@Test
@@ -85,38 +99,72 @@ public class UserServiceTest {
 
 		//Assert
 		thrown.expect(ValidationException.class);
-		thrown.expectMessage("Name contains numbers");
-		thrown.expectMessage("Name is too long");
+		thrown.expectMessage(Enums.NAMEHASNUMBERS);
+		thrown.expectMessage(Enums.NAMETOOLONG);
 
 		//Act
-		userService.createUser(name, emailString);
+		userService.createUser(name, validEmail);
 	}
 
 	@Test
 	public void emailNoAMPThrowsException() throws ValidationException, UserException {
 		//Arrange
-		String name = "a";
-		String email = "a";
+		String email = "aa.com";
 
 		//Assert
 		thrown.expect(ValidationException.class);
-		thrown.expectMessage("Email has no @");
+		thrown.expectMessage(Enums.EMAILHASNOAMP);
 
 		//Act
-		userService.createUser(name, email);
+		userService.createUser(validName, email);
 	}
 
 	@Test
 	public void emailMaxOneAMPThrowsException() throws ValidationException, UserException {
 		//Arrange
-		String name = "a";
 		String email = "@@";
 
 		//Assert
 		thrown.expect(ValidationException.class);
-		thrown.expectMessage("Email has multiple @");
+		thrown.expectMessage(Enums.EMAILHASTOOMANYAMP);
 
 		//Act
-		userService.createUser(name, email);
+		userService.createUser(validName, email);
+	}
+
+	@Test
+	public void emailNullBeforeAMPThrowsException() throws ValidationException, UserException {
+		//Arrange
+		String email = "@a.com";
+
+		//Assert
+		thrown.expect(ValidationException.class);
+		thrown.expectMessage(Enums.EMAILNULLBEFOREAMP);
+
+		//Act
+		userService.createUser(validName, email);
+	}
+
+	@Test
+	public void emailNullAfterAMPThrowsException() throws ValidationException, UserException {
+		//Arrange
+		String email = "a@";
+
+		//Assert
+		thrown.expect(ValidationException.class);
+		thrown.expectMessage(Enums.EMAILNULLAFTERAMP);
+
+		//Act
+		userService.createUser(validName, email);
+	}
+
+	@Test
+	public void canCreateUser() throws ValidationException, UserException {
+		//Act
+		User userResult = userService.createUser(validName, validEmail);
+
+		//Assert
+		assertThat(userResult.getName(), is(validName));
+		assertThat(userResult.getEmail(), is(validEmail));
 	}
 }
