@@ -11,6 +11,7 @@ import todo.common.Enums;
 import todo.common.ValidationService;
 import todo.exception.UserException;
 import todo.exception.ValidationException;
+import todo.task.service.TaskServiceBean;
 import todo.user.model.User;
 
 
@@ -20,36 +21,40 @@ public class UserServiceBean {
 	@Autowired
 	private ValidationService validationService;
 
-	public User createUser(String name, String email) throws ValidationException, UserException {
-		validateName(name);
-		validateEmail(email);
+	@Autowired
+	private TaskServiceBean taskService;
 
-		User user = new User();
-		user.setName(name);
-		user.setEmail(email);
-		return user;
+	public User createUser(String name, String email) throws ValidationException, UserException {
+		validationService.validate(validateName(name), validateEmail(email));
+		return new User(name, email);
 	}
 
-	private void validateName(String name) throws ValidationException, UserException {
+	public User createTaskForUser(User user, String taskDescription){
+		//this needs to add a task to the list of tasks
+		return null;
+	}
+
+	public User completeTaskForUser(User user, int taskId){
+		//this needs to add a task to the list of tasks
+		return null;
+	}
+
+	private List<String> validateName(String name) throws UserException {
 		List<String> errors = new ArrayList<>();
 		if(name == null){throw new UserException(Enums.NAMEREQUIRED); }
 		if(name.isEmpty()){errors.add(Enums.NAMEEMPTY); }
 		if(name.length() > 100){errors.add(Enums.NAMETOOLONG); }
 		if(stringHasNumber(name)){errors.add(Enums.NAMEHASNUMBERS);}
-
-		if(!errors.isEmpty()){
-			throw new ValidationException(errors);
-		}
+		return errors;
 	}
 
-	private void validateEmail(String email) throws ValidationException {
+	private List<String> validateEmail(String email) {
 		List<String> errors = new ArrayList<>();
 		if(!emailHasAMP(email)){ errors.add(Enums.EMAILHASNOAMP); }
 		if(!emailHasMaxOneAMP(email)){ errors.add(Enums.EMAILHASTOOMANYAMP); }
-
-		if(!errors.isEmpty()){
-			throw new ValidationException(errors);
-		}
+		if(emailNullBeforeAMP(email)) {errors.add(Enums.EMAILNULLBEFOREAMP); }
+		if(emailNullAfterAMP(email)) {errors.add(Enums.EMAILNULLAFTERAMP); }
+		return errors;
 	}
 
 	private Boolean emailHasMaxOneAMP(String email){
@@ -58,6 +63,14 @@ public class UserServiceBean {
 
 	private Boolean emailHasAMP(String email){
 		return email.contains("@");
+	}
+
+	private Boolean emailNullBeforeAMP(String email){
+		return StringUtils.substringBefore(email, "@").isEmpty();
+	}
+
+	private Boolean emailNullAfterAMP(String email){
+		return StringUtils.substringAfter(email, "@").isEmpty();
 	}
 
 	private Boolean stringHasNumber(String string){

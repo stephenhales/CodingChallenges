@@ -12,4 +12,8 @@ public class Task {
 	private String description;
 	private Boolean isCompleted;
 
+	public Task(int id, String description){
+		this.id = id;
+		this.description = description;
+	}
 }
