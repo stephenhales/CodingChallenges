@@ -9,7 +9,6 @@ import org.springframework.boot.CommandLineRunner;
 
 import todo.exception.UserException;
 import todo.exception.ValidationException;
-import todo.task.api.TaskController;
 import todo.task.model.Task;
 import todo.user.api.UserController;
 import todo.user.model.User;
@@ -20,10 +19,6 @@ public class Application implements CommandLineRunner {
 
 	@Autowired
 	private UserController userController;
-
-	@Autowired
-	private TaskController taskController;
-
 
 	public static void main(String[] args){
 		SpringApplication.run(Application.class, args);

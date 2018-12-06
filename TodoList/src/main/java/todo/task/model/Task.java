@@ -15,5 +15,6 @@ public class Task {
 	public Task(int id, String description){
 		this.id = id;
 		this.description = description;
+		this.isCompleted = false;
 	}
 }
