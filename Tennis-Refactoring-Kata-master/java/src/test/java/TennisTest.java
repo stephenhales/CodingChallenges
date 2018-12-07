@@ -3,11 +3,13 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+
+import common.ITennisGame;
+import tennisGame1.TennisGame1;
 
 
 @RunWith(Parameterized.class)
@@ -67,7 +69,7 @@ public class TennisTest {
         });
     }
 
-    public void checkAllScores(TennisGame game) {
+    public void checkAllScores(ITennisGame game) {
         int highestScore = Math.max(this.player1Score, this.player2Score);
         for (int i = 0; i < highestScore; i++) {
             if (i < this.player1Score)

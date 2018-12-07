@@ -1,5 +1,6 @@
+import common.ITennisGame;
 
-public class TennisGame2 implements TennisGame
+public class TennisGame2 implements ITennisGame
 {
     public int P1point = 0;
     public int P2point = 0;
