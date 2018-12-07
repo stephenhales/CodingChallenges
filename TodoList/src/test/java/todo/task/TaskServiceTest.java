@@ -1,5 +1,8 @@
 package todo.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -45,7 +48,7 @@ public class TaskServiceTest {
 	}
 
 	@Test
-	public void canCreateUser() throws ValidationException {
+	public void canCreateTask() throws ValidationException {
 		//Arrange
 		int expectedId = 0;
 
@@ -59,15 +62,27 @@ public class TaskServiceTest {
 	}
 
 	@Test
-	public void canCompleteTask() {
+	public void canCompleteTask() throws ValidationException {
 		//Arrange
-		String id = "1";
+		int taskId = 0;
+		List<Task> tasks = new ArrayList<>();
+		tasks.add(taskService.createTask(validDescription));
 
 		//Act
-		//taskService.completeTask();
+		Task taskResult = taskService.completeTask(taskId, tasks).get(0);
 
 		//Assert
-		//thrown.expect(UserException.class);
-		//thrown.expectMessage("Name is required");
+		assertThat(taskResult.getId(), is(taskId));
+		assertThat(taskResult.getIsCompleted(), is(true));
+	}
+
+	//TODO
+	//@Test
+	public void getIncompleteTasks() throws ValidationException {
+		//Arrange
+
+		//Act
+
+		//Assert
 	}
 }

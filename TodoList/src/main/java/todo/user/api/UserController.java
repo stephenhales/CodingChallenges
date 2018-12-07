@@ -1,6 +1,5 @@
 package todo.user.api;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +26,10 @@ public class UserController {
 	}
 
 	public User completeTask(User user, int taskId){
-		return user;
-	}
-
-	public List<Task> getCompletedTasks(User user){
-		return Collections.emptyList();
+		return userService.completeTaskForUser(user, taskId);
 	}
 
 	public List<Task> getIncompleteTasks(User user){
-		return Collections.emptyList();
+		return userService.getIncompleteTasksForUser(user);
 	}
 }

@@ -1,5 +1,8 @@
+package tennisGame1;
 
-public class TennisGame1 implements TennisGame {
+import common.ITennisGame;
+
+public class TennisGame1 implements ITennisGame {
     
     private int m_score1 = 0;
     private int m_score2 = 0;

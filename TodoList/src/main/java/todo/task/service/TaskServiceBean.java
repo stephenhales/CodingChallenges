@@ -1,6 +1,7 @@
 package todo.task.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,16 @@ public class TaskServiceBean {
 	}
 
 	public List<Task> completeTask(int taskId, List<Task> tasks){
+		tasks.stream()
+			.filter(task -> task.getId() == taskId)
+			.findFirst()
+			.ifPresent(task -> task.setIsCompleted(true));
+		return tasks;
+	}
+
+	public List<Task> getIncompleteTasks(){
 		//TODO
-		return null;
+		return Collections.emptyList();
 	}
 
 	private List<String> validateDescription(String description){

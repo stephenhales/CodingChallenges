@@ -1,5 +1,6 @@
 package todo;
 
+import java.util.List;
 import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class Application implements CommandLineRunner {
 		Scanner userInput = new Scanner(System.in);
 		User user = getUserDetails(userInput);
 		while(true){
-			runProgram(user, userInput);
+			user = runProgram(user, userInput);
 		}
 	}
 
@@ -51,23 +52,12 @@ public class Application implements CommandLineRunner {
 		}
 	}
 
-	private User addNewTask(User user, Scanner userInput){
-		String taskDescription = getUserInput("what is the Task Description? ", userInput);
-		return userController.addNewTask(user, taskDescription);
-	}
-
 	private String getMenuChoice(Scanner userInput){
 		System.out.println();
-		System.out.println("1. create a todo.task");
-		System.out.println("2. complete a todo.task");
-		System.out.println("3. see completed tasks");
-		System.out.println("4. see incomplete tasks");
+		System.out.println("1. create a todo task");
+		System.out.println("2. complete a todo task");
+		System.out.println("3. see todo list");
 		return getUserInput("Pick a menu option: ", userInput);
-	}
-
-	private void invalidMenuChoice(){
-		System.out.println("invalid menu choice");
-		System.out.println("please choose a valid menu choice");
 	}
 
 	private String getUserInput(String text, Scanner userInput){
@@ -80,25 +70,39 @@ public class Application implements CommandLineRunner {
 		return userInput.nextInt();
 	}
 
-	private int getTaskId(Scanner userInput){
-		return getUserInputInt("what is the Task ID? ", userInput);
-	}
-
-	private void runProgram(User user, Scanner userInput) {
+	private User runProgram(User user, Scanner userInput) {
 		switch (getMenuChoice(userInput)) {
 			case "1":
-				user = addNewTask(user, userInput);
-				break;
+				return userController.addNewTask(user, getTaskDescription(userInput));
 			case "2":
-				userController.completeTask(user, getTaskId(userInput));
-				break;
+				return userController.completeTask(user, getTaskId(userInput));
 			case "3":
-				userController.getCompletedTasks(user);
-				break;
-			case "4":
-				userController.getIncompleteTasks(user);
-				break;
+				printTodoList(userController.getIncompleteTasks(user));
+				return user;
 			default: invalidMenuChoice();
+				return user;
 		}
 	}
+
+	private String getTaskDescription(Scanner userInput){
+		return getUserInput("enter the task description: ", userInput);
+	}
+
+	private int getTaskId(Scanner userInput){
+		return getUserInputInt("what is the task id? ", userInput);
+	}
+
+	private void printTodoList(List<Task> tasks){
+		for(Task task: tasks){
+			System.out.print("id: " + task.getId());
+			System.out.print("   ");
+			System.out.println("task: " + task.getDescription());
+		}
+	}
+
+	private void invalidMenuChoice(){
+		System.out.println("invalid menu choice");
+		System.out.println("please choose a valid menu choice");
+	}
+
 }

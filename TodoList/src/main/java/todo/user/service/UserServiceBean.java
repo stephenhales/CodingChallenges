@@ -11,6 +11,7 @@ import todo.common.Enums;
 import todo.common.ValidationService;
 import todo.exception.UserException;
 import todo.exception.ValidationException;
+import todo.task.model.Task;
 import todo.task.service.TaskServiceBean;
 import todo.user.model.User;
 
@@ -31,11 +32,19 @@ public class UserServiceBean {
 
 	public User createTaskForUser(User user, String taskDescription){
 		//this needs to add a task to the list of tasks
+		//TODO
 		return null;
 	}
 
 	public User completeTaskForUser(User user, int taskId){
 		//this needs to add a task to the list of tasks
+		//TODO
+		return null;
+	}
+
+	public List<Task> getIncompleteTasksForUser(User user){
+		//returns list of incomplete tasks
+		//TODO
 		return null;
 	}
 
