@@ -30,22 +30,26 @@ public class UserServiceBean {
 		return new User(name, email);
 	}
 
-	public User createTaskForUser(User user, String taskDescription){
-		//this needs to add a task to the list of tasks
-		//TODO
-		return null;
+	public User createTaskForUser(User user, String taskDescription) throws ValidationException{
+		Task newTask = taskService.createTask(taskDescription);
+		return addNewTaskForUser(user, newTask);
 	}
 
 	public User completeTaskForUser(User user, int taskId){
-		//this needs to add a task to the list of tasks
-		//TODO
-		return null;
+		List<Task> userTasks = taskService.completeTask(taskId, user.getTasks());
+		user.setTasks(userTasks);
+		return user;
 	}
 
 	public List<Task> getIncompleteTasksForUser(User user){
-		//returns list of incomplete tasks
-		//TODO
-		return null;
+		return taskService.getIncompleteTasks(user.getTasks());
+	}
+
+	private User addNewTaskForUser(User user, Task newTask){
+		List<Task> userTasks = user.getTasks();
+		userTasks.add(newTask);
+		user.setTasks(userTasks);
+		return user;
 	}
 
 	private List<String> validateName(String name) throws UserException {

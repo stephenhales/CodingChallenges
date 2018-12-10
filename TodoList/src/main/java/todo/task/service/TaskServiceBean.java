@@ -33,7 +33,7 @@ public class TaskServiceBean {
 		return tasks;
 	}
 
-	public List<Task> getIncompleteTasks(){
+	public List<Task> getIncompleteTasks(List<Task> tasks){
 		//TODO
 		return Collections.emptyList();
 	}

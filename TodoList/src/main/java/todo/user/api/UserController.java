@@ -21,7 +21,7 @@ public class UserController {
 		return userService.createUser(name, email);
 	}
 
-	public User addNewTask(User user, String taskDescription){
+	public User addNewTask(User user, String taskDescription) throws ValidationException{
 		return userService.createTaskForUser(user, taskDescription);
 	}
 
