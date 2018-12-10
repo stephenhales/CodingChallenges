@@ -37,8 +37,8 @@ public class Application implements CommandLineRunner {
 	//Like a UI
 
 	private User getUserDetails(Scanner userInput){
-		String name = getUserInput("Enter your first name: ", userInput);
-		String email = getUserInput("Enter your email address: ", userInput);
+		String name = getUsersName(userInput);
+		String email = getUsersEmail(userInput);
 		try{
 			return userController.createUser(name, email);
 		}
@@ -49,6 +49,16 @@ public class Application implements CommandLineRunner {
 		catch (UserException e){
 			System.out.println("Invalid input: " + e.getMessage());
 			return getUserDetails(userInput);
+		}
+	}
+
+	private User addNewUserTask(User user, Scanner userInput){
+		String taskDescription = getTaskDescription(userInput);
+		try{
+			return userController.addNewTask(user, taskDescription);
+		}catch(ValidationException e){
+			System.out.println("Invalid input(s): " + e.getMessage());
+			return addNewUserTask(user, userInput);
 		}
 	}
 
@@ -73,7 +83,7 @@ public class Application implements CommandLineRunner {
 	private User runProgram(User user, Scanner userInput) {
 		switch (getMenuChoice(userInput)) {
 			case "1":
-				return userController.addNewTask(user, getTaskDescription(userInput));
+				return addNewUserTask(user, userInput);
 			case "2":
 				return userController.completeTask(user, getTaskId(userInput));
 			case "3":
@@ -86,6 +96,14 @@ public class Application implements CommandLineRunner {
 
 	private String getTaskDescription(Scanner userInput){
 		return getUserInput("enter the task description: ", userInput);
+	}
+
+	private String getUsersName(Scanner userInput){
+		return getUserInput("Enter your first name: ", userInput);
+	}
+
+	private String getUsersEmail(Scanner userInput){
+		return getUserInput("Enter your email address: ", userInput);
 	}
 
 	private int getTaskId(Scanner userInput){
