@@ -20,12 +20,12 @@ import todo.exception.ValidationException;
 import todo.task.model.Task;
 import todo.task.service.TaskServiceBean;
 import todo.user.model.User;
+import todo.user.repository.UserRepository;
 import todo.user.service.UserServiceBean;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -36,6 +36,9 @@ public class UserServiceTest {
 
 	@Mock
 	private TaskServiceBean taskService;
+
+	@Mock
+	private UserRepository userRepository;
 
 	@InjectMocks
 	private UserServiceBean userService;
