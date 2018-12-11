@@ -1,7 +1,6 @@
 package todo.task.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class TaskServiceBean {
 
 	public List<Task> getIncompleteTasks(List<Task> tasks){
 		//TODO
-		return Collections.emptyList();
+		return new ArrayList<>();
 	}
 
 	private List<String> validateDescription(String description){

@@ -12,8 +12,6 @@ import todo.exception.UserException;
 import todo.exception.ValidationException;
 import todo.task.model.Task;
 import todo.user.api.UserController;
-import todo.user.model.User;
-
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -28,37 +26,38 @@ public class Application implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		Scanner userInput = new Scanner(System.in);
-		User user = getUserDetails(userInput);
+		getUserDetails(userInput);
 		while(true){
-			user = runProgram(user, userInput);
+			runProgram(userInput);
 		}
 	}
 
 	//Like a UI
+	private static int userId = 0;
 
-	private User getUserDetails(Scanner userInput){
+	private void getUserDetails(Scanner userInput){
 		String name = getUsersName(userInput);
 		String email = getUsersEmail(userInput);
 		try{
-			return userController.createUser(name, email);
+			userId = userController.createUser(name, email).getUserId();
 		}
 		catch (ValidationException e){
 			System.out.println("Invalid input(s): " + e.getMessage());
-			return getUserDetails(userInput);
+			getUserDetails(userInput);
 		}
 		catch (UserException e){
 			System.out.println("Invalid input: " + e.getMessage());
-			return getUserDetails(userInput);
+			getUserDetails(userInput);
 		}
 	}
 
-	private User addNewUserTask(User user, Scanner userInput){
+	private void addNewUserTask(Scanner userInput){
 		String taskDescription = getTaskDescription(userInput);
 		try{
-			return userController.addNewTask(user, taskDescription);
+			userController.addNewTask(userId, taskDescription);
 		}catch(ValidationException e){
 			System.out.println("Invalid input(s): " + e.getMessage());
-			return addNewUserTask(user, userInput);
+			addNewUserTask(userInput);
 		}
 	}
 
@@ -80,17 +79,21 @@ public class Application implements CommandLineRunner {
 		return userInput.nextInt();
 	}
 
-	private User runProgram(User user, Scanner userInput) {
+	private void runProgram(Scanner userInput) {
 		switch (getMenuChoice(userInput)) {
 			case "1":
-				return addNewUserTask(user, userInput);
+				addNewUserTask(userInput);
+				printUserTaskList();
+				break;
 			case "2":
-				return userController.completeTask(user, getTaskId(userInput));
+				userController.completeTask(userId, getTaskId(userInput));
+				printUserTaskList();
+				break;
 			case "3":
-				printTodoList(userController.getIncompleteTasks(user));
-				return user;
+				printTodoList(userController.getIncompleteTasks(userId));
+				printUserTaskList();
+				break;
 			default: invalidMenuChoice();
-				return user;
 		}
 	}
 
@@ -110,11 +113,18 @@ public class Application implements CommandLineRunner {
 		return getUserInputInt("what is the task id? ", userInput);
 	}
 
+	private void printUserTaskList(){
+		List<Task> tasks = userController.getUserById(userId).getTasks();
+		printTodoList(tasks);
+	}
+
 	private void printTodoList(List<Task> tasks){
 		for(Task task: tasks){
 			System.out.print("id: " + task.getId());
 			System.out.print("   ");
-			System.out.println("task: " + task.getDescription());
+			System.out.print("task: " + task.getDescription());
+			System.out.print("   ");
+			System.out.println("complete: " + task.getIsCompleted());
 		}
 	}
 

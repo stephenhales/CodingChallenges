@@ -2,6 +2,7 @@ package todo.user.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import todo.exception.ValidationException;
 import todo.task.model.Task;
 import todo.task.service.TaskServiceBean;
 import todo.user.model.User;
+import todo.user.repository.UserRepository;
 
 
 @Service
@@ -25,31 +27,35 @@ public class UserServiceBean {
 	@Autowired
 	private TaskServiceBean taskService;
 
+	@Autowired
+	private UserRepository userRepository;
+
 	public User createUser(String name, String email) throws ValidationException, UserException {
 		validationService.validate(validateName(name), validateEmail(email));
+		userRepository.createUser(new User(name, email));
 		return new User(name, email);
 	}
 
 	public User createTaskForUser(User user, String taskDescription) throws ValidationException{
 		Task newTask = taskService.createTask(taskDescription);
-		return addNewTaskForUser(user, newTask);
+		user.addTask(newTask);
+		userRepository.updateUser(user);
+		return user;
+	}
+
+	public Optional<User> getUserById(int userId){
+		return userRepository.getUserById(userId);
 	}
 
 	public User completeTaskForUser(User user, int taskId){
 		List<Task> userTasks = taskService.completeTask(taskId, user.getTasks());
 		user.setTasks(userTasks);
+		userRepository.updateUser(user);
 		return user;
 	}
 
 	public List<Task> getIncompleteTasksForUser(User user){
 		return taskService.getIncompleteTasks(user.getTasks());
-	}
-
-	private User addNewTaskForUser(User user, Task newTask){
-		List<Task> userTasks = user.getTasks();
-		userTasks.add(newTask);
-		user.setTasks(userTasks);
-		return user;
 	}
 
 	private List<String> validateName(String name) throws UserException {
