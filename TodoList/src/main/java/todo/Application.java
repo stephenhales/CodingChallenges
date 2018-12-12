@@ -91,7 +91,6 @@ public class Application implements CommandLineRunner {
 				break;
 			case "3":
 				printTodoList(userController.getIncompleteTasks(userId));
-				printUserTaskList();
 				break;
 			default: invalidMenuChoice();
 		}
