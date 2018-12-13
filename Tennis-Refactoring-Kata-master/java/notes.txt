@@ -1,0 +1,11 @@
+Refactoring steps:
+
+- write safety harness for the method
+
+1. Identify the code you want to extract, and comment it out
+2. Think of a name for the new method and create it as an empty method
+3. Place a call to the new method in the old method
+4. Copy the code that you want to extract into the new method
+5. Find out what parameters you'll have to pass and learn what values you'll have to return
+6. Run your tests
+8. Delete the commented-out code

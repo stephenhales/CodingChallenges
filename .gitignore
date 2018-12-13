@@ -8,3 +8,7 @@ node_modules/*
 
 */target/*
 */out/*
+!Tennis-Refactoring-kata-master/
+Tennis-Refactoring-kata-master/*
+!Tennis-Refactoring-kata-master/java/
+TWTCLOSE/*
