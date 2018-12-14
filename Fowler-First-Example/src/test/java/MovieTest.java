@@ -3,7 +3,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import objects.Movie;
+import refactored.Movie;
 
 public class MovieTest {
 

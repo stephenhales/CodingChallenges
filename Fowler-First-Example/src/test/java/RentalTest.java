@@ -1,7 +1,7 @@
 import org.junit.Test;
 
-import objects.Movie;
-import objects.Rental;
+import refactored.Movie;
+import refactored.Rental;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;

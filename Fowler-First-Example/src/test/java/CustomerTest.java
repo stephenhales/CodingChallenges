@@ -1,9 +1,7 @@
-import java.util.Vector;
-
 import org.junit.Test;
 
-import objects.Customer;
-import objects.Rental;
+import refactored.Customer;
+import refactored.Rental;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;

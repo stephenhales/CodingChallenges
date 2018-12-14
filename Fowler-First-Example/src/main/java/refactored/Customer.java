@@ -1,4 +1,4 @@
-package objects;
+package refactored;
 
 import java.util.Enumeration;
 import java.util.Vector;
@@ -22,12 +22,13 @@ public class Customer {
 
 	public Vector getRentals(){ return _rentals; }
 
+	@SuppressWarnings("Duplicates")
 	public String statement() {
 
 		double totalAmount = 0;
 		int frequentRenterPoints = 0;
 		Enumeration rentals = _rentals.elements();
-		String result = "objects.Rental Record for " + getName() + "\n";
+		String result = "refactored.Rental Record for " + getName() + "\n";
 		while (rentals.hasMoreElements()) {
 			double thisAmount = 0;
 			Rental each = (Rental) rentals.nextElement();

@@ -1,4 +1,4 @@
-package objects;
+package initial;
 
 public class Rental {
 
