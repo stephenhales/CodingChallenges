@@ -3,13 +3,15 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import objects.Movie;
+
 public class MovieTest {
-	
+
 	private static String validTitle = "Bourne";
 	private static int validPriceCode = 1;
 
 	@Test
-	private void canGetPriceCode(){
+	public void canGetPriceCode(){
 		//Arrange
 		Movie movie = new Movie(validTitle, validPriceCode);
 
@@ -21,7 +23,7 @@ public class MovieTest {
 	}
 
 	@Test
-	private void canSetPriceCode(){
+	public void canSetPriceCode(){
 		//Arrange
 		Movie movie = new Movie(validTitle, validPriceCode);
 		int newPriceCode = 2;
@@ -34,15 +36,15 @@ public class MovieTest {
 	}
 
 	@Test
-	private void canGetTitle(){
+	public void canGetTitle(){
 		//Arrange
 		Movie movie = new Movie(validTitle, validPriceCode);
 
 		//Act
-		String priceCode = movie.getTitle();
+		String movieTitle = movie.getTitle();
 
 		//Assert
-		assertThat(priceCode, is(validTitle));
+		assertThat(movieTitle, is(validTitle));
 	}
 
 }

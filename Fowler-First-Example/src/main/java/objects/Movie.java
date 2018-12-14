@@ -1,3 +1,5 @@
+package objects;
+
 public class Movie {
 
     public static final int CHILDREN = 2;
