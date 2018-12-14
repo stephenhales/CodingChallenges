@@ -1,14 +1,20 @@
 *.zip
 */.idea
 
-
 */lib/*
 node_modules/*
 */src/main/resources/*
 
 */target/*
 */out/*
+
+!/*
+/*
+
+!Kata1/*
+!Kata2/*
+!Fowler-First-Example/*
+
 !Tennis-Refactoring-kata-master/
 Tennis-Refactoring-kata-master/*
 !Tennis-Refactoring-kata-master/java/
-TWTCLOSE/*
