@@ -76,13 +76,36 @@ public class TaskServiceTest {
 		assertThat(taskResult.getIsCompleted(), is(true));
 	}
 
-	//TODO
-	//@Test
+	@Test
 	public void getIncompleteTasks() throws ValidationException {
 		//Arrange
+		List<Task> tasks = new ArrayList<>();
+		tasks.add(taskService.createTask(validDescription));
+		tasks.add(taskService.createTask(validDescription));
 
 		//Act
+		List<Task> incompleteTasks = taskService.getIncompleteTasks(tasks);
 
 		//Assert
+		assertThat(incompleteTasks.size(), is(2));
+		assertThat(incompleteTasks.get(0).getId(), is(0));
+		assertThat(incompleteTasks.get(1).getId(), is(1));
+	}
+
+	@Test
+	public void getIncompleteTasks_AfterTaskCompleted() throws ValidationException {
+		//Arrange
+		int taskId = 0;
+		List<Task> tasks = new ArrayList<>();
+		tasks.add(taskService.createTask(validDescription));
+		tasks.add(taskService.createTask(validDescription));
+
+		//Act
+		List<Task> todoList = taskService.completeTask(taskId, tasks);
+		List<Task> incompleteTasks = taskService.getIncompleteTasks(todoList);
+
+		//Assert
+		assertThat(incompleteTasks.size(), is(1));
+		assertThat(incompleteTasks.get(0).getId(), is(1));
 	}
 }
