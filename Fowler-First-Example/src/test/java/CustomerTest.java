@@ -59,7 +59,8 @@ public class CustomerTest {
 
 		//Assert
 		String expectedStatement = createStatement(regularMovie, 2);
-		assertThat(statement, is(expectedStatement));
+		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
@@ -74,7 +75,8 @@ public class CustomerTest {
 
 		//Assert
 		String expectedStatement = createStatement(regularMovie, 2);
-		assertThat(statement, is(expectedStatement));
+		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
@@ -89,7 +91,8 @@ public class CustomerTest {
 
 		//Assert
 		String expectedStatement = createStatement(regularMovie, 3.5);
-		assertThat(statement, is(expectedStatement));
+		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
@@ -104,7 +107,8 @@ public class CustomerTest {
 
 		//Assert
 		String expectedStatement = createStatement(newReleaseMovie, 6);
-		assertThat(statement, is(expectedStatement));
+		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
@@ -119,7 +123,8 @@ public class CustomerTest {
 
 		//Assert
 		String expectedStatement = createStatement(newReleaseMovie, 9);
-		assertThat(statement, is(expectedStatement));
+		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
@@ -134,7 +139,8 @@ public class CustomerTest {
 
 		//Assert
 		String expectedStatement = createStatement(childrenMovie, 1.5);
-		assertThat(statement, is(expectedStatement));
+		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
@@ -149,7 +155,8 @@ public class CustomerTest {
 
 		//Assert
 		String expectedStatement = createStatement(childrenMovie, 1.5);
-		assertThat(statement, is(expectedStatement));
+		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
@@ -164,7 +171,8 @@ public class CustomerTest {
 
 		//Assert
 		String expectedStatement = createStatement(childrenMovie, 3);
-		assertThat(statement, is(expectedStatement));
+		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	/*	Statement Unit tests: Renter Points	 */
@@ -181,7 +189,8 @@ public class CustomerTest {
 
 		//Assert
 		String expectedStatement = createStatement(regularMovie, 2, 1);
-		assertThat(statement, is(expectedStatement));
+		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
@@ -196,7 +205,9 @@ public class CustomerTest {
 
 		//Assert
 		String expectedStatement = createStatement(newReleaseMovie, 3, 1);
-		assertThat(statement, is(expectedStatement));
+		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
+		assertThat(getPoints(statement), is(getPoints(expectedStatement)));
 	}
 
 	@Test
@@ -211,7 +222,9 @@ public class CustomerTest {
 
 		//Assert
 		String expectedStatement = createStatement(newReleaseMovie, 6, 2);
-		assertThat(statement, is(expectedStatement));
+		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
+		assertThat(getPoints(statement), is(getPoints(expectedStatement)));
 	}
 
 	private Customer mockCustomer(){
@@ -258,5 +271,17 @@ public class CustomerTest {
 		String find = "You earned \\w frequent renter points*";
 		String replace = "You earned x frequent renter points";
 		return string.replaceAll(find, replace);
+	}
+
+	private String getTotal(String string){
+		return string.split("\n")[2];
+	}
+
+	private String getMovieDetails(String string){
+		return string.split("\n")[1];
+	}
+
+	private String getPoints(String string){
+		return string.split("\n")[3];
 	}
 }
