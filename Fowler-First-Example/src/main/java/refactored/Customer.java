@@ -28,7 +28,7 @@ public class Customer {
 		double totalAmount = 0;
 		int frequentRenterPoints = 0;
 		Enumeration rentals = _rentals.elements();
-		String result = "refactored.Rental Record for " + getName() + "\n";
+		String result = "Rental record for " + getName() + "\n";
 		while (rentals.hasMoreElements()) {
 			double thisAmount = 0;
 			Rental each = (Rental) rentals.nextElement();
