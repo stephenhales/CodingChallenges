@@ -17,6 +17,7 @@ public class CustomerTest {
 
 	private static String regularMovie = "Regular Movie";
 	private static String newReleaseMovie = "New Release Movie";
+	private static String childrenMovie = "Children Movie";
 
 	@Test
 	public void canGetCustomerName(){
@@ -51,9 +52,9 @@ public class CustomerTest {
 		//Arrange
 		Rental rental = mockRental(mockRegularMovie(),1);
 		Customer customer = mockCustomer();
+		customer.addRental(rental);
 
 		//Act
-		customer.addRental(rental);
 		String statement = ignorePoints(customer.statement());
 
 		//Assert
@@ -66,9 +67,9 @@ public class CustomerTest {
 		//Arrange
 		Rental rental = mockRental(mockRegularMovie(), 2);
 		Customer customer = mockCustomer();
+		customer.addRental(rental);
 
 		//Act
-		customer.addRental(rental);
 		String statement = ignorePoints(customer.statement());
 
 		//Assert
@@ -81,9 +82,9 @@ public class CustomerTest {
 		//Arrange
 		Rental rental = mockRental(mockRegularMovie(), 3);
 		Customer customer = mockCustomer();
+		customer.addRental(rental);
 
 		//Act
-		customer.addRental(rental);
 		String statement = ignorePoints(customer.statement());
 
 		//Assert
@@ -96,9 +97,9 @@ public class CustomerTest {
 		//Arrange
 		Rental rental = mockRental(mockNewReleaseMovie(), 2);
 		Customer customer = mockCustomer();
+		customer.addRental(rental);
 
 		//Act
-		customer.addRental(rental);
 		String statement = ignorePoints(customer.statement());
 
 		//Assert
@@ -111,13 +112,105 @@ public class CustomerTest {
 		//Arrange
 		Rental rental = mockRental(mockNewReleaseMovie(),3);
 		Customer customer = mockCustomer();
+		customer.addRental(rental);
 
 		//Act
-		customer.addRental(rental);
 		String statement = ignorePoints(customer.statement());
 
 		//Assert
 		String expectedStatement = createStatement(newReleaseMovie, 9);
+		assertThat(statement, is(expectedStatement));
+	}
+
+	@Test
+	public void childrenMovie_WhenUnderThreeDays(){
+		//Arrange
+		Rental rental = mockRental(mockChildrenMovie(),2);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		String statement = ignorePoints(customer.statement());
+
+		//Assert
+		String expectedStatement = createStatement(childrenMovie, 1.5);
+		assertThat(statement, is(expectedStatement));
+	}
+
+	@Test
+	public void childrenMovie_WhenThreeDays(){
+		//Arrange
+		Rental rental = mockRental(mockChildrenMovie(), 3);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		String statement = ignorePoints(customer.statement());
+
+		//Assert
+		String expectedStatement = createStatement(childrenMovie, 1.5);
+		assertThat(statement, is(expectedStatement));
+	}
+
+	@Test
+	public void childrenMovie_WhenOverThreeDays(){
+		//Arrange
+		Rental rental = mockRental(mockChildrenMovie(), 4);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		String statement = ignorePoints(customer.statement());
+
+		//Assert
+		String expectedStatement = createStatement(childrenMovie, 3);
+		assertThat(statement, is(expectedStatement));
+	}
+
+	/*	Statement Unit tests: Renter Points	 */
+
+	@Test
+	public void regularMovie_HasOneRenterPoint(){
+		//Arrange
+		Rental rental = mockRental(mockRegularMovie(), 1);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		String statement = customer.statement();
+
+		//Assert
+		String expectedStatement = createStatement(regularMovie, 2, 1);
+		assertThat(statement, is(expectedStatement));
+	}
+
+	@Test
+	public void newReleaseMovie_WhenRentedOneDay_HasOneRenterPoint(){
+		//Arrange
+		Rental rental = mockRental(mockNewReleaseMovie(), 1);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		String statement = customer.statement();
+
+		//Assert
+		String expectedStatement = createStatement(newReleaseMovie, 3, 1);
+		assertThat(statement, is(expectedStatement));
+	}
+
+	@Test
+	public void newReleaseMovie_WhenRentedTwoDays_HasTwoRenterPoints(){
+		//Arrange
+		Rental rental = mockRental(mockNewReleaseMovie(), 2);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		String statement = customer.statement();
+
+		//Assert
+		String expectedStatement = createStatement(newReleaseMovie, 6, 2);
 		assertThat(statement, is(expectedStatement));
 	}
 
@@ -137,9 +230,13 @@ public class CustomerTest {
 		return new Movie(newReleaseMovie, Movie.NEW_RELEASE);
 	}
 
+	private Movie mockChildrenMovie(){
+		return new Movie(childrenMovie, Movie.CHILDREN);
+	}
+
 	private String createStatement( String movieTitle, double amountDue){
 		String result = "Rental record for " + validName + "\n";
-		result += creatStatementMovieRow(movieTitle, amountDue);
+		result += statementMovieRow(movieTitle, amountDue);
 		result += "Amount owed is " + String.valueOf(amountDue) + "\n";
 		result += "You earned x frequent renter points";
 		return result;
@@ -147,13 +244,13 @@ public class CustomerTest {
 
 	private String createStatement( String movieTitle, double amountDue, int points){
 		String result = "Rental record for " + validName + "\n";
-		result += creatStatementMovieRow(movieTitle, amountDue);
+		result += statementMovieRow(movieTitle, amountDue);
 		result += "Amount owed is " + String.valueOf(amountDue) + "\n";
 		result += "You earned " + points  + " frequent renter points";
 		return result;
 	}
 
-	private String creatStatementMovieRow(String movieTitle, double amountDue){
+	private String statementMovieRow(String movieTitle, double amountDue){
 		return "\t" + movieTitle + "\t" + String.valueOf(amountDue) + "\n";
 	}
 
