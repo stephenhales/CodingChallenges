@@ -184,6 +184,8 @@ public class CustomerTest {
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
 	}
 
+	/*	Statement Unit tests:   Movie Details */
+
 	@Test
 	public void getMovieDetails_ForRegularMovie_WhenUnderTwoDays(){
 		//Arrange

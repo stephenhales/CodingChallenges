@@ -3,6 +3,7 @@ package initial;
 import java.util.Enumeration;
 import java.util.Vector;
 
+@SuppressWarnings("Duplicates")
 public class Customer {
 
 	private String _name;
@@ -20,7 +21,6 @@ public class Customer {
 		return _name;
 	}
 
-	@SuppressWarnings("Duplicates")
 	public String statement() {
 		double totalAmount = 0;
 		int frequentRenterPoints = 0;
