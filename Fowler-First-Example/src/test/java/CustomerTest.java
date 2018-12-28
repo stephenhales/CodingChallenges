@@ -46,10 +46,10 @@ public class CustomerTest {
 		assertThat(rentalResult, is((Object) rental));
 	}
 
-	/*	Statement Unit tests:	 */
+	/*	Statement Unit tests:   Total */
 
 	@Test
-	public void regularMovie_WhenUnderTwoDays(){
+	public void getTotal_ForRegularMovie_WhenUnderTwoDays(){
 		//Arrange
 		Rental rental = mockRental(mockRegularMovie(),1);
 		Customer customer = mockCustomer();
@@ -59,13 +59,12 @@ public class CustomerTest {
 		List<String> statement = toList(customer.statement());
 
 		//Assert
-		List<String> expectedStatement = toList(createStatement(2, regularMovie));
+		List<String> expectedStatement = toList(createStatementSingleMovie(2, regularMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
-		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
-	public void regularMovie_WhenTwoDays(){
+	public void getTotal_ForRegularMovie_WhenTwoDays(){
 		//Arrange
 		Rental rental = mockRental(mockRegularMovie(), 2);
 		Customer customer = mockCustomer();
@@ -75,13 +74,12 @@ public class CustomerTest {
 		List<String> statement = toList(customer.statement());
 
 		//Assert
-		List<String> expectedStatement = toList(createStatement(2, regularMovie));
+		List<String> expectedStatement = toList(createStatementSingleMovie(2, regularMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
-		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
-	public void regularMovie_WhenOverTwoDays(){
+	public void getTotal_ForRegularMovie_WhenOverTwoDays(){
 		//Arrange
 		Rental rental = mockRental(mockRegularMovie(), 3);
 		Customer customer = mockCustomer();
@@ -91,13 +89,12 @@ public class CustomerTest {
 		List<String> statement = toList(customer.statement());
 
 		//Assert
-		List<String> expectedStatement = toList(createStatement(3.5, regularMovie));
+		List<String> expectedStatement = toList(createStatementSingleMovie(3.5, regularMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
-		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
-	public void newReleaseMovie_WhenTwoDays(){
+	public void getTotal_ForNewReleaseMovie_WhenTwoDays(){
 		//Arrange
 		Rental rental = mockRental(mockNewReleaseMovie(), 2);
 		Customer customer = mockCustomer();
@@ -107,13 +104,12 @@ public class CustomerTest {
 		List<String> statement = toList(customer.statement());
 
 		//Assert
-		List<String> expectedStatement = toList(createStatement(6, newReleaseMovie));
+		List<String> expectedStatement = toList(createStatementSingleMovie(6, newReleaseMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
-		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
-	public void newReleaseMovie_WhenThreeDays(){
+	public void getTotal_ForNewReleaseMovie_WhenThreeDays(){
 		//Arrange
 		Rental rental = mockRental(mockNewReleaseMovie(),3);
 		Customer customer = mockCustomer();
@@ -123,13 +119,12 @@ public class CustomerTest {
 		List<String> statement = toList(customer.statement());
 
 		//Assert
-		List<String> expectedStatement = toList(createStatement(9, newReleaseMovie));
+		List<String> expectedStatement = toList(createStatementSingleMovie(9, newReleaseMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
-		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
-	public void childrenMovie_WhenUnderThreeDays(){
+	public void getTotal_ForChildrenMovie_WhenUnderThreeDays(){
 		//Arrange
 		Rental rental = mockRental(mockChildrenMovie(),2);
 		Customer customer = mockCustomer();
@@ -139,13 +134,12 @@ public class CustomerTest {
 		List<String> statement = toList(customer.statement());
 
 		//Assert
-		List<String> expectedStatement = toList(createStatement(1.5, childrenMovie));
+		List<String> expectedStatement = toList(createStatementSingleMovie(1.5, childrenMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
-		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
-	public void childrenMovie_WhenThreeDays(){
+	public void getTotal_ForChildrenMovie_WhenThreeDays(){
 		//Arrange
 		Rental rental = mockRental(mockChildrenMovie(), 3);
 		Customer customer = mockCustomer();
@@ -155,13 +149,12 @@ public class CustomerTest {
 		List<String> statement = toList(customer.statement());
 
 		//Assert
-		List<String> expectedStatement = toList(createStatement(1.5, childrenMovie));
+		List<String> expectedStatement = toList(createStatementSingleMovie(1.5, childrenMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
-		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
-	public void childrenMovie_WhenOverThreeDays(){
+	public void getTotal_ForChildrenMovie_WhenOverThreeDays(){
 		//Arrange
 		Rental rental = mockRental(mockChildrenMovie(), 4);
 		Customer customer = mockCustomer();
@@ -171,65 +164,12 @@ public class CustomerTest {
 		List<String> statement = toList(customer.statement());
 
 		//Assert
-		List<String> expectedStatement = toList(createStatement(3, childrenMovie));
+		List<String> expectedStatement = toList(createStatementSingleMovie(3, childrenMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
-		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
-	}
-
-	/*	Statement Unit tests: Renter Points	 */
-
-	@Test
-	public void regularMovie_HasOneRenterPoint(){
-		//Arrange
-		Rental rental = mockRental(mockRegularMovie(), 1);
-		Customer customer = mockCustomer();
-		customer.addRental(rental);
-
-		//Act
-		List<String> statement = toList(customer.statement());
-
-		//Assert
-		List<String> expectedStatement = toList(createStatement(2, 1, regularMovie));
-		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
-		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
 
 	@Test
-	public void newReleaseMovie_WhenRentedOneDay_HasOneRenterPoint(){
-		//Arrange
-		Rental rental = mockRental(mockNewReleaseMovie(), 1);
-		Customer customer = mockCustomer();
-		customer.addRental(rental);
-
-		//Act
-		List<String> statement = toList(customer.statement());
-
-		//Assert
-		List<String> expectedStatement = toList(createStatement(3, 1, newReleaseMovie));
-		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
-		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
-		assertThat(getPoints(statement), is(getPoints(expectedStatement)));
-	}
-
-	@Test
-	public void newReleaseMovie_WhenRentedTwoDays_HasBonusRenterPoint(){
-		//Arrange
-		Rental rental = mockRental(mockNewReleaseMovie(), 2);
-		Customer customer = mockCustomer();
-		customer.addRental(rental);
-
-		//Act
-		List<String> statement = toList(customer.statement());
-
-		//Assert
-		List<String> expectedStatement = toList(createStatement( 6, 2, newReleaseMovie));
-		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
-		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
-		assertThat(getPoints(statement), is(getPoints(expectedStatement)));
-	}
-
-	@Test
-	public void canRentTwoRegularMovies(){
+	public void getTotal_ForTwoRegularMovies(){
 		//Arrange
 		Rental rental = mockRental(mockRegularMovie(), 1);
 		Customer customer = mockCustomer();
@@ -242,7 +182,204 @@ public class CustomerTest {
 		//Assert
 		List<String> expectedStatement = toList(createStatement(4, 2, 2, regularMovie, regularMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
+	}
+
+	@Test
+	public void getMovieDetails_ForRegularMovie_WhenUnderTwoDays(){
+		//Arrange
+		Rental rental = mockRental(mockRegularMovie(),1);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		List<String> statement = toList(customer.statement());
+
+		//Assert
+		List<String> expectedStatement = toList(createStatementSingleMovie(2, regularMovie));
 		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
+	}
+
+	@Test
+	public void getMovieDetails_ForRegularMovie_WhenTwoDays(){
+		//Arrange
+		Rental rental = mockRental(mockRegularMovie(), 2);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		List<String> statement = toList(customer.statement());
+
+		//Assert
+		List<String> expectedStatement = toList(createStatementSingleMovie(2, regularMovie));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
+	}
+
+	@Test
+	public void getMovieDetails_ForRegularMovie_WhenOverTwoDays(){
+		//Arrange
+		Rental rental = mockRental(mockRegularMovie(), 3);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		List<String> statement = toList(customer.statement());
+
+		//Assert
+		List<String> expectedStatement = toList(createStatementSingleMovie(3.5, regularMovie));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
+	}
+
+	@Test
+	public void getMovieDetails_ForNewReleaseMovie_WhenTwoDays(){
+		//Arrange
+		Rental rental = mockRental(mockNewReleaseMovie(), 2);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		List<String> statement = toList(customer.statement());
+
+		//Assert
+		List<String> expectedStatement = toList(createStatementSingleMovie(6, newReleaseMovie));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
+	}
+
+	@Test
+	public void getMovieDetails_ForNewReleaseMovie_WhenThreeDays(){
+		//Arrange
+		Rental rental = mockRental(mockNewReleaseMovie(),3);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		List<String> statement = toList(customer.statement());
+
+		//Assert
+		List<String> expectedStatement = toList(createStatementSingleMovie(9, newReleaseMovie));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
+	}
+
+	@Test
+	public void getMovieDetails_ForChildrenMovie_WhenUnderThreeDays(){
+		//Arrange
+		Rental rental = mockRental(mockChildrenMovie(),2);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		List<String> statement = toList(customer.statement());
+
+		//Assert
+		List<String> expectedStatement = toList(createStatementSingleMovie(1.5, childrenMovie));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
+	}
+
+	@Test
+	public void getMovieDetails_ForChildrenMovie_WhenThreeDays(){
+		//Arrange
+		Rental rental = mockRental(mockChildrenMovie(), 3);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		List<String> statement = toList(customer.statement());
+
+		//Assert
+		List<String> expectedStatement = toList(createStatementSingleMovie(1.5, childrenMovie));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
+	}
+
+	@Test
+	public void getMovieDetails_ForChildrenMovie_WhenOverThreeDays(){
+		//Arrange
+		Rental rental = mockRental(mockChildrenMovie(), 4);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		List<String> statement = toList(customer.statement());
+
+		//Assert
+		List<String> expectedStatement = toList(createStatementSingleMovie(3, childrenMovie));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
+	}
+
+	@Test
+	public void getMovieDetails_ForTwoRegularMovies(){
+		//Arrange
+		Rental rental = mockRental(mockRegularMovie(), 1);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+		customer.addRental(rental);
+
+		//Act
+		List<String> statement = toList(customer.statement());
+
+		//Assert
+		List<String> expectedStatement = toList(createStatement(4, 2, 2, regularMovie, regularMovie));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
+	}
+
+	/*	Statement Unit tests: Renter Points	 */
+
+	@Test
+	public void getRenterPoints_ForRegularMovie_HasOneRenterPoint(){
+		//Arrange
+		Rental rental = mockRental(mockRegularMovie(), 1);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		List<String> statement = toList(customer.statement());
+
+		//Assert
+		List<String> expectedStatement = toList(createStatementSingleMovie(2, 1, regularMovie));
+		assertThat(getPoints(statement), is(getPoints(expectedStatement)));
+	}
+
+	@Test
+	public void getRenterPoints_ForNewReleaseMovie_WhenRentedOneDay_HasOneRenterPoint(){
+		//Arrange
+		Rental rental = mockRental(mockNewReleaseMovie(), 1);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		List<String> statement = toList(customer.statement());
+
+		//Assert
+		List<String> expectedStatement = toList(createStatementSingleMovie(3, 1, newReleaseMovie));
+		assertThat(getPoints(statement), is(getPoints(expectedStatement)));
+	}
+
+	@Test
+	public void getRenterPoints_ForNewReleaseMovie_WhenRentedTwoDays_HasBonusRenterPoint(){
+		//Arrange
+		Rental rental = mockRental(mockNewReleaseMovie(), 2);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+
+		//Act
+		List<String> statement = toList(customer.statement());
+
+		//Assert
+		List<String> expectedStatement = toList(createStatementSingleMovie( 6, 2, newReleaseMovie));
+		assertThat(getPoints(statement), is(getPoints(expectedStatement)));
+	}
+
+	@Test
+	public void getRenterPoints_ForTwoRegularMovies(){
+		//Arrange
+		Rental rental = mockRental(mockRegularMovie(), 1);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+		customer.addRental(rental);
+
+		//Act
+		List<String> statement = toList(customer.statement());
+
+		//Assert
+		List<String> expectedStatement = toList(createStatement(4, 2, 2, regularMovie, regularMovie));
 		assertThat(getPoints(statement), is(getPoints(expectedStatement)));
 	}
 
@@ -266,11 +403,11 @@ public class CustomerTest {
 		return new Movie(childrenMovie, Movie.CHILDREN);
 	}
 
-	private String createStatement( double amountDue, String movieTitle){
+	private String createStatementSingleMovie( double amountDue, String movieTitle){
 		return createStatement(amountDue, amountDue, 0, movieTitle);
 	}
 
-	private String createStatement( double amountDue, int points, String movieTitle ){
+	private String createStatementSingleMovie( double amountDue, int points, String movieTitle ){
 		return createStatement(amountDue, amountDue, points, movieTitle);
 	}
 
