@@ -24,24 +24,46 @@ public class Customer {
 	public List<Rental> getRentals(){ return _rentals; }
 
 	public String statement() {
-		double totalAmount = 0;
-		int frequentRenterPoints = 0;
 		List<String> statement = new ArrayList<>();
+		List<Rental> rentals = getRentals();
 
 		statement.add( headerStatement());
+		statement.addAll(rentalStatements(rentals));
+		statement.add(totalAmountStatement(getTotal(rentals)));
+		statement.add(renterPointsStatement(getRenterPoints(rentals)));
 
-		for(Rental rental: _rentals) {
+		return String.join("\n", statement);
+	}
 
+	private List<String> rentalStatements(List<Rental> rentals){
+		List<String> rentalStatement = new ArrayList<>();
+
+		for(Rental rental: rentals) {
 			double movieCost = Rental.getCostForMovieRental(rental);
-			frequentRenterPoints += Rental.getFrequentRenterPointsForRental(rental);
-
-			statement.add( rentalStatement(rental.getMovie().getTitle(), movieCost));
-			totalAmount += movieCost;
+			rentalStatement.add( rentalStatement(rental.getMovie().getTitle(), movieCost));
 		}
 
-		statement.add(amountOwedStatement(totalAmount));
-		statement.add(frequentRenterPointsStatement(frequentRenterPoints));
-		return String.join("\n", statement);
+		return rentalStatement;
+	}
+
+	private double getTotal(List<Rental> rentals){
+		double totalAmount = 0;
+
+		for(Rental rental: rentals) {
+			totalAmount += Rental.getCostForMovieRental(rental);
+		}
+
+		return totalAmount;
+	}
+
+	private int getRenterPoints(List<Rental> rentals){
+		int renterPoints = 0;
+
+		for(Rental rental: rentals) {
+			renterPoints += Rental.getRenterPoints(rental);
+		}
+
+		return renterPoints;
 	}
 
 	private String headerStatement(){
@@ -52,11 +74,11 @@ public class Customer {
 		return "\t" + movieTitle + "\t" + String.valueOf(movieCost) + "\n";
 	}
 
-	private String amountOwedStatement(double totalAmount){
+	private String totalAmountStatement(double totalAmount){
 		return "Amount owed is " + String.valueOf(totalAmount);
 	}
 
-	private String frequentRenterPointsStatement(int frequentRenterPoints){
+	private String renterPointsStatement(int frequentRenterPoints){
 		return "You earned " + String.valueOf(frequentRenterPoints) + " frequent renter points";
 	}
 }

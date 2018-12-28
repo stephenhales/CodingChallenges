@@ -39,7 +39,7 @@ public class Rental {
 		}
 	}
 
-	public static int getFrequentRenterPointsForRental(Rental rental){
+	public static int getRenterPoints(Rental rental){
 		int frequentRenterPoints = 1;
 		if ( isRentalQualifiedForBonus(rental)){
 			frequentRenterPoints ++;

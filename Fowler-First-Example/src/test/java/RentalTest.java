@@ -112,7 +112,7 @@ public class RentalTest {
 		Rental rental = mockRental(mockRegularMovie(),1);
 
 		//Act
-		int points = Rental.getFrequentRenterPointsForRental(rental);
+		int points = Rental.getRenterPoints(rental);
 
 		//Assert
 		int expectedPoints = 1;
@@ -125,7 +125,7 @@ public class RentalTest {
 		Rental rental = mockRental(mockNewReleaseMovie(),1);
 
 		//Act
-		int points = Rental.getFrequentRenterPointsForRental(rental);
+		int points = Rental.getRenterPoints(rental);
 
 		//Assert
 		int expectedPoints = 1;
@@ -138,7 +138,7 @@ public class RentalTest {
 		Rental rental = mockRental(mockNewReleaseMovie(),2);
 
 		//Act
-		int points = Rental.getFrequentRenterPointsForRental(rental);
+		int points = Rental.getRenterPoints(rental);
 
 		//Assert
 		int expectedPoints = 2;
@@ -146,12 +146,12 @@ public class RentalTest {
 	}
 
 	@Test
-	public void canGetRenterPointst_ForChildrenMovieRental() {
+	public void canGetRenterPoints_ForChildrenMovieRental() {
 		//Arrange
 		Rental rental = mockRental(mockChildrenMovie(),1);
 
 		//Act
-		int points = Rental.getFrequentRenterPointsForRental(rental);
+		int points = Rental.getRenterPoints(rental);
 
 		//Assert
 		int expectedPoints = 1;
