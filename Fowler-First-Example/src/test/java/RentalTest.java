@@ -10,7 +10,6 @@ import static org.mockito.Mockito.mock;
 
 public class RentalTest {
 
-	private static int dayRented = 1;
 	private static String regularMovie = "Regular Movie";
 	private static String newReleaseMovie = "New Release Movie";
 	private static String childrenMovie = "Children Movie";
@@ -19,20 +18,20 @@ public class RentalTest {
 	public void canGetDaysRented(){
 		//Arrange
 		Movie movie = mock(Movie.class);
-		Rental rental = new Rental(movie, dayRented);
+		Rental rental = new Rental(movie, 1);
 
 		//Act
 		int daysRentedResult = rental.getDaysRented();
 
 		//Assert
-		assertThat(daysRentedResult, is(dayRented));
+		assertThat(daysRentedResult, is(1));
 	}
 
 	@Test
 	public void canGetMovie(){
 		//Arrange
 		Movie movie = mock(Movie.class);
-		Rental rental = new Rental(movie, dayRented);
+		Rental rental = new Rental(movie, 1);
 
 		//Act
 		Movie movieResult = rental.getMovie();
@@ -47,7 +46,7 @@ public class RentalTest {
 		Rental rental = mockRental(mockRegularMovie(),2);
 
 		//Act
-		double rentalCostResult = Rental.getCostForMovieRental(rental);
+		double rentalCostResult = rental.getCost();
 
 		//Assert
 		double expectedCost = 2;
@@ -60,7 +59,7 @@ public class RentalTest {
 		Rental rental = mockRental(mockRegularMovie(),3);
 
 		//Act
-		double rentalCostResult = Rental.getCostForMovieRental(rental);
+		double rentalCostResult = rental.getCost();
 
 		//Assert
 		double expectedCost = 3.5;
@@ -73,7 +72,7 @@ public class RentalTest {
 		Rental rental = mockRental(mockNewReleaseMovie(),2);
 
 		//Act
-		double rentalCostResult = Rental.getCostForMovieRental(rental);
+		double rentalCostResult = rental.getCost();
 
 		//Assert
 		double expectedCost = 6;
@@ -86,7 +85,7 @@ public class RentalTest {
 		Rental rental = mockRental(mockChildrenMovie(),3);
 
 		//Act
-		double rentalCostResult = Rental.getCostForMovieRental(rental);
+		double rentalCostResult = rental.getCost();
 
 		//Assert
 		double expectedCost = 1.5;
@@ -99,7 +98,7 @@ public class RentalTest {
 		Rental rental = mockRental(mockChildrenMovie(),5);
 
 		//Act
-		double rentalCostResult = Rental.getCostForMovieRental(rental);
+		double rentalCostResult = rental.getCost();
 
 		//Assert
 		double expectedCost = 4.5;
@@ -112,7 +111,7 @@ public class RentalTest {
 		Rental rental = mockRental(mockRegularMovie(),1);
 
 		//Act
-		int points = Rental.getRenterPoints(rental);
+		int points = rental.getRenterPoints();
 
 		//Assert
 		int expectedPoints = 1;
@@ -125,7 +124,7 @@ public class RentalTest {
 		Rental rental = mockRental(mockNewReleaseMovie(),1);
 
 		//Act
-		int points = Rental.getRenterPoints(rental);
+		int points = rental.getRenterPoints();
 
 		//Assert
 		int expectedPoints = 1;
@@ -138,7 +137,7 @@ public class RentalTest {
 		Rental rental = mockRental(mockNewReleaseMovie(),2);
 
 		//Act
-		int points = Rental.getRenterPoints(rental);
+		int points = rental.getRenterPoints();
 
 		//Assert
 		int expectedPoints = 2;
@@ -151,7 +150,7 @@ public class RentalTest {
 		Rental rental = mockRental(mockChildrenMovie(),1);
 
 		//Act
-		int points = Rental.getRenterPoints(rental);
+		int points = rental.getRenterPoints();
 
 		//Assert
 		int expectedPoints = 1;

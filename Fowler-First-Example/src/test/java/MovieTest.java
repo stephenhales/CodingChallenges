@@ -6,45 +6,147 @@ import org.junit.Test;
 import refactored.Movie;
 
 public class MovieTest {
-
-	private static String validTitle = "Bourne";
-	private static int validPriceCode = 1;
+	
+	private static String regularMovie = "Regular Movie";
+	private static String newReleaseMovie = "New Release Movie";
+	private static String childrenMovie = "Children Movie";
 
 	@Test
-	public void canGetPriceCode(){
+	public void canGetCost_ForRegularMovie_twoDays(){
 		//Arrange
-		Movie movie = new Movie(validTitle, validPriceCode);
+		Movie movie = mockRegularMovie();
+		int daysRented = 2;
 
 		//Act
-		int priceCode = movie.getPriceCode();
+		double movieCostResult = movie.getCost(daysRented);
 
 		//Assert
-		assertThat(priceCode, is(validPriceCode));
+		double expectedCost = 2;
+		assertThat(movieCostResult, is(expectedCost));
 	}
 
 	@Test
-	public void canSetPriceCode(){
+	public void canGetCost_ForRegularMovie_threeDays(){
 		//Arrange
-		Movie movie = new Movie(validTitle, validPriceCode);
-		int newPriceCode = 2;
+		Movie movie = mockRegularMovie();
+		int daysRented = 3;
 
 		//Act
-		movie.setPriceCode(newPriceCode);
+		double movieCostResult = movie.getCost(daysRented);
 
 		//Assert
-		assertThat(movie.getPriceCode(), is(newPriceCode));
+		double expectedCost = 3.5;
+		assertThat(movieCostResult, is(expectedCost));
 	}
 
 	@Test
-	public void canGetTitle(){
+	public void canGetCost_ForNewReleaseMovie(){
 		//Arrange
-		Movie movie = new Movie(validTitle, validPriceCode);
+		Movie movie = mockNewReleaseMovie();
+		int daysRented = 2;
 
 		//Act
-		String movieTitle = movie.getTitle();
+		double movieCostResult = movie.getCost(daysRented);
 
 		//Assert
-		assertThat(movieTitle, is(validTitle));
+		double expectedCost = 6;
+		assertThat(movieCostResult, is(expectedCost));
+	}
+
+	@Test
+	public void canGetCost_ForChildrenMovie_threeDays(){
+		//Arrange
+		Movie movie = mockChildrenMovie();
+		int daysRented = 3;
+
+		//Act
+		double movieCostResult = movie.getCost(daysRented);
+
+		//Assert
+		double expectedCost = 1.5;
+		assertThat(movieCostResult, is(expectedCost));
+	}
+
+	@Test
+	public void canGetCost_ForChildrenMovie_fiveDays(){
+		//Arrange
+		Movie movie = mockChildrenMovie();
+		int daysRented = 5;
+
+		//Act
+		double movieCostResult = movie.getCost(daysRented);
+
+		//Assert
+		double expectedCost = 4.5;
+		assertThat(movieCostResult, is(expectedCost));
+	}
+
+	@Test
+	public void canGetRenterPoints_ForRegularMovie(){
+		//Arrange
+		Movie movie = mockRegularMovie();
+		int daysRented = 5;
+
+		//Act
+		int points = movie.getRenterPoints(daysRented);
+
+		//Assert
+		int expectedPoints = 1;
+		assertThat(points, is(expectedPoints));
+	}
+
+	@Test
+	public void canGetRenterPoints_ForNewReleaseMovie_OneDay(){
+		//Arrange
+		Movie movie = mockNewReleaseMovie();
+		int daysRented = 1;
+
+		//Act
+		int points = movie.getRenterPoints(daysRented);
+
+		//Assert
+		int expectedPoints = 1;
+		assertThat(points, is(expectedPoints));
+	}
+
+	@Test
+	public void canGetRenterPoints_ForNewReleaseMovie_TwoDays(){
+		//Arrange
+		Movie movie = mockNewReleaseMovie();
+		int daysRented = 2;
+
+		//Act
+		int points = movie.getRenterPoints(daysRented);
+
+		//Assert
+		int expectedPoints = 2;
+		assertThat(points, is(expectedPoints));
+	}
+
+	@Test
+	public void canGetRenterPoints_ForChildrenMovie() {
+		//Arrange
+		Movie movie = mockChildrenMovie();
+		int daysRented = 5;
+
+		//Act
+		int points = movie.getRenterPoints(daysRented);
+
+		//Assert
+		int expectedPoints = 1;
+		assertThat(points, is(expectedPoints));
+	}
+
+	private Movie mockRegularMovie(){
+		return new Movie(regularMovie, Movie.REGULAR);
+	}
+
+	private Movie mockNewReleaseMovie(){
+		return new Movie(newReleaseMovie, Movie.NEW_RELEASE);
+	}
+
+	private Movie mockChildrenMovie(){
+		return new Movie(childrenMovie, Movie.CHILDREN);
 	}
 
 }

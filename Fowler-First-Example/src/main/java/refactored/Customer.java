@@ -3,7 +3,6 @@ package refactored;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("Duplicates")
 public class Customer {
 
 	private String _name;
@@ -39,8 +38,7 @@ public class Customer {
 		List<String> rentalStatement = new ArrayList<>();
 
 		for(Rental rental: rentals) {
-			double movieCost = Rental.getCostForMovieRental(rental);
-			rentalStatement.add( rentalStatement(rental.getMovie().getTitle(), movieCost));
+			rentalStatement.add( rentalStatement(rental.getMovie().getTitle(), rental.getCost()));
 		}
 
 		return rentalStatement;
@@ -50,7 +48,7 @@ public class Customer {
 		double totalAmount = 0;
 
 		for(Rental rental: rentals) {
-			totalAmount += Rental.getCostForMovieRental(rental);
+			totalAmount += rental.getCost();
 		}
 
 		return totalAmount;
@@ -60,7 +58,7 @@ public class Customer {
 		int renterPoints = 0;
 
 		for(Rental rental: rentals) {
-			renterPoints += Rental.getRenterPoints(rental);
+			renterPoints += rental.getRenterPoints();
 		}
 
 		return renterPoints;
