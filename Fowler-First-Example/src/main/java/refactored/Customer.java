@@ -1,36 +1,34 @@
 package refactored;
 
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("Duplicates")
 public class Customer {
 
 	private String _name;
-	private Vector _rentals = new Vector();
+	private List<Rental> _rentals = new ArrayList<>();
 
 	public Customer(String name) {
 		_name = name;
 	}
 
-	public void addRental(Rental arg) {
-		_rentals.addElement(arg);
+	public void addRental(Rental rental) {
+		_rentals.add(rental);
 	}
 
 	public String getName() {
 		return _name;
 	}
 
-	public Vector getRentals(){ return _rentals; }
+	public List<Rental> getRentals(){ return _rentals; }
 
 	public String statement() {
 
 		double totalAmount = 0;
 		int frequentRenterPoints = 0;
-		Enumeration rentals = _rentals.elements();
 		String result = "Rental record for " + getName() + "\n";
-		while (rentals.hasMoreElements()) {
-			Rental rental = (Rental) rentals.nextElement();
+		for(Rental rental: _rentals) {
 			//determine amounts for each line
 			double movieCost = Rental.getCostForMovieRental(rental);
 			// add frequent renter points

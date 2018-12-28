@@ -40,7 +40,7 @@ public class CustomerTest {
 
 		//Act
 		customer.addRental(rental);
-		Object rentalResult = customer.getRentals().firstElement();
+		Object rentalResult = customer.getRentals().get(0);
 
 		//Assert
 		assertThat(rentalResult, is((Object) rental));
