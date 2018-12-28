@@ -1,5 +1,6 @@
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 
@@ -55,10 +56,10 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		String statement = ignorePoints(customer.statement());
+		List<String> statement = toList(customer.statement());
 
 		//Assert
-		String expectedStatement = createStatement(regularMovie, 2);
+		List<String> expectedStatement = toList(createStatement(2, regularMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
 		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
@@ -71,10 +72,10 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		String statement = ignorePoints(customer.statement());
+		List<String> statement = toList(customer.statement());
 
 		//Assert
-		String expectedStatement = createStatement(regularMovie, 2);
+		List<String> expectedStatement = toList(createStatement(2, regularMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
 		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
@@ -87,10 +88,10 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		String statement = ignorePoints(customer.statement());
+		List<String> statement = toList(customer.statement());
 
 		//Assert
-		String expectedStatement = createStatement(regularMovie, 3.5);
+		List<String> expectedStatement = toList(createStatement(3.5, regularMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
 		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
@@ -103,10 +104,10 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		String statement = ignorePoints(customer.statement());
+		List<String> statement = toList(customer.statement());
 
 		//Assert
-		String expectedStatement = createStatement(newReleaseMovie, 6);
+		List<String> expectedStatement = toList(createStatement(6, newReleaseMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
 		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
@@ -119,10 +120,10 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		String statement = ignorePoints(customer.statement());
+		List<String> statement = toList(customer.statement());
 
 		//Assert
-		String expectedStatement = createStatement(newReleaseMovie, 9);
+		List<String> expectedStatement = toList(createStatement(9, newReleaseMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
 		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
@@ -135,10 +136,10 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		String statement = ignorePoints(customer.statement());
+		List<String> statement = toList(customer.statement());
 
 		//Assert
-		String expectedStatement = createStatement(childrenMovie, 1.5);
+		List<String> expectedStatement = toList(createStatement(1.5, childrenMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
 		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
@@ -151,10 +152,10 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		String statement = ignorePoints(customer.statement());
+		List<String> statement = toList(customer.statement());
 
 		//Assert
-		String expectedStatement = createStatement(childrenMovie, 1.5);
+		List<String> expectedStatement = toList(createStatement(1.5, childrenMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
 		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
@@ -167,10 +168,10 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		String statement = ignorePoints(customer.statement());
+		List<String> statement = toList(customer.statement());
 
 		//Assert
-		String expectedStatement = createStatement(childrenMovie, 3);
+		List<String> expectedStatement = toList(createStatement(3, childrenMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
 		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
@@ -185,10 +186,10 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		String statement = customer.statement();
+		List<String> statement = toList(customer.statement());
 
 		//Assert
-		String expectedStatement = createStatement(regularMovie, 2, 1);
+		List<String> expectedStatement = toList(createStatement(2, 1, regularMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
 		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 	}
@@ -201,27 +202,45 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		String statement = customer.statement();
+		List<String> statement = toList(customer.statement());
 
 		//Assert
-		String expectedStatement = createStatement(newReleaseMovie, 3, 1);
+		List<String> expectedStatement = toList(createStatement(3, 1, newReleaseMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
 		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 		assertThat(getPoints(statement), is(getPoints(expectedStatement)));
 	}
 
 	@Test
-	public void newReleaseMovie_WhenRentedTwoDays_HasTwoRenterPoints(){
+	public void newReleaseMovie_WhenRentedTwoDays_HasBonusRenterPoint(){
 		//Arrange
 		Rental rental = mockRental(mockNewReleaseMovie(), 2);
 		Customer customer = mockCustomer();
 		customer.addRental(rental);
 
 		//Act
-		String statement = customer.statement();
+		List<String> statement = toList(customer.statement());
 
 		//Assert
-		String expectedStatement = createStatement(newReleaseMovie, 6, 2);
+		List<String> expectedStatement = toList(createStatement( 6, 2, newReleaseMovie));
+		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
+		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
+		assertThat(getPoints(statement), is(getPoints(expectedStatement)));
+	}
+
+	@Test
+	public void canRentTwoRegularMovies(){
+		//Arrange
+		Rental rental = mockRental(mockRegularMovie(), 1);
+		Customer customer = mockCustomer();
+		customer.addRental(rental);
+		customer.addRental(rental);
+
+		//Act
+		List<String> statement = toList(customer.statement());
+
+		//Assert
+		List<String> expectedStatement = toList(createStatement(4, 2, 2, regularMovie, regularMovie));
 		assertThat(getTotal(statement), is(getTotal(expectedStatement)));
 		assertThat(getMovieDetails(statement), is(getMovieDetails(expectedStatement)));
 		assertThat(getPoints(statement), is(getPoints(expectedStatement)));
@@ -247,41 +266,49 @@ public class CustomerTest {
 		return new Movie(childrenMovie, Movie.CHILDREN);
 	}
 
-	private String createStatement( String movieTitle, double amountDue){
-		String result = "Rental record for " + validName + "\n";
-		result += statementMovieRow(movieTitle, amountDue);
-		result += "Amount owed is " + String.valueOf(amountDue) + "\n";
-		result += "You earned x frequent renter points";
-		return result;
+	private String createStatement( double amountDue, String movieTitle){
+		return createStatement(amountDue, amountDue, 0, movieTitle);
 	}
 
-	private String createStatement( String movieTitle, double amountDue, int points){
-		String result = "Rental record for " + validName + "\n";
-		result += statementMovieRow(movieTitle, amountDue);
-		result += "Amount owed is " + String.valueOf(amountDue) + "\n";
-		result += "You earned " + points  + " frequent renter points";
-		return result;
+	private String createStatement( double amountDue, int points, String movieTitle ){
+		return createStatement(amountDue, amountDue, points, movieTitle);
+	}
+
+	private String createStatement( double amountDue, double movieCost, int points, String... movieTitles ){
+		String rentalRecord = "Rental record for " + validName + "\n";
+		String movieDetails = "";
+		for(String movieTitle : movieTitles)
+			movieDetails += statementMovieRow(movieTitle, movieCost);
+		String amountOwed = "Amount owed is " + String.valueOf(amountDue) + "\n";
+		String renterPoints = "You earned " + points  + " frequent renter points";
+		return rentalRecord + movieDetails + amountOwed + renterPoints;
 	}
 
 	private String statementMovieRow(String movieTitle, double amountDue){
 		return "\t" + movieTitle + "\t" + String.valueOf(amountDue) + "\n";
 	}
 
-	private String ignorePoints(String string){
-		String find = "You earned \\w frequent renter points*";
-		String replace = "You earned x frequent renter points";
-		return string.replaceAll(find, replace);
+	private List<String> toList(String string){
+		return Arrays.asList(string.split("\n"));
 	}
 
-	private String getTotal(String string){
-		return string.split("\n")[2];
+	private String getMovieDetails(List<String> lines){
+		return lines.stream()
+			.filter(line -> line.contains("\t"))
+			.collect(Collectors.joining(","));
 	}
 
-	private String getMovieDetails(String string){
-		return string.split("\n")[1];
+	private String getTotal(List<String> lines){
+		return lines.stream()
+			.filter(line -> line.contains("Amount owed is"))
+			.findFirst()
+			.orElse(null);
 	}
 
-	private String getPoints(String string){
-		return string.split("\n")[3];
+	private String getPoints(List<String> lines){
+		return lines.stream()
+			.filter(line -> line.contains("frequent renter points"))
+			.findFirst()
+			.orElse(null);
 	}
 }
