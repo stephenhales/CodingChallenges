@@ -69,7 +69,7 @@ public class Customer {
 	}
 
 	private String rentalStatement(String movieTitle, double movieCost){
-		return "\t" + movieTitle + "\t" + String.valueOf(movieCost) + "\n";
+		return "\t" + movieTitle + "\t" + String.valueOf(movieCost);
 	}
 
 	private String totalAmountStatement(double totalAmount){

@@ -3,7 +3,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import refactored.Movie;
+import refactored.Movie.ChildrenMovie;
+import refactored.Movie.Movie;
+import refactored.Movie.NewReleaseMovie;
 
 public class MovieTest {
 	
@@ -138,15 +140,15 @@ public class MovieTest {
 	}
 
 	private Movie mockRegularMovie(){
-		return new Movie(regularMovie, Movie.REGULAR);
+		return new Movie(regularMovie);
 	}
 
 	private Movie mockNewReleaseMovie(){
-		return new Movie(newReleaseMovie, Movie.NEW_RELEASE);
+		return new NewReleaseMovie(newReleaseMovie);
 	}
 
 	private Movie mockChildrenMovie(){
-		return new Movie(childrenMovie, Movie.CHILDREN);
+		return new ChildrenMovie(childrenMovie);
 	}
 
 }

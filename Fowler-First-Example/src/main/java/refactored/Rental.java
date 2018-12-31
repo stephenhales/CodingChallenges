@@ -1,5 +1,7 @@
 package refactored;
 
+import refactored.Movie.Movie;
+
 public class Rental {
 
 	private Movie _movie;
