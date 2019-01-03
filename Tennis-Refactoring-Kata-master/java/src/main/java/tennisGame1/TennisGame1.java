@@ -25,7 +25,8 @@ public class TennisGame1 implements ITennisGame {
         String score = "";
         if (player1Score == player2Score)
         {
-            return getEqualScore(player1Score);
+            return scoreToString(player1Score)
+                + "-All";
         }
         else if (player1Score >=4 || player2Score >=4)
         {
@@ -37,31 +38,13 @@ public class TennisGame1 implements ITennisGame {
         }
         else
         {
-            int tempScore=0;
-            for (int i=1; i<3; i++)
-            {
-                if (i==1) tempScore = player1Score;
-                else { score+="-"; tempScore = player2Score;}
-                score += scoreToString(tempScore);
-            }
+            return scoreToString(player1Score)
+                + "-"
+                + scoreToString(player2Score);
         }
         return score;
     }
-
-    private String getEqualScore(int score){
-        switch (score)
-        {
-            case 0:
-                return "Love-All";
-            case 1:
-                return "Fifteen-All";
-            case 2:
-                return "Thirty-All";
-            default:
-                return "Deuce";
-        }
-    }
-
+    
     private String scoreToString(int score){
         switch(score)
         {
