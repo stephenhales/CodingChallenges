@@ -2,12 +2,12 @@ package tennisGame1;
 
 import common.ITennisGame;
 
-public class TennisGame1 implements ITennisGame {
+public class TennisGame implements ITennisGame {
     
     private TennisPlayer player1;
 	private TennisPlayer player2;
 
-    public TennisGame1(String player1Name, String player2Name) {
+    public TennisGame(String player1Name, String player2Name) {
         this.player1 = new TennisPlayer(player1Name);
 	    this.player2 = new TennisPlayer(player2Name);
 	}

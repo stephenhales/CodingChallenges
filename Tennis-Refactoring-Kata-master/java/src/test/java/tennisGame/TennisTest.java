@@ -11,7 +11,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import common.ITennisGame;
-import tennisGame1.TennisGame1;
+import tennisGame1.TennisGame;
 import tennisGame2.TennisGame2;
 import tennisGame3.TennisGame3;
 
@@ -87,7 +87,7 @@ public class TennisTest {
 
     @Test
     public void checkAllScoresTennisGame1() {
-        TennisGame1 game = new TennisGame1("player1", "player2");
+        TennisGame game = new TennisGame("player1", "player2");
         checkAllScores(game);
     }
 
