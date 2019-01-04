@@ -28,7 +28,7 @@ public class TennisGame implements ITennisGame {
         }
         if (player1.getScore() > 3 || player2.getScore() > 3)
         {
-            return advantageScoreToString(player1.getScore(), player2.getScore());
+            return advantageScoreToString();
         }
         return scoreToString(player1.getScore())
             + "-"
@@ -51,15 +51,17 @@ public class TennisGame implements ITennisGame {
         }
     }
 
-    private String advantageScoreToString(int _player1Score, int _player2Score){
-        int minusResult = _player1Score - _player2Score;
-        if (minusResult==1)
-            return "Advantage player1";
-        else if (minusResult ==-1)
-            return "Advantage player2";
-        else if (minusResult>=2)
-            return "Win for player1";
-        else
-            return "Win for player2";
+    private String advantageScoreToString(){
+        if(isWin())
+	        return "Win for " + getWinningPlayer().getName();
+        return "Advantage " + getWinningPlayer().getName();
+    }
+
+    private TennisPlayer getWinningPlayer(){
+    	return player1.getScore() > player2.getScore() ? player1 : player2;
+    }
+
+    private Boolean isWin(){
+	    return Math.abs(player1.getScore() - player2.getScore()) >= 2;
     }
 }
