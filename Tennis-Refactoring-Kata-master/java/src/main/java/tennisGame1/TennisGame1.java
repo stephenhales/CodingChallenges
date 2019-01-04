@@ -4,47 +4,37 @@ import common.ITennisGame;
 
 public class TennisGame1 implements ITennisGame {
     
-    private int player1Score = 0;
-    private int player2Score = 0;
-    private String player1Name;
-    private String player2Name;
+    private TennisPlayer player1;
+	private TennisPlayer player2;
 
     public TennisGame1(String player1Name, String player2Name) {
-        this.player1Name = player1Name;
-        this.player2Name = player2Name;
-    }
+        this.player1 = new TennisPlayer(player1Name);
+	    this.player2 = new TennisPlayer(player2Name);
+	}
 
     public void wonPoint(String playerName) {
-        if (playerName == "player1")
-            player1Score += 1;
+        if (playerName == player1.getName())
+            player1.addPoint();
         else
-            player2Score += 1;
+            player2.addPoint();
     }
 
     public String getScore() {
-        String score = "";
-        if (player1Score == player2Score)
+        if (player1.getScore() == player2.getScore())
         {
-            return scoreToString(player1Score)
-                + "-All";
+            if(player1.getScore() > 2)
+                return "Deuce";
+            return scoreToString(player1.getScore()) + "-All";
         }
-        else if (player1Score >=4 || player2Score >=4)
+        if (player1.getScore() > 3 || player2.getScore() > 3)
         {
-            int minusResult = player1Score - player2Score;
-            if (minusResult==1) score ="Advantage player1";
-            else if (minusResult ==-1) score ="Advantage player2";
-            else if (minusResult>=2) score = "Win for player1";
-            else score ="Win for player2";
+            return advantageScoreToString(player1.getScore(), player2.getScore());
         }
-        else
-        {
-            return scoreToString(player1Score)
-                + "-"
-                + scoreToString(player2Score);
-        }
-        return score;
+        return scoreToString(player1.getScore())
+            + "-"
+            + scoreToString(player2.getScore());
     }
-    
+
     private String scoreToString(int score){
         switch(score)
         {
@@ -59,5 +49,17 @@ public class TennisGame1 implements ITennisGame {
             default:
                 return null;
         }
+    }
+
+    private String advantageScoreToString(int _player1Score, int _player2Score){
+        int minusResult = _player1Score - _player2Score;
+        if (minusResult==1)
+            return "Advantage player1";
+        else if (minusResult ==-1)
+            return "Advantage player2";
+        else if (minusResult>=2)
+            return "Win for player1";
+        else
+            return "Win for player2";
     }
 }
