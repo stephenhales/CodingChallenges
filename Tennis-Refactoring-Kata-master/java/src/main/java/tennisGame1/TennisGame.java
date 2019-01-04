@@ -22,33 +22,17 @@ public class TennisGame implements ITennisGame {
     public String getScore() {
         if (player1.getScore() == player2.getScore())
         {
-            if(player1.getScore() > 2)
+            if(player1.getScore() > Score.THIRTY)
                 return "Deuce";
-            return scoreToString(player1.getScore()) + "-All";
+            return Score.toString(player1.getScore()) + "-All";
         }
-        if (player1.getScore() > 3 || player2.getScore() > 3)
+        if (player1.getScore() > Score.FORTY || player2.getScore() > Score.FORTY)
         {
             return advantageScoreToString();
         }
-        return scoreToString(player1.getScore())
+        return Score.toString(player1.getScore())
             + "-"
-            + scoreToString(player2.getScore());
-    }
-
-    private String scoreToString(int score){
-        switch(score)
-        {
-            case 0:
-                return "Love";
-            case 1:
-                return "Fifteen";
-            case 2:
-                return "Thirty";
-            case 3:
-                return "Forty";
-            default:
-                return null;
-        }
+            + Score.toString(player2.getScore());
     }
 
     private String advantageScoreToString(){
