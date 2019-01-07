@@ -26,19 +26,22 @@ public class TennisGame implements ITennisGame {
                 return "Deuce";
             return Score.toString(player1.getScore()) + "-All";
         }
-        if (player1.getScore() > Score.FORTY || player2.getScore() > Score.FORTY)
+        else if (player1.getScore() <= Score.FORTY && player2.getScore() <= Score.FORTY)
         {
-            return advantageScoreToString();
+	        return Score.toString(player1.getScore())
+		        + "-"
+		        + Score.toString(player2.getScore());
         }
-        return Score.toString(player1.getScore())
-            + "-"
-            + Score.toString(player2.getScore());
+        else{
+	        return advantageScoreToString();
+        }
     }
 
     private String advantageScoreToString(){
         if(isWin())
 	        return "Win for " + getWinningPlayer().getName();
-        return "Advantage " + getWinningPlayer().getName();
+        else
+            return "Advantage " + getWinningPlayer().getName();
     }
 
     private TennisPlayer getWinningPlayer(){
