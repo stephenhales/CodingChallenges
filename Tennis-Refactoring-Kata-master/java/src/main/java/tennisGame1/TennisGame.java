@@ -22,19 +22,27 @@ public class TennisGame implements ITennisGame {
     public String getScore() {
         if (player1.getScore() == player2.getScore())
         {
-            if(player1.getScore() > Score.THIRTY)
-                return "Deuce";
-            return Score.toString(player1.getScore()) + "-All";
+	        return equalScoreToString();
         }
-        else if (player1.getScore() <= Score.FORTY && player2.getScore() <= Score.FORTY)
+        else if (isNotAdvantage())
         {
-	        return Score.toString(player1.getScore())
-		        + "-"
-		        + Score.toString(player2.getScore());
+	        return scoreToString();
         }
         else{
 	        return advantageScoreToString();
         }
+    }
+
+    private String equalScoreToString(){
+	    if(player1.getScore() > Score.THIRTY)
+		    return "Deuce";
+	    return Score.toString(player1.getScore()) + "-All";
+    }
+
+    private String scoreToString(){
+	    return Score.toString(player1.getScore())
+		    + "-"
+		    + Score.toString(player2.getScore());
     }
 
     private String advantageScoreToString(){
@@ -46,6 +54,10 @@ public class TennisGame implements ITennisGame {
 
     private TennisPlayer getWinningPlayer(){
     	return player1.getScore() > player2.getScore() ? player1 : player2;
+    }
+
+    private Boolean isNotAdvantage(){
+	    return player1.getScore() <= Score.FORTY && player2.getScore() <= Score.FORTY;
     }
 
     private Boolean isWin(){
