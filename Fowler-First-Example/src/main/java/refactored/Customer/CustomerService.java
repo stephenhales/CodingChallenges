@@ -1,32 +1,21 @@
-package refactored;
+package refactored.Customer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Customer {
+import org.springframework.stereotype.Service;
 
-	private String _name;
-	private List<Rental> _rentals = new ArrayList<>();
+import refactored.Rental;
 
-	public Customer(String name) {
-		_name = name;
-	}
+@Service
+public class CustomerService {
 
-	public void addRental(Rental rental) {
-		_rentals.add(rental);
-	}
 
-	public String getName() {
-		return _name;
-	}
-
-	public List<Rental> getRentals(){ return _rentals; }
-
-	public String statement() {
+	public String statement(Customer customer) {
 		List<String> statement = new ArrayList<>();
-		List<Rental> rentals = getRentals();
+		List<Rental> rentals = customer.getRentals();
 
-		statement.add( headerStatement());
+		statement.add( headerStatement(customer));
 		statement.addAll(rentalStatements(rentals));
 		statement.add(totalAmountStatement(getTotal(rentals)));
 		statement.add(renterPointsStatement(getRenterPoints(rentals)));
@@ -64,8 +53,8 @@ public class Customer {
 		return renterPoints;
 	}
 
-	private String headerStatement(){
-		return "Rental record for " + getName();
+	private String headerStatement(Customer customer){
+		return "Rental record for " + customer.getName();
 	}
 
 	private String rentalStatement(String movieTitle, double movieCost){

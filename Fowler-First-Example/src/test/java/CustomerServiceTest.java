@@ -3,8 +3,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import refactored.Customer;
+import refactored.Customer.Customer;
+import refactored.Customer.CustomerService;
 import refactored.Movie.ChildrenMovie;
 import refactored.Movie.Movie;
 import refactored.Movie.NewReleaseMovie;
@@ -14,13 +18,19 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
-public class CustomerTest {
+@RunWith(MockitoJUnitRunner.class)
+public class CustomerServiceTest {
+
+	@InjectMocks
+	private CustomerService customerService;
 
 	private static String validName = "Stephen";
 
 	private static String regularMovie = "Regular Movie";
 	private static String newReleaseMovie = "New Release Movie";
 	private static String childrenMovie = "Children Movie";
+
+
 
 	@Test
 	public void canGetCustomerName(){
@@ -58,7 +68,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(2, regularMovie));
@@ -73,7 +83,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(2, regularMovie));
@@ -88,7 +98,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(3.5, regularMovie));
@@ -103,7 +113,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(6, newReleaseMovie));
@@ -118,7 +128,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(9, newReleaseMovie));
@@ -133,7 +143,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(1.5, childrenMovie));
@@ -148,7 +158,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(1.5, childrenMovie));
@@ -163,7 +173,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(3, childrenMovie));
@@ -179,7 +189,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatement(4, 2, 2, regularMovie, regularMovie));
@@ -196,7 +206,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(2, regularMovie));
@@ -211,7 +221,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(2, regularMovie));
@@ -226,7 +236,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(3.5, regularMovie));
@@ -241,7 +251,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(6, newReleaseMovie));
@@ -256,7 +266,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(9, newReleaseMovie));
@@ -271,7 +281,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(1.5, childrenMovie));
@@ -286,7 +296,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(1.5, childrenMovie));
@@ -301,7 +311,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(3, childrenMovie));
@@ -317,7 +327,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatement(4, 2, 2, regularMovie, regularMovie));
@@ -334,7 +344,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(2, 1, regularMovie));
@@ -349,7 +359,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie(3, 1, newReleaseMovie));
@@ -364,7 +374,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatementSingleMovie( 6, 2, newReleaseMovie));
@@ -380,7 +390,7 @@ public class CustomerTest {
 		customer.addRental(rental);
 
 		//Act
-		List<String> statement = toList(customer.statement());
+		List<String> statement = toList(customerService.statement(customer));
 
 		//Assert
 		List<String> expectedStatement = toList(createStatement(4, 2, 2, regularMovie, regularMovie));
