@@ -11,9 +11,10 @@ node_modules/*
 !/*
 /*
 
-!Kata1/*
-!Kata2/*
+!Kata1/
+!Kata2/
 !Fowler-First-Example/
+!Bowling/
 
 !Tennis-Refactoring-kata-master/
 Tennis-Refactoring-kata-master/*
