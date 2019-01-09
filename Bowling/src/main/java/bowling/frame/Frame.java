@@ -2,8 +2,8 @@ package bowling.frame;
 
 
 public class Frame {
-	private int firstRoll;
-	private int secondRoll;
+	private Integer firstRoll;
+	private Integer secondRoll;
 
 	public void setFirstRoll(int firstRoll){
 		this.firstRoll = firstRoll;

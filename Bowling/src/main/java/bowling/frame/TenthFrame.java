@@ -2,7 +2,13 @@ package bowling.frame;
 
 
 public class TenthFrame extends Frame {
-	private int firstRoll;
-	private int secondRoll;
-	private int thirdRoll;
+	private Integer thirdRoll;
+
+	public Integer getThirdRoll() {
+		return this.thirdRoll;
+	}
+
+	public void setThirdRoll(int thirdRoll) {
+		this.thirdRoll = thirdRoll;
+	}
 }

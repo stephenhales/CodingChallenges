@@ -19,13 +19,20 @@ public class BowlingGame{
 
             //spare
             if(frame.getFirstRoll() + frame.getFirstRoll() == 10 ){
-                score += normalFrame(frame.getFirstRoll(), frame.getSecondRoll());
-                //score += next frame, first roll
+                score += frame.getFirstRoll() + frame.getSecondRoll();
+
+                if(frameNumber < 9) {
+	                score += frames[frameNumber + 1].getFirstRoll();
+                }
+                else{
+                	TenthFrame tenth = (TenthFrame) frames[frameNumber];
+	                score += tenth.getThirdRoll();
+                }
             }
 
             // normal score
             else{
-                score += normalFrame(frame.getFirstRoll(), frame.getSecondRoll());
+	            score += frame.getFirstRoll() + frame.getSecondRoll();
             }
         }
         //10th frame
@@ -34,7 +41,11 @@ public class BowlingGame{
     }
 
     public void roll(int knockedDownPins){
-        if(isFirstRoll){
+        if(frameIndex == 10){
+	        TenthFrame tenth = (TenthFrame) frames[frameIndex-1];
+	        tenth.setThirdRoll(knockedDownPins);
+        }
+    	else if(isFirstRoll){
             frames[frameIndex].setFirstRoll(knockedDownPins);
             isFirstRoll = false;
         }
@@ -43,9 +54,5 @@ public class BowlingGame{
             frameIndex ++;
             isFirstRoll = true;
         }
-    }
-
-    private int normalFrame(int first, int second){
-        return first + second;
     }
 }
