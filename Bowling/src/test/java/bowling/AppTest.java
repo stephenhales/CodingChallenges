@@ -53,41 +53,4 @@ public class AppTest {
         game.roll(5);
         assertEquals(150, game.score());
     }
-
-    @Test
-    public void bowlOneStrike(){
-        game.roll(10);
-        game.roll(0);
-        game.roll(3);
-        game.roll(3);
-        for(int i = 0; i<17; i++){
-            game.roll(0);
-        }
-        assertEquals(22, game.score());
-    }
-
-    @Test
-    public void bowlTwoStrikes(){
-        for(int i = 0; i<2; i++){
-            game.roll(10);
-            game.roll(0);
-        }
-        for(int i = 0; i<8; i++){
-            game.roll(0);
-            game.roll(0);
-        }
-        game.roll(0);
-        assertEquals(30, game.score());
-    }
-
-    @Test
-    public void bowlAllStrikes(){
-
-        for(int i = 0; i<10; i++){
-            game.roll(10);
-            game.roll(0);
-        }
-        game.roll(10);
-        assertEquals(300, game.score());
-    }
 }
