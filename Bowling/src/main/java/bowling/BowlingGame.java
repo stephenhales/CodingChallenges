@@ -4,14 +4,14 @@ import bowling.frame.Frame;
 import bowling.frame.TenthFrame;
 
 public class BowlingGame{
+
     private Frame[] frames = new Frame[]{
         new Frame(), new Frame(), new Frame(),
         new Frame(), new Frame(), new Frame(),
         new Frame(), new Frame(), new Frame(),
         new TenthFrame()
     };
-    private Boolean isFirstRoll = true;
-    private int frameIndex = 0;
+	private int frameNumber = 1;
 
     public int score(){
         int score = 0;
@@ -39,10 +39,10 @@ public class BowlingGame{
     }
 
     public int getTenthFrameScore(){
-        TenthFrame frame = (TenthFrame) frames[9];
+        TenthFrame frame = getTenthFrame();
 
         //spare
-        if(frame.getFirstRoll() + frame.getFirstRoll() == 10 ){
+        if(frame.getFirstRoll() + frame.getSecondRoll() == 10 ){
             return 10 + frame.getThirdRoll();
         }
 
@@ -56,19 +56,25 @@ public class BowlingGame{
         return frames[frameNumber-1];
     }
 
+	public TenthFrame getTenthFrame(){
+		return (TenthFrame) frames[9];
+	}
+
     public void roll(int knockedDownPins){
-        if(frameIndex == 10){
-	        TenthFrame tenth = (TenthFrame) frames[9];
-	        tenth.setThirdRoll(knockedDownPins);
-        }
-    	else if(isFirstRoll){
-            frames[frameIndex].setFirstRoll(knockedDownPins);
-            isFirstRoll = false;
-        }
-        else{
-            frames[frameIndex].setSecondRoll(knockedDownPins);
-            frameIndex ++;
-            isFirstRoll = true;
-        }
+	    if(frameNumber == 10){
+		    if(getTenthFrame().canRoll()) {
+			    getTenthFrame().roll(knockedDownPins);
+		    }
+		    return;
+	    }
+
+    	if(getFrame(frameNumber).canRoll()) {
+			getFrame(frameNumber).roll(knockedDownPins);
+		}
+		else {
+			frameNumber++;
+			getFrame(frameNumber).roll(knockedDownPins);
+		}
+
     }
 }
