@@ -30,6 +30,18 @@ public class TenthFrame extends Frame {
 		}
 	}
 
+	public int getScore(){
+		//spare
+		if(this.getFirstRoll() + this.getSecondRoll() == 10 ){
+			return 10 + this.getThirdRoll();
+		}
+
+		// normal score
+		else{
+			return this.getFirstRoll() + this.getSecondRoll();
+		}
+	}
+
 	public boolean canRoll(){
 		return (this.firstRoll == null || this.secondRoll == null || this.thirdRoll == null);
 	}

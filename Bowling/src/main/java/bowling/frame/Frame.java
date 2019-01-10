@@ -25,4 +25,24 @@ public class Frame {
 	public boolean canRoll(){
 		return (this.firstRoll == null || this.secondRoll == null);
 	}
+
+	public int getScore(Frame nextFrame){
+		//spare
+		if(this.getFirstRoll() + this.getFirstRoll() == 10 ){
+			return 10 + nextFrame.getFirstRoll();
+		}
+
+		// normal score
+		else{
+			return this.getFirstRoll() + this.getSecondRoll();
+		}
+	}
+
+	public void printFrame(int total){
+		System.out.println("________");
+		System.out.printf("| %s | %s |\n", this.getFirstRoll(), this.getSecondRoll());
+		System.out.println("|   ____|");
+		System.out.printf("|   %s   |\n", total);
+		System.out.println("|_______|");
+	}
 }
