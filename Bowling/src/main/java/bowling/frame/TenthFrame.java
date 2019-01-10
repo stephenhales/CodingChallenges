@@ -1,32 +1,22 @@
 package bowling.frame;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class TenthFrame extends Frame {
-	private Integer firstRoll;
-	private Integer secondRoll;
-	private Integer thirdRoll;
 
-	public int getFirstRoll(){
-		return this.firstRoll;
-	}
-
-	public int getSecondRoll(){
-		return this.secondRoll;
-	}
-
-	public Integer getThirdRoll() {
-		return this.thirdRoll;
-	}
+	@Getter @Setter private Integer thirdRoll;
 
 	public void roll(int pinsKnockedDown){
-		if(this.firstRoll == null){
-			this.firstRoll = pinsKnockedDown;
+		if(this.getFirstRoll() == null){
+			this.setFirstRoll(pinsKnockedDown);
 		}
-		else if (this.secondRoll == null) {
-			this.secondRoll = pinsKnockedDown;
+		else if (this.getSecondRoll() == null) {
+			this.setSecondRoll(pinsKnockedDown);
 		}
 		else {
-			this.thirdRoll = pinsKnockedDown;
+			this.setThirdRoll(pinsKnockedDown);
 		}
 	}
 
@@ -43,6 +33,8 @@ public class TenthFrame extends Frame {
 	}
 
 	public boolean canRoll(){
-		return (this.firstRoll == null || this.secondRoll == null || this.thirdRoll == null);
+		return (this.getFirstRoll() == null
+			|| this.getSecondRoll() == null
+			|| this.getThirdRoll() == null);
 	}
 }

@@ -11,7 +11,6 @@ public class BowlingGame{
         new Frame(), new Frame(), new Frame(),
         new TenthFrame()
     };
-	private int frameNumber = 1;
 
     public int score(){
         int score = 0;
@@ -27,22 +26,19 @@ public class BowlingGame{
     }
 
     public void roll(int knockedDownPins){
-	    if(frameNumber == 10 && getTenthFrame().canRoll()){
-		    getTenthFrame().roll(knockedDownPins);
-		    return;
-	    }
-
-    	if(getFrame(frameNumber).canRoll()) {
-			getFrame(frameNumber).roll(knockedDownPins);
-		}
-		else {
-			frameNumber++;
-			getFrame(frameNumber).roll(knockedDownPins);
-		}
+	    getNextOpenFrame().roll(knockedDownPins);
     }
 
 	private Frame getFrame(int frameNumber){
-		return frames[frameNumber-1];
+    	return frames[frameNumber-1];
+	}
+
+	private Frame getNextOpenFrame(){
+    	for(Frame frame : frames){
+    		if(frame.canRoll())
+    			return frame;
+	    }
+	    return new Frame();
 	}
 
 	private TenthFrame getTenthFrame(){

@@ -1,29 +1,25 @@
 package bowling.frame;
 
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Frame {
 	private Integer firstRoll;
 	private Integer secondRoll;
 
-	public int getFirstRoll(){
-		return this.firstRoll;
-	}
-
-	public int getSecondRoll(){
-		return this.secondRoll;
-	}
-
 	public void roll(int pinsKnockedDown){
-		if(firstRoll == null){
-			this.firstRoll = pinsKnockedDown;
+		if(this.getFirstRoll() == null){
+			this.setFirstRoll(pinsKnockedDown);
 		}
 		else {
-			this.secondRoll = pinsKnockedDown;
+			this.setSecondRoll(pinsKnockedDown);
 		}
 	}
 
 	public boolean canRoll(){
-		return (this.firstRoll == null || this.secondRoll == null);
+		return (this.getFirstRoll() == null || this.getSecondRoll() == null);
 	}
 
 	public int getScore(Frame nextFrame){
