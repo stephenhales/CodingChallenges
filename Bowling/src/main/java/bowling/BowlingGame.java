@@ -14,9 +14,9 @@ public class BowlingGame{
 
     public int score(){
         int score = 0;
-        for(int frameIndex = 1; frameIndex <= 10; frameIndex++){
-        	score += getFrame(frameIndex).getScore();
-	        getFrame(frameIndex).printFrame(score);
+        for(Frame frame : frames){
+        	score += (frame.getPoints() != null ? frame.getPoints() : 0 );
+	        frame.printFrame(score);
         }
         return score;
     }
@@ -30,10 +30,6 @@ public class BowlingGame{
     	return frames;
     }
 
-	private Frame getFrame(int frameNumber){
-    	return frames[frameNumber-1];
-	}
-
 	private Frame getNextOpenFrame(){
     	for(Frame frame : frames){
     		if(frame.canRoll())
@@ -42,20 +38,53 @@ public class BowlingGame{
 	    return new Frame();
 	}
 
+	private Frame getFrame(int frameNumber){
+		return frames[frameNumber-1];
+	}
+
 	private TenthFrame getTenthFrame(){
 		return (TenthFrame) frames[9];
 	}
 
-
 	private void setFrameScores(){
-		for(int frameIndex = 1; frameIndex <= 8; frameIndex++){
-			Integer roll = getFrame(frameIndex + 2).getFirstRoll();
-			getFrame(frameIndex).setScore(getFrame(frameIndex + 1), getFrame(frameIndex + 2).getFirstRoll());
-		}
-		//9th frame
-		getFrame(9).setScore(getTenthFrame(), 0);
+    	int frameNumber = 1;
+		for(Frame frame : frames){
 
-		//10th frame
-		getTenthFrame().setScore();
+			if(frame.canRoll())
+				break;
+			if(frame.getPoints() != null) {
+				frameNumber++;
+				continue;
+			}
+
+			if(frameNumber < 10) {
+				frame.setPoints(
+					getNextRoll(frameNumber),
+					getNextNextRoll(frameNumber));
+			}
+			else{
+
+				//10th frame
+				getTenthFrame().setPoints();
+			}
+
+			frameNumber++;
+
+			if(frame.getPoints() == null)
+				break;
+		}
+	}
+
+	private Integer getNextRoll(int frameNumber){
+    	return getFrame(frameNumber + 1).getFirstRoll();
+	}
+
+	private Integer getNextNextRoll(int frameNumber){
+		if(getNextRoll(frameNumber) != null && getNextRoll(frameNumber) == 10){
+			return getNextRoll(frameNumber + 1);
+		}
+		else{
+			return getFrame(frameNumber + 1).getSecondRoll();
+		}
 	}
 }

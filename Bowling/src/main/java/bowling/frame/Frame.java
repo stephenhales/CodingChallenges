@@ -9,7 +9,7 @@ import lombok.Setter;
 public class Frame {
 	private Integer firstRoll;
 	private Integer secondRoll;
-	@Setter(AccessLevel.NONE) private Integer score;
+	@Setter(AccessLevel.NONE) private Integer points;
 
 	public void roll(int pinsKnockedDown){
 		if(this.getFirstRoll() == null){
@@ -25,11 +25,11 @@ public class Frame {
 			|| this.getFirstRoll() != 10 && this.getSecondRoll() == null);
 	}
 
-	public void setScore(Frame nextFrame, Integer nextRoll){
+	public void setPoints(Integer nextFirstRoll, Integer nextSecondRoll){
 		if(canRoll()){
 			return;
 		}
-		this.score = calculateScore(nextFrame, nextRoll);
+		this.points = calculateScore(nextFirstRoll, nextSecondRoll);
 	}
 
 	public void printFrame(int total){
@@ -40,28 +40,17 @@ public class Frame {
 		System.out.println("|_______|");
 	}
 
-	private Integer calculateScore(Frame nextFrame, Integer nextRoll){
+	private Integer calculateScore(Integer nextFirstRoll, Integer nextSecondRoll){
 		//strike
 		if(this.getFirstRoll() == 10){
-			if(nextFrame.canRoll()){
-				return null;
-			}
-			if(nextFrame.getFirstRoll() == 10) {
-				//two strikes in a row
-				if (nextRoll == null) {
-					return null;
-				}
-				return 10 + 10 + nextRoll;
-			}
-			return 10 + nextFrame.getFirstRoll() + nextFrame.getSecondRoll();
+			if(nextFirstRoll == null || nextSecondRoll == null) return null;
+			return 10 + nextFirstRoll + nextSecondRoll;
 		}
 
 		//spare
 		if(this.getFirstRoll() + this.getFirstRoll() == 10 ){
-			if(nextFrame.canRoll()){
-				return null;
-			}
-			return 10 + nextFrame.getFirstRoll();
+			if(nextFirstRoll == null) return null;
+			return 10 + nextFirstRoll;
 		}
 
 		// normal score

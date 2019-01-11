@@ -6,7 +6,7 @@ import lombok.Setter;
 public class TenthFrame extends Frame {
 
 	@Getter @Setter private Integer thirdRoll;
-	@Getter private Integer score;
+	@Getter private Integer points;
 
 
 	public void roll(int pinsKnockedDown){
@@ -21,11 +21,11 @@ public class TenthFrame extends Frame {
 		}
 	}
 
-	public void setScore(){
+	public void setPoints(){
 		if(canRoll()){
 			return;
 		}
-		this.score = calculateScore();
+		this.points = calculateScore();
 	}
 
 	public boolean canRoll(){
@@ -34,6 +34,14 @@ public class TenthFrame extends Frame {
 			|| this.getThirdRoll() == null
 				&& (this.getFirstRoll() + this.getSecondRoll() == 10
 					|| this.getFirstRoll() + this.getSecondRoll() == 10));
+	}
+
+	public void printFrame(int total){
+		System.out.println("________");
+		System.out.printf("| %s | %s | %s |\n", this.getFirstRoll(), this.getSecondRoll(), this.getThirdRoll());
+		System.out.println("|   ________|");
+		System.out.printf("|     %s     |\n", total);
+		System.out.println("|___________|");
 	}
 
 	private Integer calculateScore(){

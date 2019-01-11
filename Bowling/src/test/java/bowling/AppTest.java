@@ -117,7 +117,7 @@ public class AppTest {
 		game.roll(1);
 
 		Frame[] frames = game.getFrames();
-		assertEquals(new Integer(2), frames[0].getScore());
+		assertEquals(new Integer(2), frames[0].getPoints());
 	}
 
 	@Test
@@ -128,6 +128,8 @@ public class AppTest {
 		game.roll(10);
 
 		Frame[] frames = game.getFrames();
-		assertEquals(new Integer(30), frames[0].getScore());
+		assertEquals(new Integer(30), frames[0].getPoints());
+	}
+
 	}
 }
