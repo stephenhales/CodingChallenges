@@ -109,4 +109,25 @@ public class AppTest {
 		}
 		assertEquals(60, game.score());
 	}
+
+	@Test
+	public void whenBowlOnes_FirstFrameScore_IsTwo(){
+
+		game.roll(1);
+		game.roll(1);
+
+		Frame[] frames = game.getFrames();
+		assertEquals(new Integer(2), frames[0].getScore());
+	}
+
+	@Test
+	public void whenThreeStrikes_FirstFrame_IsThirty(){
+
+		game.roll(10);
+		game.roll(10);
+		game.roll(10);
+
+		Frame[] frames = game.getFrames();
+		assertEquals(new Integer(30), frames[0].getScore());
+	}
 }

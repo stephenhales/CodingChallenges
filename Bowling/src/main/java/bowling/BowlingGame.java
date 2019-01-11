@@ -14,23 +14,16 @@ public class BowlingGame{
 
     public int score(){
         int score = 0;
-        for(int frameIndex = 1; frameIndex <= 8; frameIndex++){
-        	score += getFrame(frameIndex).getScore(getFrame(frameIndex + 1), getFrame(frameIndex + 2).getFirstRoll());
+        for(int frameIndex = 1; frameIndex <= 10; frameIndex++){
+        	score += getFrame(frameIndex).getScore();
 	        getFrame(frameIndex).printFrame(score);
         }
-        //9th frame
-	    score += getFrame(9).getScore(getTenthFrame(), 0);
-	    getFrame(9).printFrame(score);
-
-        //10th frame
-        score += getTenthFrame().getScore();
-	    getTenthFrame().printFrame(score);
-
         return score;
     }
 
     public void roll(int knockedDownPins){
 	    getNextOpenFrame().roll(knockedDownPins);
+	    setFrameScores();
     }
 
     public Frame[] getFrames(){
@@ -51,5 +44,18 @@ public class BowlingGame{
 
 	private TenthFrame getTenthFrame(){
 		return (TenthFrame) frames[9];
+	}
+
+
+	private void setFrameScores(){
+		for(int frameIndex = 1; frameIndex <= 8; frameIndex++){
+			Integer roll = getFrame(frameIndex + 2).getFirstRoll();
+			getFrame(frameIndex).setScore(getFrame(frameIndex + 1), getFrame(frameIndex + 2).getFirstRoll());
+		}
+		//9th frame
+		getFrame(9).setScore(getTenthFrame(), 0);
+
+		//10th frame
+		getTenthFrame().setScore();
 	}
 }

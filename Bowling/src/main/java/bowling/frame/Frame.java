@@ -1,5 +1,6 @@
 package bowling.frame;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +9,7 @@ import lombok.Setter;
 public class Frame {
 	private Integer firstRoll;
 	private Integer secondRoll;
-	private Integer frameScore;
+	@Setter(AccessLevel.NONE) private Integer score;
 
 	public void roll(int pinsKnockedDown){
 		if(this.getFirstRoll() == null){
@@ -24,24 +25,11 @@ public class Frame {
 			|| this.getFirstRoll() != 10 && this.getSecondRoll() == null);
 	}
 
-	public Integer getScore(Frame nextFrame, Integer nextRoll){
-
-		//strike
-		if(this.getFirstRoll() == 10){
-			if(nextFrame.getFirstRoll() == 10)
-				return 10 + nextFrame.getFirstRoll() + nextRoll;
-			return 10 + nextFrame.getFirstRoll() + nextFrame.getSecondRoll();
+	public void setScore(Frame nextFrame, Integer nextRoll){
+		if(canRoll()){
+			return;
 		}
-
-		//spare
-		if(this.getFirstRoll() + this.getFirstRoll() == 10 ){
-			return 10 + nextFrame.getFirstRoll();
-		}
-
-		// normal score
-		else {
-			return this.getFirstRoll() + this.getSecondRoll();
-		}
+		this.score = calculateScore(nextFrame, nextRoll);
 	}
 
 	public void printFrame(int total){
@@ -50,5 +38,35 @@ public class Frame {
 		System.out.println("|   ____|");
 		System.out.printf("|   %s   |\n", total);
 		System.out.println("|_______|");
+	}
+
+	private Integer calculateScore(Frame nextFrame, Integer nextRoll){
+		//strike
+		if(this.getFirstRoll() == 10){
+			if(nextFrame.canRoll()){
+				return null;
+			}
+			if(nextFrame.getFirstRoll() == 10) {
+				//two strikes in a row
+				if (nextRoll == null) {
+					return null;
+				}
+				return 10 + 10 + nextRoll;
+			}
+			return 10 + nextFrame.getFirstRoll() + nextFrame.getSecondRoll();
+		}
+
+		//spare
+		if(this.getFirstRoll() + this.getFirstRoll() == 10 ){
+			if(nextFrame.canRoll()){
+				return null;
+			}
+			return 10 + nextFrame.getFirstRoll();
+		}
+
+		// normal score
+		else {
+			return this.getFirstRoll() + this.getSecondRoll();
+		}
 	}
 }
