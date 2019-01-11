@@ -8,6 +8,7 @@ import lombok.Setter;
 public class Frame {
 	private Integer firstRoll;
 	private Integer secondRoll;
+	private Integer frameScore;
 
 	public void roll(int pinsKnockedDown){
 		if(this.getFirstRoll() == null){
@@ -19,17 +20,26 @@ public class Frame {
 	}
 
 	public boolean canRoll(){
-		return (this.getFirstRoll() == null || this.getSecondRoll() == null);
+		return (this.getFirstRoll() == null
+			|| this.getFirstRoll() != 10 && this.getSecondRoll() == null);
 	}
 
-	public int getScore(Frame nextFrame){
+	public Integer getScore(Frame nextFrame, Integer nextRoll){
+
+		//strike
+		if(this.getFirstRoll() == 10){
+			if(nextFrame.getFirstRoll() == 10)
+				return 10 + nextFrame.getFirstRoll() + nextRoll;
+			return 10 + nextFrame.getFirstRoll() + nextFrame.getSecondRoll();
+		}
+
 		//spare
 		if(this.getFirstRoll() + this.getFirstRoll() == 10 ){
 			return 10 + nextFrame.getFirstRoll();
 		}
 
 		// normal score
-		else{
+		else {
 			return this.getFirstRoll() + this.getSecondRoll();
 		}
 	}

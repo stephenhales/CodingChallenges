@@ -20,7 +20,7 @@ public class TenthFrame extends Frame {
 		}
 	}
 
-	public int getScore(){
+	public Integer getScore(){
 		//spare
 		if(this.getFirstRoll() + this.getSecondRoll() == 10 ){
 			return 10 + this.getThirdRoll();
