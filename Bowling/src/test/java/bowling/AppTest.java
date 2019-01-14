@@ -131,5 +131,32 @@ public class AppTest {
 		assertEquals(new Integer(30), frames[0].getPoints());
 	}
 
+	@Test
+	public void whenTwoStrikesAndTwoPins_FirstFrame_IsTwentyTwo(){
+
+		game.roll(10);
+		game.roll(10);
+		game.roll(2);
+		game.roll(0);
+
+		Frame[] frames = game.getFrames();
+		assertEquals(new Integer(22), frames[0].getPoints());
+	}
+
+	@Test
+	public void whenBowlFirstFrame_TotalScore_IsTwo(){
+
+		game.roll(1);
+		game.roll(1);
+
+		assertEquals(2, game.score());
+	}
+
+	@Test
+	public void whenAllStrikes_ThreeHundred(){
+		for(int i = 0; i<12; i++) {
+			game.roll(10);
+		}
+		assertEquals(300, game.score());
 	}
 }

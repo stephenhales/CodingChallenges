@@ -33,7 +33,7 @@ public class TenthFrame extends Frame {
 			|| this.getSecondRoll() == null
 			|| this.getThirdRoll() == null
 				&& (this.getFirstRoll() + this.getSecondRoll() == 10
-					|| this.getFirstRoll() + this.getSecondRoll() == 10));
+					|| this.getFirstRoll() == 10));
 	}
 
 	public void printFrame(int total){
@@ -45,6 +45,17 @@ public class TenthFrame extends Frame {
 	}
 
 	private Integer calculateScore(){
+		//strike
+		if(this.getFirstRoll() == 10){
+			//two strikes
+			if(this.getSecondRoll() == 10){
+				return 10 + 10 *2 + this.getThirdRoll();
+			}
+			else{
+				return 10 + this.getSecondRoll() + this.getThirdRoll();
+			}
+		}
+
 		//spare
 		if(this.getFirstRoll() + this.getSecondRoll() == 10 ){
 			return 10 + this.getThirdRoll();
