@@ -21,7 +21,7 @@ public class TenthFrame extends Frame {
 		}
 	}
 
-	public void setPoints(){
+	public void setPoints(Integer nextFirstRoll, Integer nextSecondRoll){
 		if(canRoll()){
 			return;
 		}

@@ -42,44 +42,33 @@ public class BowlingGame{
 		return frames[frameNumber-1];
 	}
 
-	private TenthFrame getTenthFrame(){
-		return (TenthFrame) frames[9];
-	}
-
 	private void setFrameScores(){
     	int frameNumber = 1;
 		for(Frame frame : frames){
 
-			if(frame.canRoll())
-				break;
 			if(frame.getPoints() != null) {
 				frameNumber++;
 				continue;
 			}
 
-			if(frameNumber < 10) {
-				frame.setPoints(
-					getNextRoll(frameNumber),
-					getNextNextRoll(frameNumber));
-			}
-			else{
-
-				//10th frame
-				getTenthFrame().setPoints();
-			}
-
-			frameNumber++;
+			frame.setPoints(
+				getNextRoll(frameNumber),
+				getNextNextRoll(frameNumber));
 
 			if(frame.getPoints() == null)
 				break;
+
+			frameNumber++;
 		}
 	}
 
 	private Integer getNextRoll(int frameNumber){
+    	if(frameNumber == 10) return 0;
     	return getFrame(frameNumber + 1).getFirstRoll();
 	}
 
 	private Integer getNextNextRoll(int frameNumber){
+		if(frameNumber == 10) return 0;
 		if(getNextRoll(frameNumber) != null && getNextRoll(frameNumber) == 10){
 			return getNextRoll(frameNumber + 1);
 		}
