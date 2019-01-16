@@ -68,8 +68,10 @@ public class BowlingGame{
 	}
 
 	private Integer getNextNextRoll(int frameNumber){
-		if(frameNumber == 10) return 0;
-		if(getNextRoll(frameNumber) != null && getNextRoll(frameNumber) == 10){
+		Integer lastRoll = getNextRoll(frameNumber);
+
+    	if(frameNumber == 10) return 0;
+		if(lastRoll != null && lastRoll == 10 && frameNumber != 9){
 			return getNextRoll(frameNumber + 1);
 		}
 		else{

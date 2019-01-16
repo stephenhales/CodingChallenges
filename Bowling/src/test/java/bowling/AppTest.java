@@ -159,4 +159,13 @@ public class AppTest {
 		}
 		assertEquals(300, game.score());
 	}
+
+	@Test
+	public void whenAllStrikes_NinthFrame_IsThirty(){
+		for(int i = 0; i<12; i++) {
+			game.roll(10);
+		}
+		Frame[] frames = game.getFrames();
+		assertEquals(new Integer(30), frames[8].getPoints());
+	}
 }
