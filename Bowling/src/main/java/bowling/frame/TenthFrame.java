@@ -1,12 +1,16 @@
 package bowling.frame;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter
+@Setter
 public class TenthFrame extends Frame {
-
-	@Getter @Setter private Integer thirdRoll;
-	@Getter private Integer points;
+	private Integer firstRoll;
+	private Integer secondRoll;
+	private Integer thirdRoll;
+	@Setter(AccessLevel.NONE) private Integer points;
 
 
 	public void roll(int pinsKnockedDown){
@@ -22,10 +26,9 @@ public class TenthFrame extends Frame {
 	}
 
 	public void setPoints(Integer nextFirstRoll, Integer nextSecondRoll){
-		if(canRoll()){
+		if(canRoll())
 			return;
-		}
-		this.points = calculateScore();
+		this.points = super.calculateScore(this.getSecondRoll(), this.getThirdRoll());
 	}
 
 	public boolean canRoll(){
@@ -42,28 +45,5 @@ public class TenthFrame extends Frame {
 		System.out.println("|   ________|");
 		System.out.printf("|     %s     |\n", total);
 		System.out.println("|___________|");
-	}
-
-	private Integer calculateScore(){
-		//strike
-		if(this.getFirstRoll() == 10){
-			//two strikes
-			if(this.getSecondRoll() == 10){
-				return 10 + 10 *2 + this.getThirdRoll();
-			}
-			else{
-				return 10 + this.getSecondRoll() + this.getThirdRoll();
-			}
-		}
-
-		//spare
-		if(this.getFirstRoll() + this.getSecondRoll() == 10 ){
-			return 10 + this.getThirdRoll();
-		}
-
-		// normal score
-		else{
-			return this.getFirstRoll() + this.getSecondRoll();
-		}
 	}
 }

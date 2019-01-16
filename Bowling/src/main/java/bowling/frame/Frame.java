@@ -26,9 +26,8 @@ public class Frame {
 	}
 
 	public void setPoints(Integer nextFirstRoll, Integer nextSecondRoll){
-		if(canRoll()){
+		if(canRoll())
 			return;
-		}
 		this.points = calculateScore(nextFirstRoll, nextSecondRoll);
 	}
 
@@ -40,22 +39,25 @@ public class Frame {
 		System.out.println("|_______|");
 	}
 
-	private Integer calculateScore(Integer nextFirstRoll, Integer nextSecondRoll){
+	public Integer calculateScore(Integer nextFirstRoll, Integer nextSecondRoll){
 		//strike
-		if(this.getFirstRoll() == 10){
-			if(nextFirstRoll == null || nextSecondRoll == null) return null;
-			return 10 + nextFirstRoll + nextSecondRoll;
-		}
+		if(this.getFirstRoll() == 10)
+			return strike(nextFirstRoll, nextSecondRoll);
 
 		//spare
-		if(this.getFirstRoll() + this.getFirstRoll() == 10 ){
-			if(nextFirstRoll == null) return null;
-			return 10 + nextFirstRoll;
-		}
+		if(this.getFirstRoll() + this.getFirstRoll() == 10 )
+			return spare(nextFirstRoll);
 
 		// normal score
-		else {
-			return this.getFirstRoll() + this.getSecondRoll();
-		}
+		return this.getFirstRoll() + this.getSecondRoll();
 	}
+
+	private Integer strike(Integer nextFirstRoll, Integer nextSecondRoll){
+		return(nextFirstRoll == null || nextSecondRoll == null) ? null : 10 + nextFirstRoll + nextSecondRoll;
+	}
+
+	private Integer spare(Integer nextFirstRoll){
+		return (nextFirstRoll == null) ? null : 10 + nextFirstRoll;
+	}
+
 }
