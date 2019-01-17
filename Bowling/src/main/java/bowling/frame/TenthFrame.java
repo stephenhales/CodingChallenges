@@ -12,7 +12,7 @@ public class TenthFrame extends Frame {
 	private Integer thirdRoll;
 	@Setter(AccessLevel.NONE) private Integer points;
 
-
+	@Override
 	public void roll(int pinsKnockedDown){
 		if(this.getFirstRoll() == null){
 			this.setFirstRoll(pinsKnockedDown);
@@ -25,12 +25,14 @@ public class TenthFrame extends Frame {
 		}
 	}
 
+	@Override
 	public void setPoints(Integer nextFirstRoll, Integer nextSecondRoll){
 		if(canRoll())
 			return;
 		this.points = super.calculateScore(this.getSecondRoll(), this.getThirdRoll());
 	}
 
+	@Override
 	public boolean canRoll(){
 		return (this.getFirstRoll() == null
 			|| this.getSecondRoll() == null
@@ -39,6 +41,7 @@ public class TenthFrame extends Frame {
 					|| this.getFirstRoll() == 10));
 	}
 
+	@Override
 	public void printFrame(int total){
 		System.out.println("________");
 		System.out.printf("| %s | %s | %s |\n", this.getFirstRoll(), this.getSecondRoll(), this.getThirdRoll());

@@ -74,8 +74,6 @@ public class BowlingGame{
 		if(lastRoll != null && lastRoll == 10 && frameNumber != 9){
 			return getNextRoll(frameNumber + 1);
 		}
-		else{
-			return getFrame(frameNumber + 1).getSecondRoll();
-		}
+		return getFrame(frameNumber + 1).getSecondRoll();
 	}
 }

@@ -168,4 +168,73 @@ public class AppTest {
 		Frame[] frames = game.getFrames();
 		assertEquals(new Integer(30), frames[8].getPoints());
 	}
+
+	@Test
+	public void whenAllZeros_TenthFrameIsOnes_IsTwo(){
+		for(int i = 0; i<9; i++) {
+			game.roll(0);
+			game.roll(0);
+		}
+		game.roll(1);
+		game.roll(1);
+		assertEquals(2, game.score());
+	}
+
+	@Test
+	public void whenAllZeros_TenthFrameIsSpareAndFive_IsFifteen(){
+		for(int i = 0; i<9; i++) {
+			game.roll(0);
+			game.roll(0);
+		}
+		game.roll(5);
+		game.roll(5);
+		game.roll(5);
+		assertEquals(15, game.score());
+	}
+
+	@Test
+	public void whenAllZeros_TenthFrameIsStrikes_IsThirty(){
+		for(int i = 0; i<9; i++) {
+			game.roll(0);
+			game.roll(0);
+		}
+		game.roll(10);
+		game.roll(10);
+		game.roll(10);
+		assertEquals(30, game.score());
+	}
+
+
+	@Test
+	public void whenAllZeros_TenthFrameIsStrikeAndSpare_IsTwenty(){
+		for(int i = 0; i<9; i++) {
+			game.roll(0);
+			game.roll(0);
+		}
+		game.roll(10);
+		game.roll(5);
+		game.roll(5);
+		assertEquals(20, game.score());
+	}
+
+	@Test
+	public void whenAllZeros_NinthFrameIsStrike_TenthFrameIsStrikes_IsSixty(){
+		for(int i = 0; i<8; i++) {
+			game.roll(0);
+			game.roll(0);
+		}
+		//Ninth
+		game.roll(10);
+		//Tenth
+		game.roll(10);
+		game.roll(10);
+		game.roll(10);
+		assertEquals(60, game.score());
+	}
+
+	//Test tenth frame logic.
+	//all zeros except 10th frame.
+	//normal bowl
+	//strike
+	//spare
 }
