@@ -31,14 +31,6 @@ public class Frame {
 		this.points = calculateScore(nextFirstRoll, nextSecondRoll);
 	}
 
-	public void printFrame(int total){
-		System.out.println("________");
-		System.out.printf("| %s | %s |\n", this.getFirstRoll(), this.getSecondRoll());
-		System.out.println("|   ____|");
-		System.out.printf("|   %s   |\n", total);
-		System.out.println("|_______|");
-	}
-
 	public Integer calculateScore(Integer nextFirstRoll, Integer nextSecondRoll){
 		//strike
 		if(this.getFirstRoll() == 10)
@@ -50,6 +42,14 @@ public class Frame {
 
 		// normal score
 		return this.getFirstRoll() + this.getSecondRoll();
+	}
+
+	public void printFrame(int total){
+		System.out.println("________");
+		System.out.printf("| %s | %s |\n", this.getFirstRoll(), this.getSecondRoll());
+		System.out.println("|   ____|");
+		System.out.printf("|   %s   |\n", total);
+		System.out.println("|_______|");
 	}
 
 	private Integer strike(Integer nextFirstRoll, Integer nextSecondRoll){
