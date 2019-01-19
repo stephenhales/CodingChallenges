@@ -1,15 +1,26 @@
 package bowling;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 
 import bowling.frame.Frame;
 import bowling.player.Player;
+import org.junit.runners.MethodSorters;
 
 import static org.junit.Assert.assertEquals;
 
+//TODO ideally you want tests for each class in your project, that focuses only on the methods in that class.
+//Currently you are using the player as the driving force of your project.
+
+//TODO Fancy
+//Whenever I get a good deal of tests, I like to add this to the class.
+//It will run the tests in the order specified (in this case, alpha order ascending).
+//Junit defaults to randomly running your tests, to ensure you don't build dependencies across tests (a no-no)
+//But the main advantage is that it puts your test results window in alpha-ordering.
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PlayerTest {
 
-    Player player = new Player();
+    Player player = new Player(); //TODO can be private.
 
     @Test
     public void bowlZeros(){
@@ -35,7 +46,12 @@ public class PlayerTest {
         assertEquals(80, player.score());
     }
 
-    @Test
+    //TODO Folding baby
+	//If you use Intellij, I am a big fan of using editor folds to keep my code clean
+	// ctrl-alt-t for windows
+
+	//<editor-fold desc="Spare Tests">
+	@Test
     public void bowlOneSpare(){
         player.roll(5);
         player.roll(5);
@@ -46,28 +62,30 @@ public class PlayerTest {
         assertEquals(16, player.score());
     }
 
-    @Test
-    public void bowlAllSpares(){
+	@Test
+	public void bowlAllSpares(){
 
-        for(int i = 0; i<10; i++){
-            player.roll(5);
-            player.roll(5);
-        }
-        player.roll(5);
-        assertEquals(150, player.score());
-    }
+		for(int i = 0; i<10; i++){
+			player.roll(5);
+			player.roll(5);
+		}
+		player.roll(5);
+		assertEquals(150, player.score());
+	}
+    //</editor-fold>
 
-    @Test
-    public void whenStrike_SecondRollIsNull(){
+	//<editor-fold desc="Strike Tests">
+	@Test
+	public void whenStrike_SecondRollIsNull(){
 
-        player.roll(10);
-        for(int i = 0; i<9; i++){
-            player.roll(0);
-            player.roll(0);
-        }
-        Frame[] frames = player.getFrames();
-        assertEquals(null, frames[0].getSecondRoll());
-    }
+		player.roll(10);
+		for(int i = 0; i<9; i++){
+			player.roll(0);
+			player.roll(0);
+		}
+		Frame[] frames = player.getFrames();
+		assertEquals(null, frames[0].getSecondRoll());
+	}
 
     @Test
     public void whenStrike_NextFrameIsAdded(){
@@ -110,7 +128,12 @@ public class PlayerTest {
 		}
 		assertEquals(60, player.score());
 	}
+	//</editor-fold>
 
+	//TODO test name syntax
+	//I am a big fan of methodName_should_expectedBehavior_whenCondition()
+	//The method name serves to group your tests, but also highlights which class and method you are focused on testing.
+	//Looking at this method, am I testing the roll method, the getFrames method, or the getPoints method?
 	@Test
 	public void whenBowlOnes_FirstFrameScore_IsTwo(){
 
@@ -181,8 +204,18 @@ public class PlayerTest {
 		assertEquals(2, player.score());
 	}
 
+	//TODO Triple A
+	//You can add a lot of clarity to tests by following the AAA rule.
+	//This will help focus you while writing tests, and applies a clear standard that makes it easier for your readers
+	//to digest your tests.
 	@Test
 	public void whenAllZeros_TenthFrameIsSpareAndFive_IsFifteen(){
+    	arrangeSpareInLastFrame();
+    	int result = player.score(); //act. Sometimes having the invocation of the method/class under test (mut/cut) in its own line makes it easier to read. But you could inline it with the assert.
+		assertEquals(15, result);//assert
+	}
+
+	private void arrangeSpareInLastFrame(){ //I sometimes like to use "setup" instead of arrange.
 		for(int i = 0; i<9; i++) {
 			player.roll(0);
 			player.roll(0);
@@ -190,7 +223,6 @@ public class PlayerTest {
 		player.roll(5);
 		player.roll(5);
 		player.roll(5);
-		assertEquals(15, player.score());
 	}
 
 	@Test
