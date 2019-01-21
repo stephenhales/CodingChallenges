@@ -1,5 +1,6 @@
 package bowling.frame;
 
+import bowling.common.Keys;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,22 +34,19 @@ public class TenthFrame extends Frame {
 	private int thirdRoll;
 	@Setter(AccessLevel.NONE) private int points;
 
-	private int notRolled = -1;
-	private int notComplete = -1;
-
 	public TenthFrame(){
-		this.setFirstRoll(notRolled);
-		this.setSecondRoll(notRolled);
-		this.setThirdRoll(notRolled);
-		this.points = notComplete;
+		this.setFirstRoll(Keys.notRolled);
+		this.setSecondRoll(Keys.notRolled);
+		this.setThirdRoll(Keys.notRolled);
+		this.points = Keys.notCalculated;
 	}
 
 	@Override
 	public void roll(int pinsKnockedDown){
-		if(this.getFirstRoll() == notRolled){
+		if(this.getFirstRoll() == Keys.notRolled){
 			this.setFirstRoll(pinsKnockedDown);
 		}
-		else if (this.getSecondRoll() == notRolled) {
+		else if (this.getSecondRoll() == Keys.notRolled) {
 			this.setSecondRoll(pinsKnockedDown);
 		}
 		else {
@@ -73,9 +71,9 @@ public class TenthFrame extends Frame {
 	//Try writing these in an expressive way by extracting some methods.
 	@Override
 	public boolean canRoll(){
-		return (this.getFirstRoll() == notRolled
-			|| this.getSecondRoll() == notRolled
-			|| this.getThirdRoll() == notRolled
+		return (this.getFirstRoll() == Keys.notRolled
+			|| this.getSecondRoll() == Keys.notRolled
+			|| this.getThirdRoll() == Keys.notRolled
 				&& (this.getFirstRoll() + this.getSecondRoll() == 10
 					|| this.getFirstRoll() == 10));
 	}

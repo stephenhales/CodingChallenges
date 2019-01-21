@@ -1,5 +1,6 @@
 package bowling;
 
+import bowling.common.Keys;
 import bowling.frame.Frame;
 import bowling.frame.TenthFrame;
 
@@ -26,11 +27,8 @@ import bowling.frame.TenthFrame;
 public class BowlingGame{
 
 	private int currentFrameNumber = 1;
+	private int noNextRoll = 0;
 
-	//TODO remove to Util class
-	private final int noNextRoll = 0;
-	private int notRolled = -1;
-	private int notComplete = -1;
 
 	private Frame[] frames = new Frame[]{
 		new Frame(), new Frame(), new Frame(),
@@ -49,7 +47,7 @@ public class BowlingGame{
 	public int score(){
 		int score = 0;
 		for(Frame frame : frames){
-			score += (frame.getPoints() != notComplete ? frame.getPoints() : 0 );
+			score += (frame.getPoints() != Keys.notCalculated ? frame.getPoints() : 0 );
 			frame.printFrame(score);
 		}
 		return score;
@@ -80,46 +78,43 @@ public class BowlingGame{
 	}
 
 	private void setFrameScores(){
-		int frameNumber = 1;
-		for(Frame frame : frames){
+		int frameNumber = currentFrameNumber;
+		Frame frame = getFrame(frameNumber);
 
-			if(frame.getPoints() != notComplete) {
-				frameNumber++;
-				continue;
-			}
-
+		while(frame.getPoints() == Keys.notCalculated && isValidFrameNumber(frameNumber)){
 			frame.setPoints(
 				getNextRoll(frameNumber),
 				getNextNextRoll(frameNumber));
-
-			if(frame.getPoints() == notComplete)
-				break;
-
-			frameNumber++;
+			frame = getFrame(--frameNumber);
 		}
 	}
 
-	private Integer getNextRoll(int frameNumber){
-		if(isTenthFrame(frameNumber)) return noNextRoll;
-		return getNextFrame(frameNumber).getFirstRoll();
+	private int getNextRoll(int currentFrame){
+		if(isTenthFrame(currentFrame)) return noNextRoll;
+		return getNextFrame(currentFrame).getFirstRoll();
 	}
 
-	private Integer getNextNextRoll(int frameNumber){
-		Integer lastRoll = getNextRoll(frameNumber);
-
-		if(isTenthFrame(frameNumber)) return noNextRoll;
-		//TODO Magic numbers
-		if(lastRoll != notRolled && lastRoll == 10 && frameNumber != 9){
-			return getNextRoll(frameNumber + 1);
+	private int getNextNextRoll(int currentFrame){
+		if(isTenthFrame(currentFrame)) return noNextRoll;
+		if(isStrike(getNextRoll(currentFrame)) && !isNinthFrame(currentFrame)){
+			return getNextRoll(currentFrame + 1);
 		}
-		return getNextFrame(frameNumber).getSecondRoll();
+		return getNextFrame(currentFrame).getSecondRoll();
 	}
 
 	private boolean isTenthFrame(int frameNumber){
 		return frameNumber == 10;
 	}
 
+	private boolean isNinthFrame(int frameNumber){
+		return frameNumber == 9;
+	}
+
 	private boolean isValidFrameNumber(int frameNumber){
-		return frameNumber < 11;
+		return 0 < frameNumber && frameNumber < 11;
+	}
+
+	private boolean isStrike(int lastRoll){
+		return lastRoll == 10;
 	}
 }

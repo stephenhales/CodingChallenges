@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import org.junit.runners.MethodSorters;
 
+import bowling.common.Keys;
+
 import static org.junit.Assert.assertEquals;
 
 //TODO ideally you want tests for each class in your project, that focuses only on the methods in that class.
@@ -15,8 +17,6 @@ public class BowlingGameTest {
 
 	// https://www.bowlinggenius.com/
     private BowlingGame game = new BowlingGame();
-
-	private int notRolled = -1;
 
 
 	//TODO test name syntax
@@ -96,7 +96,7 @@ public class BowlingGameTest {
 		}
 
 		Integer result = game.getFrames()[0].getSecondRoll();
-		assertEquals((Integer)notRolled, result);
+		assertEquals((Integer)Keys.notRolled, result);
 	}
 
     @Test

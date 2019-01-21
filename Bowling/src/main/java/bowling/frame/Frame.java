@@ -1,5 +1,6 @@
 package bowling.frame;
 
+import bowling.common.Keys;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,17 +19,14 @@ public class Frame {
 	private int secondRoll;
 	@Setter(AccessLevel.NONE) private int points;
 
-	private int notRolled = -1;
-	private int notComplete = -1;
-
 	public Frame(){
-		this.setFirstRoll(notRolled);
-		this.setSecondRoll(notRolled);
-		this.points = notComplete;
+		this.setFirstRoll(Keys.notRolled);
+		this.setSecondRoll(Keys.notRolled);
+		this.points = Keys.notCalculated;
 	}
 
 	public void roll(int pinsKnockedDown){
-		if(this.getFirstRoll() == notRolled){
+		if(this.getFirstRoll() == Keys.notRolled){
 			this.setFirstRoll(pinsKnockedDown);
 		}
 		else {
@@ -37,8 +35,8 @@ public class Frame {
 	}
 
 	public boolean canRoll(){
-		return (this.getFirstRoll() == notRolled
-			|| this.getFirstRoll() != 10 && this.getSecondRoll() == notRolled);
+		return (this.getFirstRoll() == Keys.notRolled
+			|| this.getFirstRoll() != 10 && this.getSecondRoll() == Keys.notRolled);
 	}
 
 	public void setPoints(int nextFirstRoll, int nextSecondRoll){
@@ -70,11 +68,11 @@ public class Frame {
 	}
 
 	private int strike(int nextFirstRoll, int nextSecondRoll){
-		return(nextFirstRoll == notRolled || nextSecondRoll == notRolled) ? notComplete : 10 + nextFirstRoll + nextSecondRoll;
+		return(nextFirstRoll == Keys.notRolled || nextSecondRoll == Keys.notRolled) ? Keys.notCalculated : 10 + nextFirstRoll + nextSecondRoll;
 	}
 
 	private int spare(int nextFirstRoll){
-		return (nextFirstRoll == notRolled) ? notComplete : 10 + nextFirstRoll;
+		return (nextFirstRoll == Keys.notRolled) ? Keys.notCalculated : 10 + nextFirstRoll;
 	}
 
 }
