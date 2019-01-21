@@ -25,9 +25,12 @@ import bowling.frame.TenthFrame;
 //and only run validation at those locations (do null checks at the edges, so that your internal code doesn't have to; plus this allows you to fail fast, and provide feedback earlier).
 public class BowlingGame{
 
-	private final int noNextRoll = 0;
 	private int currentFrameNumber = 1;
+
+	//TODO remove to Util class
+	private final int noNextRoll = 0;
 	private int notRolled = -1;
+	private int notComplete = -1;
 
 	private Frame[] frames = new Frame[]{
 		new Frame(), new Frame(), new Frame(),
@@ -46,7 +49,7 @@ public class BowlingGame{
 	public int score(){
 		int score = 0;
 		for(Frame frame : frames){
-			score += (frame.getPoints() != null ? frame.getPoints() : 0 );
+			score += (frame.getPoints() != notComplete ? frame.getPoints() : 0 );
 			frame.printFrame(score);
 		}
 		return score;
@@ -80,7 +83,7 @@ public class BowlingGame{
 		int frameNumber = 1;
 		for(Frame frame : frames){
 
-			if(frame.getPoints() != null) {
+			if(frame.getPoints() != notComplete) {
 				frameNumber++;
 				continue;
 			}
@@ -89,7 +92,7 @@ public class BowlingGame{
 				getNextRoll(frameNumber),
 				getNextNextRoll(frameNumber));
 
-			if(frame.getPoints() == null)
+			if(frame.getPoints() == notComplete)
 				break;
 
 			frameNumber++;

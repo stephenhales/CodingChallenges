@@ -31,14 +31,16 @@ public class TenthFrame extends Frame {
 	private int firstRoll;
 	private int secondRoll;
 	private int thirdRoll;
-	@Setter(AccessLevel.NONE) private Integer points;
+	@Setter(AccessLevel.NONE) private int points;
 
 	private int notRolled = -1;
+	private int notComplete = -1;
 
 	public TenthFrame(){
 		this.setFirstRoll(notRolled);
 		this.setSecondRoll(notRolled);
 		this.setThirdRoll(notRolled);
+		this.points = notComplete;
 	}
 
 	@Override
@@ -55,7 +57,7 @@ public class TenthFrame extends Frame {
 	}
 
 	@Override
-	public void setPoints(Integer nextFirstRoll, Integer nextSecondRoll){
+	public void setPoints(int nextFirstRoll, int nextSecondRoll){
 		if(canRoll())
 			return;
 		this.points = super.calculateScore(this.getSecondRoll(), this.getThirdRoll());

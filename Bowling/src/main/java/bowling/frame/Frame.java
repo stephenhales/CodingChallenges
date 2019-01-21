@@ -16,13 +16,15 @@ public class Frame {
 
 	private int firstRoll;
 	private int secondRoll;
-	@Setter(AccessLevel.NONE) private Integer points;
+	@Setter(AccessLevel.NONE) private int points;
 
 	private int notRolled = -1;
+	private int notComplete = -1;
 
 	public Frame(){
 		this.setFirstRoll(notRolled);
 		this.setSecondRoll(notRolled);
+		this.points = notComplete;
 	}
 
 	public void roll(int pinsKnockedDown){
@@ -39,13 +41,13 @@ public class Frame {
 			|| this.getFirstRoll() != 10 && this.getSecondRoll() == notRolled);
 	}
 
-	public void setPoints(Integer nextFirstRoll, Integer nextSecondRoll){
+	public void setPoints(int nextFirstRoll, int nextSecondRoll){
 		if(canRoll())
 			return;
 		this.points = calculateScore(nextFirstRoll, nextSecondRoll);
 	}
 
-	public Integer calculateScore(Integer nextFirstRoll, Integer nextSecondRoll){
+	public int calculateScore(int nextFirstRoll, int nextSecondRoll){
 
 		//strike
 		if(this.getFirstRoll() == 10) //TODO Express yourself. This line might read aloud "if roll is strike"
@@ -67,12 +69,12 @@ public class Frame {
 		System.out.println("|_______|");
 	}
 
-	private Integer strike(Integer nextFirstRoll, Integer nextSecondRoll){
-		return(nextFirstRoll == notRolled || nextSecondRoll == notRolled) ? null : 10 + nextFirstRoll + nextSecondRoll;
+	private int strike(int nextFirstRoll, int nextSecondRoll){
+		return(nextFirstRoll == notRolled || nextSecondRoll == notRolled) ? notComplete : 10 + nextFirstRoll + nextSecondRoll;
 	}
 
-	private Integer spare(Integer nextFirstRoll){
-		return (nextFirstRoll == notRolled) ? null : 10 + nextFirstRoll;
+	private int spare(int nextFirstRoll){
+		return (nextFirstRoll == notRolled) ? notComplete : 10 + nextFirstRoll;
 	}
 
 }
