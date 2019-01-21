@@ -28,17 +28,25 @@ public class TenthFrame extends Frame {
 	// Could be refactored to:
 	// private Address billing;
 	// private Address shipping;
-	private Integer firstRoll;
-	private Integer secondRoll;
-	private Integer thirdRoll;
+	private int firstRoll;
+	private int secondRoll;
+	private int thirdRoll;
 	@Setter(AccessLevel.NONE) private Integer points;
+
+	private int notRolled = -1;
+
+	public TenthFrame(){
+		this.setFirstRoll(notRolled);
+		this.setSecondRoll(notRolled);
+		this.setThirdRoll(notRolled);
+	}
 
 	@Override
 	public void roll(int pinsKnockedDown){
-		if(this.getFirstRoll() == null){
+		if(this.getFirstRoll() == notRolled){
 			this.setFirstRoll(pinsKnockedDown);
 		}
-		else if (this.getSecondRoll() == null) {
+		else if (this.getSecondRoll() == notRolled) {
 			this.setSecondRoll(pinsKnockedDown);
 		}
 		else {
@@ -63,9 +71,9 @@ public class TenthFrame extends Frame {
 	//Try writing these in an expressive way by extracting some methods.
 	@Override
 	public boolean canRoll(){
-		return (this.getFirstRoll() == null
-			|| this.getSecondRoll() == null
-			|| this.getThirdRoll() == null
+		return (this.getFirstRoll() == notRolled
+			|| this.getSecondRoll() == notRolled
+			|| this.getThirdRoll() == notRolled
 				&& (this.getFirstRoll() + this.getSecondRoll() == 10
 					|| this.getFirstRoll() == 10));
 	}

@@ -7,10 +7,27 @@ import bowling.frame.TenthFrame;
 //A game can be a container for all the moving pieces, in this case the Players and the Frames.
 //It is strange to me that Frames don't believe to the game.
 //Similarly, players should not need to know or care about the rules for scoring, the Game should keep track of that for them.
+
+//TODO Defensive programming
+//It is important in java to make sure you program defensively, i.e. prevent bugs such as NullPointerException.
+//Unfortunately, that can clutter your code and make things more difficult to read.
+//Therefore, if possible, it is better to avoid writing null checks. If you see yourself doing it, ask yourself:
+//1. Is null invalid in my design, or built into my domain? For example, is a null String distinct from an
+//empty String because I need to determine whether the user intentionally gave me nothing or accidentally gave
+//me nothing.
+//Whenever possible design your system to treat null as invalid. For example, you could pass a specific String value
+//such as -1 to indicate the user forgetting to provide a value.
+//2. Can I guarantee that I have what I need when I get to this code? If possible, you should design your
+//system (and get a working agreement with your team) such that if you ask for something as an input, you are
+//guaranteed to have it provided. Instead of designing a method with two arguments, one of which is optional,
+//instead write two methods (one with two arguments, and one with only the single required argument). This way
+//callers never pass you a null. Similarly, identify the boundaries of your system (i.e. database layer or http layer),
+//and only run validation at those locations (do null checks at the edges, so that your internal code doesn't have to; plus this allows you to fail fast, and provide feedback earlier).
 public class BowlingGame{
 
 	private final int noNextRoll = 0;
 	private int currentFrameNumber = 1;
+	private int notRolled = -1;
 
 	private Frame[] frames = new Frame[]{
 		new Frame(), new Frame(), new Frame(),
@@ -88,23 +105,8 @@ public class BowlingGame{
 		Integer lastRoll = getNextRoll(frameNumber);
 
 		if(isTenthFrame(frameNumber)) return noNextRoll;
-		//TODO Defensive programming
-		//It is important in java to make sure you program defensively, i.e. prevent bugs such as NullPointerException.
-		//Unfortunately, that can clutter your code and make things more difficult to read.
-		//Therefore, if possible, it is better to avoid writing null checks. If you see yourself doing it, ask yourself:
-		//1. Is null invalid in my design, or built into my domain? For example, is a null String distinct from an
-		//empty String because I need to determine whether the user intentionally gave me nothing or accidentally gave
-		//me nothing.
-		//Whenever possible design your system to treat null as invalid. For example, you could pass a specific String value
-		//such as -1 to indicate the user forgetting to provide a value.
-		//2. Can I guarantee that I have what I need when I get to this code? If possible, you should design your
-		//system (and get a working agreement with your team) such that if you ask for something as an input, you are
-		//guaranteed to have it provided. Instead of designing a method with two arguments, one of which is optional,
-		//instead write two methods (one with two arguments, and one with only the single required argument). This way
-		//callers never pass you a null. Similarly, identify the boundaries of your system (i.e. database layer or http layer),
-		//and only run validation at those locations (do null checks at the edges, so that your internal code doesn't have to; plus this allows you to fail fast, and provide feedback earlier).
 		//TODO Magic numbers
-		if(lastRoll != null && lastRoll == 10 && frameNumber != 9){
+		if(lastRoll != notRolled && lastRoll == 10 && frameNumber != 9){
 			return getNextRoll(frameNumber + 1);
 		}
 		return getNextFrame(frameNumber).getSecondRoll();

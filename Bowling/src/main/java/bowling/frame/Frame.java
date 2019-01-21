@@ -14,12 +14,19 @@ import lombok.Setter;
 @Setter
 public class Frame {
 
-	private Integer firstRoll;
-	private Integer secondRoll;
+	private int firstRoll;
+	private int secondRoll;
 	@Setter(AccessLevel.NONE) private Integer points;
 
+	private int notRolled = -1;
+
+	public Frame(){
+		this.setFirstRoll(notRolled);
+		this.setSecondRoll(notRolled);
+	}
+
 	public void roll(int pinsKnockedDown){
-		if(this.getFirstRoll() == null){
+		if(this.getFirstRoll() == notRolled){
 			this.setFirstRoll(pinsKnockedDown);
 		}
 		else {
@@ -28,8 +35,8 @@ public class Frame {
 	}
 
 	public boolean canRoll(){
-		return (this.getFirstRoll() == null
-			|| this.getFirstRoll() != 10 && this.getSecondRoll() == null);
+		return (this.getFirstRoll() == notRolled
+			|| this.getFirstRoll() != 10 && this.getSecondRoll() == notRolled);
 	}
 
 	public void setPoints(Integer nextFirstRoll, Integer nextSecondRoll){
@@ -61,11 +68,11 @@ public class Frame {
 	}
 
 	private Integer strike(Integer nextFirstRoll, Integer nextSecondRoll){
-		return(nextFirstRoll == null || nextSecondRoll == null) ? null : 10 + nextFirstRoll + nextSecondRoll;
+		return(nextFirstRoll == notRolled || nextSecondRoll == notRolled) ? null : 10 + nextFirstRoll + nextSecondRoll;
 	}
 
 	private Integer spare(Integer nextFirstRoll){
-		return (nextFirstRoll == null) ? null : 10 + nextFirstRoll;
+		return (nextFirstRoll == notRolled) ? null : 10 + nextFirstRoll;
 	}
 
 }

@@ -16,6 +16,8 @@ public class BowlingGameTest {
 	// https://www.bowlinggenius.com/
     private BowlingGame game = new BowlingGame();
 
+	private int notRolled = -1;
+
 
 	//TODO test name syntax
 	//I am a big fan of methodName_should_expectedBehavior_whenCondition()
@@ -94,7 +96,7 @@ public class BowlingGameTest {
 		}
 
 		Integer result = game.getFrames()[0].getSecondRoll();
-		assertEquals(null, result);
+		assertEquals((Integer)notRolled, result);
 	}
 
     @Test
