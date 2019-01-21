@@ -1,13 +1,7 @@
 package bowling;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-
-import bowling.frame.Frame;
-import bowling.player.Player;
 
 import org.junit.runners.MethodSorters;
 
@@ -16,22 +10,25 @@ import static org.junit.Assert.assertEquals;
 //TODO ideally you want tests for each class in your project, that focuses only on the methods in that class.
 //Currently you are using the game as the driving force of your project.
 
-//TODO Fancy
-//Whenever I get a good deal of tests, I like to add this to the class.
-//It will run the tests in the order specified (in this case, alpha order ascending).
-//Junit defaults to randomly running your tests, to ensure you don't build dependencies across tests (a no-no)
-//But the main advantage is that it puts your test results window in alpha-ordering.
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BowlingGameTest {
 
-    BowlingGame game = new BowlingGame(); //TODO can be private.
+	// https://www.bowlinggenius.com/
+    private BowlingGame game = new BowlingGame();
 
+
+	//TODO test name syntax
+	//I am a big fan of methodName_should_expectedBehavior_whenCondition()
+	//The method name serves to group your tests, but also highlights which class and method you are focused on testing.
+	//Looking at this method, am I testing the roll method, the getFrames method, or the getPoints method?
     @Test
     public void bowlZeros(){
         for(int i = 0; i<20; i++){
             game.roll(0);
         }
-        assertEquals(0, game.score());
+
+	    int result = game.score();
+        assertEquals(0, result);
     }
 
     @Test
@@ -39,7 +36,9 @@ public class BowlingGameTest {
         for(int i = 0; i<20; i++){
             game.roll(1);
         }
-        assertEquals(20, game.score());
+
+	    int result = game.score();
+        assertEquals(20, result);
     }
 
     @Test
@@ -47,7 +46,9 @@ public class BowlingGameTest {
         for(int i = 0; i<20; i++){
             game.roll(4);
         }
-        assertEquals(80, game.score());
+
+	    int result = game.score();
+        assertEquals(80, result);
     }
 
     //TODO Folding baby
@@ -63,7 +64,9 @@ public class BowlingGameTest {
         for(int i = 0; i<17; i++){
             game.roll(0);
         }
-        assertEquals(16, game.score());
+
+		int result = game.score();
+        assertEquals(16, result);
     }
 
 	@Test
@@ -74,7 +77,9 @@ public class BowlingGameTest {
 			game.roll(5);
 		}
 		game.roll(5);
-		assertEquals(150, game.score());
+
+		int result = game.score();
+		assertEquals(150, result);
 	}
     //</editor-fold>
 
@@ -87,8 +92,9 @@ public class BowlingGameTest {
 			game.roll(0);
 			game.roll(0);
 		}
-		Frame[] frames = game.getFrames();
-		assertEquals(null, frames[0].getSecondRoll());
+
+		Integer result = game.getFrames()[0].getSecondRoll();
+		assertEquals(null, result);
 	}
 
     @Test
@@ -101,10 +107,10 @@ public class BowlingGameTest {
             game.roll(0);
             game.roll(0);
         }
-        assertEquals(18, game.score());
-    }
 
-    // https://www.bowlinggenius.com/
+	    int result = game.score();
+        assertEquals(18, result);
+    }
 
     @Test
     public void whenTwoStrikesAndTwoPins_FirstFrame_AccountsForNextNextRoll(){
@@ -117,7 +123,9 @@ public class BowlingGameTest {
             game.roll(0);
             game.roll(0);
         }
-        assertEquals(36, game.score());
+
+	    int result = game.score();
+        assertEquals(36, result);
     }
 
 	@Test
@@ -130,22 +138,19 @@ public class BowlingGameTest {
 			game.roll(0);
 			game.roll(0);
 		}
-		assertEquals(60, game.score());
+		int result = game.score();
+		assertEquals(60, result);
 	}
 	//</editor-fold>
 
-	//TODO test name syntax
-	//I am a big fan of methodName_should_expectedBehavior_whenCondition()
-	//The method name serves to group your tests, but also highlights which class and method you are focused on testing.
-	//Looking at this method, am I testing the roll method, the getFrames method, or the getPoints method?
 	@Test
 	public void whenBowlOnes_FirstFrameScore_IsTwo(){
 
 		game.roll(1);
 		game.roll(1);
 
-		Frame[] frames = game.getFrames();
-		assertEquals(new Integer(2), frames[0].getPoints());
+		Integer result = game.getFrames()[0].getPoints();
+		assertEquals(new Integer(2), result);
 	}
 
 	@Test
@@ -155,8 +160,8 @@ public class BowlingGameTest {
 		game.roll(10);
 		game.roll(10);
 
-		Frame[] frames = game.getFrames();
-		assertEquals(new Integer(30), frames[0].getPoints());
+		Integer result = game.getFrames()[0].getPoints();
+		assertEquals(new Integer(30), result);
 	}
 
 	@Test
@@ -167,8 +172,8 @@ public class BowlingGameTest {
 		game.roll(2);
 		game.roll(0);
 
-		Frame[] frames = game.getFrames();
-		assertEquals(new Integer(22), frames[0].getPoints());
+		Integer result = game.getFrames()[0].getPoints();
+		assertEquals(new Integer(22), result);
 	}
 
 	@Test
@@ -177,7 +182,8 @@ public class BowlingGameTest {
 		game.roll(1);
 		game.roll(1);
 
-		assertEquals(2, game.score());
+		int result = game.score();
+		assertEquals(2, result);
 	}
 
 	@Test
@@ -185,7 +191,9 @@ public class BowlingGameTest {
 		for(int i = 0; i<12; i++) {
 			game.roll(10);
 		}
-		assertEquals(300, game.score());
+
+		int result = game.score();
+		assertEquals(300, result);
 	}
 
 	@Test
@@ -193,8 +201,9 @@ public class BowlingGameTest {
 		for(int i = 0; i<12; i++) {
 			game.roll(10);
 		}
-		Frame[] frames = game.getFrames();
-		assertEquals(new Integer(30), frames[8].getPoints());
+
+		Integer result = game.getFrames()[8].getPoints();
+		assertEquals(new Integer(30), result);
 	}
 
 	@Test
@@ -205,21 +214,13 @@ public class BowlingGameTest {
 		}
 		game.roll(1);
 		game.roll(1);
-		assertEquals(2, game.score());
+
+		int result = game.score();
+		assertEquals(2, result);
 	}
 
-	//TODO Triple A
-	//You can add a lot of clarity to tests by following the AAA rule.
-	//This will help focus you while writing tests, and applies a clear standard that makes it easier for your readers
-	//to digest your tests.
 	@Test
 	public void whenAllZeros_TenthFrameIsSpareAndFive_IsFifteen(){
-    	arrangeSpareInLastFrame();
-    	int result = game.score(); //act. Sometimes having the invocation of the method/class under test (mut/cut) in its own line makes it easier to read. But you could inline it with the assert.
-		assertEquals(15, result);//assert
-	}
-
-	private void arrangeSpareInLastFrame(){ //I sometimes like to use "setup" instead of arrange.
 		for(int i = 0; i<9; i++) {
 			game.roll(0);
 			game.roll(0);
@@ -227,6 +228,9 @@ public class BowlingGameTest {
 		game.roll(5);
 		game.roll(5);
 		game.roll(5);
+
+    	int result = game.score();
+		assertEquals(15, result);
 	}
 
 	@Test
@@ -238,7 +242,9 @@ public class BowlingGameTest {
 		game.roll(10);
 		game.roll(10);
 		game.roll(10);
-		assertEquals(30, game.score());
+
+		int result = game.score();
+		assertEquals(30, result);
 	}
 
 
@@ -251,7 +257,10 @@ public class BowlingGameTest {
 		game.roll(10);
 		game.roll(5);
 		game.roll(5);
-		assertEquals(20, game.score());
+
+
+		int result = game.score();
+		assertEquals(20, result);
 	}
 
 	@Test
@@ -266,7 +275,10 @@ public class BowlingGameTest {
 		game.roll(10);
 		game.roll(10);
 		game.roll(10);
-		assertEquals(60, game.score());
+
+
+		int result = game.score();
+		assertEquals(60, result);
 	}
 	
 }

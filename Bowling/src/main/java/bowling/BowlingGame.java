@@ -10,6 +10,7 @@ import bowling.frame.TenthFrame;
 public class BowlingGame{
 
 	private final int noNextRoll = 0;
+	private int currentFrameNumber = 1;
 
 	private Frame[] frames = new Frame[]{
 		new Frame(), new Frame(), new Frame(),
@@ -43,19 +44,19 @@ public class BowlingGame{
 		return frames;
 	}
 
-	//TODO Bookmark
-	//The Game should know all the Frames that will exist, and more importantly, which Frame we are currently in.
-	//We don't want to have to run through every Frame to remember which one we are currently in.
 	private Frame getNextOpenFrame(){
-		for(Frame frame : frames){
-			if(frame.canRoll())
-				return frame;
-		}
-		return new Frame();
+		return getFrame(currentFrameNumber).canRoll() ?
+			getFrame(currentFrameNumber) :
+			getFrame(++currentFrameNumber);
 	}
 
 	private Frame getFrame(int frameNumber){
+		if(!isValidFrameNumber(frameNumber)) return new Frame();
 		return frames[frameNumber-1];
+	}
+
+	private Frame getNextFrame(int frameNumber){
+		return getFrame(frameNumber + 1);
 	}
 
 	private void setFrameScores(){
@@ -85,10 +86,7 @@ public class BowlingGame{
 
 	private Integer getNextNextRoll(int frameNumber){
 		Integer lastRoll = getNextRoll(frameNumber);
-		//TODO Magic numbers
-		//Are these the same conceptual objects as the numbers above? Is this 10 the same as that 10?
-		//Or is one 10 apples and the other 10 oranges?
-		//How much code do I have to read to find that out?
+
 		if(isTenthFrame(frameNumber)) return noNextRoll;
 		//TODO Defensive programming
 		//It is important in java to make sure you program defensively, i.e. prevent bugs such as NullPointerException.
@@ -105,6 +103,7 @@ public class BowlingGame{
 		//instead write two methods (one with two arguments, and one with only the single required argument). This way
 		//callers never pass you a null. Similarly, identify the boundaries of your system (i.e. database layer or http layer),
 		//and only run validation at those locations (do null checks at the edges, so that your internal code doesn't have to; plus this allows you to fail fast, and provide feedback earlier).
+		//TODO Magic numbers
 		if(lastRoll != null && lastRoll == 10 && frameNumber != 9){
 			return getNextRoll(frameNumber + 1);
 		}
@@ -115,7 +114,7 @@ public class BowlingGame{
 		return frameNumber == 10;
 	}
 
-	private Frame getNextFrame(int frameNumber){
-		return getFrame(frameNumber + 1);
+	private boolean isValidFrameNumber(int frameNumber){
+		return frameNumber < 11;
 	}
 }
