@@ -4,9 +4,16 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
+//TODO What does this do?
+//I like the idea of extracting out a class to contain the rolls. Feels cleaner than using a list, array, or map.
+//Whenever you extract a class, you should strive for the Single-Responsibility Principle.
+//What does this class do? Can you write it in a sentence?
+//If you find yourself writing a paragraph, how could you break up the duties of this class into other classes?
+//Sometimes it helps to group your fields and your methods; if you feel you can make distinct groups, consider extracting.
 @Getter
 @Setter
 public class Frame {
+
 	private Integer firstRoll;
 	private Integer secondRoll;
 	@Setter(AccessLevel.NONE) private Integer points;
@@ -32,9 +39,10 @@ public class Frame {
 	}
 
 	public Integer calculateScore(Integer nextFirstRoll, Integer nextSecondRoll){
+
 		//strike
-		if(this.getFirstRoll() == 10)
-			return strike(nextFirstRoll, nextSecondRoll);
+		if(this.getFirstRoll() == 10) //TODO Express yourself. This line might read aloud "if roll is strike"
+			return strike(nextFirstRoll, nextSecondRoll); //TODO this line might read aloud "then return strike for the two rolls". Does that sound right?
 
 		//spare
 		if(this.getFirstRoll() + this.getFirstRoll() == 10 )
