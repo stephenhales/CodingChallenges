@@ -1,34 +1,121 @@
 package bowling;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import bowling.player.Player;
+import bowling.frame.Frame;
+import bowling.frame.TenthFrame;
 
 
-
-//TODO The game class feels a little anemic to me.
 //A game can be a container for all the moving pieces, in this case the Players and the Frames.
 //It is strange to me that Frames don't believe to the game.
 //Similarly, players should not need to know or care about the rules for scoring, the Game should keep track of that for them.
 public class BowlingGame{
 
-    private List<Player> players = new ArrayList<Player>();
+	private final int noNextRoll = 0;
 
-    public void score(){
-        for(Player player : players){
-			player.score();
-        }
-    }
+	private Frame[] frames = new Frame[]{
+		new Frame(), new Frame(), new Frame(),
+		new Frame(), new Frame(), new Frame(),
+		new Frame(), new Frame(), new Frame(),
+		new TenthFrame()
+	};
 
-    //TODO do we ever add or remove players throughout a Game? Are the number of players determine at the start of the game?
-    //What is a cleaner way to indicate that?
-    public void addPlayer(){
-	    players.add(new Player());
-    }
+	BowlingGame(){ }
 
     //TODO try adding a notion of Rounds, which consists of players taking their turn rolling until they fill a Frame.
     //What would a takeRound() method look like in the Game class?
     //What would a takeTurn() method look like in the Player class?
     //That would allow you to make the Game both the container and the driver for activity (as opposed to the player).
+
+	public int score(){
+		int score = 0;
+		for(Frame frame : frames){
+			score += (frame.getPoints() != null ? frame.getPoints() : 0 );
+			frame.printFrame(score);
+		}
+		return score;
+	}
+
+	public void roll(int knockedDownPins){
+		getNextOpenFrame().roll(knockedDownPins);
+		setFrameScores();
+	}
+
+	public Frame[] getFrames(){
+		return frames;
+	}
+
+	//TODO Bookmark
+	//The Game should know all the Frames that will exist, and more importantly, which Frame we are currently in.
+	//We don't want to have to run through every Frame to remember which one we are currently in.
+	private Frame getNextOpenFrame(){
+		for(Frame frame : frames){
+			if(frame.canRoll())
+				return frame;
+		}
+		return new Frame();
+	}
+
+	private Frame getFrame(int frameNumber){
+		return frames[frameNumber-1];
+	}
+
+	private void setFrameScores(){
+		int frameNumber = 1;
+		for(Frame frame : frames){
+
+			if(frame.getPoints() != null) {
+				frameNumber++;
+				continue;
+			}
+
+			frame.setPoints(
+				getNextRoll(frameNumber),
+				getNextNextRoll(frameNumber));
+
+			if(frame.getPoints() == null)
+				break;
+
+			frameNumber++;
+		}
+	}
+
+	private Integer getNextRoll(int frameNumber){
+		if(isTenthFrame(frameNumber)) return noNextRoll;
+		return getNextFrame(frameNumber).getFirstRoll();
+	}
+
+	private Integer getNextNextRoll(int frameNumber){
+		Integer lastRoll = getNextRoll(frameNumber);
+		//TODO Magic numbers
+		//Are these the same conceptual objects as the numbers above? Is this 10 the same as that 10?
+		//Or is one 10 apples and the other 10 oranges?
+		//How much code do I have to read to find that out?
+		if(isTenthFrame(frameNumber)) return noNextRoll;
+		//TODO Defensive programming
+		//It is important in java to make sure you program defensively, i.e. prevent bugs such as NullPointerException.
+		//Unfortunately, that can clutter your code and make things more difficult to read.
+		//Therefore, if possible, it is better to avoid writing null checks. If you see yourself doing it, ask yourself:
+		//1. Is null invalid in my design, or built into my domain? For example, is a null String distinct from an
+		//empty String because I need to determine whether the user intentionally gave me nothing or accidentally gave
+		//me nothing.
+		//Whenever possible design your system to treat null as invalid. For example, you could pass a specific String value
+		//such as -1 to indicate the user forgetting to provide a value.
+		//2. Can I guarantee that I have what I need when I get to this code? If possible, you should design your
+		//system (and get a working agreement with your team) such that if you ask for something as an input, you are
+		//guaranteed to have it provided. Instead of designing a method with two arguments, one of which is optional,
+		//instead write two methods (one with two arguments, and one with only the single required argument). This way
+		//callers never pass you a null. Similarly, identify the boundaries of your system (i.e. database layer or http layer),
+		//and only run validation at those locations (do null checks at the edges, so that your internal code doesn't have to; plus this allows you to fail fast, and provide feedback earlier).
+		if(lastRoll != null && lastRoll == 10 && frameNumber != 9){
+			return getNextRoll(frameNumber + 1);
+		}
+		return getNextFrame(frameNumber).getSecondRoll();
+	}
+
+	private boolean isTenthFrame(int frameNumber){
+		return frameNumber == 10;
+	}
+
+	private Frame getNextFrame(int frameNumber){
+		return getFrame(frameNumber + 1);
+	}
 }
