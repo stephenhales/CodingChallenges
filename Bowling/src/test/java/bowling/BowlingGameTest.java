@@ -24,7 +24,7 @@ public class BowlingGameTest {
 	//The method name serves to group your tests, but also highlights which class and method you are focused on testing.
 	//Looking at this method, am I testing the roll method, the getFrames method, or the getPoints method?
     @Test
-    public void bowlZeros(){
+    public void score_should_beZero_whenBowlAllZeros(){
         for(int i = 0; i<20; i++){
             game.roll(0);
         }
@@ -34,7 +34,7 @@ public class BowlingGameTest {
     }
 
     @Test
-    public void bowlOnes(){
+    public void score_should_beTwenty_whenBowlAllOnes(){
         for(int i = 0; i<20; i++){
             game.roll(1);
         }
@@ -44,7 +44,7 @@ public class BowlingGameTest {
     }
 
     @Test
-    public void bowlFours(){
+    public void score_should_beEighty_whenBowlAllFours(){
         for(int i = 0; i<20; i++){
             game.roll(4);
         }
@@ -59,7 +59,7 @@ public class BowlingGameTest {
 
 	//<editor-fold desc="Spare Tests">
 	@Test
-    public void bowlOneSpare(){
+    public void score_should_beSixteen_whenBowlOneSpareAndThreePoints(){
         game.roll(5);
         game.roll(5);
         game.roll(3);
@@ -72,7 +72,7 @@ public class BowlingGameTest {
     }
 
 	@Test
-	public void bowlAllSpares(){
+	public void score_should_be150_whenBowlAllSpares(){
 
 		for(int i = 0; i<10; i++){
 			game.roll(5);
@@ -86,8 +86,9 @@ public class BowlingGameTest {
     //</editor-fold>
 
 	//<editor-fold desc="Strike Tests">
+	//TODO rename
 	@Test
-	public void whenStrike_SecondRollIsNull(){
+	public void secondRoll_should_beNotRolled_whenRolledStrike(){
 
 		game.roll(10);
 		for(int i = 0; i<9; i++){
@@ -95,12 +96,12 @@ public class BowlingGameTest {
 			game.roll(0);
 		}
 
-		Integer result = game.getFrames()[0].getSecondRoll();
-		assertEquals((Integer)Keys.notRolled, result);
+		int result = game.getFrames()[0].getSecondRoll();
+		assertEquals((int)Keys.notRolled, result);
 	}
 
     @Test
-    public void whenStrike_NextFrameIsAdded(){
+    public void score_should_beEighteen_whenRolledStrikeAndTwoTwos(){
 
         game.roll(10);
         game.roll(2);
@@ -115,7 +116,7 @@ public class BowlingGameTest {
     }
 
     @Test
-    public void whenTwoStrikesAndTwoPins_FirstFrame_AccountsForNextNextRoll(){
+    public void score_should_beThirtySix_whenTwoStrikesAndTwoPins(){
 
         game.roll(10);
         game.roll(10);
@@ -131,7 +132,7 @@ public class BowlingGameTest {
     }
 
 	@Test
-	public void whenThreeStrikes_FirstFrame_AccountsForSecondStrike(){
+	public void score_should_beSixty_whenThreeStrikes(){
 
 		game.roll(10);
 		game.roll(10);
@@ -146,40 +147,7 @@ public class BowlingGameTest {
 	//</editor-fold>
 
 	@Test
-	public void whenBowlOnes_FirstFrameScore_IsTwo(){
-
-		game.roll(1);
-		game.roll(1);
-
-		Integer result = game.getFrames()[0].getPoints();
-		assertEquals(new Integer(2), result);
-	}
-
-	@Test
-	public void whenThreeStrikes_FirstFrame_IsThirty(){
-
-		game.roll(10);
-		game.roll(10);
-		game.roll(10);
-
-		Integer result = game.getFrames()[0].getPoints();
-		assertEquals(new Integer(30), result);
-	}
-
-	@Test
-	public void whenTwoStrikesAndTwoPins_FirstFrame_IsTwentyTwo(){
-
-		game.roll(10);
-		game.roll(10);
-		game.roll(2);
-		game.roll(0);
-
-		Integer result = game.getFrames()[0].getPoints();
-		assertEquals(new Integer(22), result);
-	}
-
-	@Test
-	public void whenBowlFirstFrame_TotalScore_IsTwo(){
+	public void score_should_beTwo_whenOnlyTwoOnes(){
 
 		game.roll(1);
 		game.roll(1);
@@ -189,7 +157,30 @@ public class BowlingGameTest {
 	}
 
 	@Test
-	public void whenAllStrikes_ThreeHundred(){
+	public void score_should_beThirty_whenOnlyThreeStrikes(){
+
+		game.roll(10);
+		game.roll(10);
+		game.roll(10);
+
+		int result = game.score();
+		assertEquals(30, result);
+	}
+
+	@Test
+	public void score_should_beTwentyTwo_whenOnlyTwoStrikesAndTwoPins_FirstFrame_IsTwentyTwo(){
+
+		game.roll(10);
+		game.roll(10);
+		game.roll(2);
+		game.roll(0);
+
+		int result = game.getFrames()[0].getPoints();
+		assertEquals(22, result);
+	}
+
+	@Test
+	public void score_should_beThreeHundred_whenAllStrikes(){
 		for(int i = 0; i<12; i++) {
 			game.roll(10);
 		}
@@ -198,18 +189,19 @@ public class BowlingGameTest {
 		assertEquals(300, result);
 	}
 
+	//TODO rename
 	@Test
 	public void whenAllStrikes_NinthFrame_IsThirty(){
 		for(int i = 0; i<12; i++) {
 			game.roll(10);
 		}
 
-		Integer result = game.getFrames()[8].getPoints();
-		assertEquals(new Integer(30), result);
+		int result = game.getFrames()[8].getPoints();
+		assertEquals(30, result);
 	}
 
 	@Test
-	public void whenAllZeros_TenthFrameIsOnes_IsTwo(){
+	public void score_should_beTwo_whenAllZerosAndTenthFrameIsOnes(){
 		for(int i = 0; i<9; i++) {
 			game.roll(0);
 			game.roll(0);
@@ -222,7 +214,7 @@ public class BowlingGameTest {
 	}
 
 	@Test
-	public void whenAllZeros_TenthFrameIsSpareAndFive_IsFifteen(){
+	public void score_should_beFifteen_whenAllZerosAndTenthFrameIsSpareAndFive(){
 		for(int i = 0; i<9; i++) {
 			game.roll(0);
 			game.roll(0);
@@ -236,7 +228,7 @@ public class BowlingGameTest {
 	}
 
 	@Test
-	public void whenAllZeros_TenthFrameIsStrikes_IsThirty(){
+	public void score_should_beThirty_whenAllZerosAndTenthFrameIsStrikes(){
 		for(int i = 0; i<9; i++) {
 			game.roll(0);
 			game.roll(0);
@@ -251,7 +243,7 @@ public class BowlingGameTest {
 
 
 	@Test
-	public void whenAllZeros_TenthFrameIsStrikeAndSpare_IsTwenty(){
+	public void score_should_beTwenty_whenAllZerosAndTenthFrameIsStrikeAndSpare(){
 		for(int i = 0; i<9; i++) {
 			game.roll(0);
 			game.roll(0);
@@ -266,7 +258,7 @@ public class BowlingGameTest {
 	}
 
 	@Test
-	public void whenAllZeros_NinthFrameIsStrike_TenthFrameIsStrikes_IsSixty(){
+	public void score_should_beSixty_whenAllZerosAndNinthFrameIsStrikeAndTenthFrameIsStrikes(){
 		for(int i = 0; i<8; i++) {
 			game.roll(0);
 			game.roll(0);
