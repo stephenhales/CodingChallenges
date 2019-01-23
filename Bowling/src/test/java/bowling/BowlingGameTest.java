@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import org.junit.runners.MethodSorters;
 
-import bowling.common.Keys;
+import bowling.frame.Frame;
 
 import static org.junit.Assert.assertEquals;
 
@@ -97,7 +97,7 @@ public class BowlingGameTest {
 		}
 
 		int result = game.getFrames()[0].getSecondRoll();
-		assertEquals((int)Keys.notRolled, result);
+		assertEquals((int) Frame.notRolled, result);
 	}
 
     @Test

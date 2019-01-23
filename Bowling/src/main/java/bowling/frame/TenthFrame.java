@@ -1,6 +1,6 @@
 package bowling.frame;
 
-import bowling.common.Keys;
+import bowling.common.Score;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,18 +35,18 @@ public class TenthFrame extends Frame {
 	@Setter(AccessLevel.NONE) private int points;
 
 	public TenthFrame(){
-		this.setFirstRoll(Keys.notRolled);
-		this.setSecondRoll(Keys.notRolled);
-		this.setThirdRoll(Keys.notRolled);
-		this.points = Keys.notCalculated;
+		this.setFirstRoll(Frame.notRolled);
+		this.setSecondRoll(Frame.notRolled);
+		this.setThirdRoll(Frame.notRolled);
+		this.points = Frame.notCalculated;
 	}
 
 	@Override
 	public void roll(int pinsKnockedDown){
-		if(this.getFirstRoll() == Keys.notRolled){
+		if(this.getFirstRoll() == Frame.notRolled){
 			this.setFirstRoll(pinsKnockedDown);
 		}
-		else if (this.getSecondRoll() == Keys.notRolled) {
+		else if (this.getSecondRoll() == Frame.notRolled) {
 			this.setSecondRoll(pinsKnockedDown);
 		}
 		else {
@@ -58,7 +58,7 @@ public class TenthFrame extends Frame {
 	public void setPoints(int nextFirstRoll, int nextSecondRoll){
 		if(canRoll())
 			return;
-		this.points = super.calculateScore(this.getSecondRoll(), this.getThirdRoll());
+		this.points = Score.getFrameScore(this, this.getSecondRoll(), this.getThirdRoll());
 	}
 
 	//TODO Defensive programming again
@@ -71,21 +71,10 @@ public class TenthFrame extends Frame {
 	//Try writing these in an expressive way by extracting some methods.
 	@Override
 	public boolean canRoll(){
-		return (this.getFirstRoll() == Keys.notRolled
-			|| this.getSecondRoll() == Keys.notRolled
-			|| this.getThirdRoll() == Keys.notRolled
+		return (this.getFirstRoll() == Frame.notRolled
+			|| this.getSecondRoll() == Frame.notRolled
+			|| this.getThirdRoll() == Frame.notRolled
 				&& (this.getFirstRoll() + this.getSecondRoll() == 10
 					|| this.getFirstRoll() == 10));
-	}
-
-	//TODO Misplaced responsibility
-	//Seems odd that the Frame needs to know about the total to display its contents.
-	@Override
-	public void printFrame(int total){
-		System.out.println("________");
-		System.out.printf("| %s | %s | %s |\n", this.getFirstRoll(), this.getSecondRoll(), this.getThirdRoll());
-		System.out.println("|   ________|");
-		System.out.printf("|     %s     |\n", total);
-		System.out.println("|___________|");
 	}
 }

@@ -1,6 +1,6 @@
 package bowling;
 
-import bowling.common.Keys;
+import bowling.common.Score;
 import bowling.frame.Frame;
 import bowling.frame.TenthFrame;
 
@@ -26,7 +26,7 @@ import bowling.frame.TenthFrame;
 //and only run validation at those locations (do null checks at the edges, so that your internal code doesn't have to; plus this allows you to fail fast, and provide feedback earlier).
 public class BowlingGame{
 
-	private int currentFrameNumber = 1;
+	private int currentRound = 1;
 	private int noNextRoll = 0;
 
 
@@ -45,12 +45,8 @@ public class BowlingGame{
     //That would allow you to make the Game both the container and the driver for activity (as opposed to the player).
 
 	public int score(){
-		int score = 0;
-		for(Frame frame : frames){
-			score += (frame.getPoints() != Keys.notCalculated ? frame.getPoints() : 0 );
-			frame.printFrame(score);
-		}
-		return score;
+		display(frames);
+		return Score.getTotalScore(frames);
 	}
 
 	public void roll(int knockedDownPins){
@@ -63,9 +59,9 @@ public class BowlingGame{
 	}
 
 	private Frame getNextOpenFrame(){
-		return getFrame(currentFrameNumber).canRoll() ?
-			getFrame(currentFrameNumber) :
-			getFrame(++currentFrameNumber);
+		return getFrame(currentRound).canRoll() ?
+			getFrame(currentRound) :
+			getFrame(++currentRound);
 	}
 
 	private Frame getFrame(int frameNumber){
@@ -78,10 +74,10 @@ public class BowlingGame{
 	}
 
 	private void setFrameScores(){
-		int frameNumber = currentFrameNumber;
+		int frameNumber = currentRound;
 		Frame frame = getFrame(frameNumber);
 
-		while(frame.getPoints() == Keys.notCalculated && isValidFrameNumber(frameNumber)){
+		while(frame.getPoints() == Frame.notCalculated && isValidFrameNumber(frameNumber)){
 			frame.setPoints(
 				getNextRoll(frameNumber),
 				getNextNextRoll(frameNumber));
@@ -116,5 +112,29 @@ public class BowlingGame{
 
 	private boolean isStrike(int lastRoll){
 		return lastRoll == 10;
+	}
+
+	private void display(Frame[] frames){
+		int score = 0;
+		for(Frame frame : frames){
+			score += (frame.getPoints() != Frame.notCalculated ? frame.getPoints() : 0 );
+			printFrame(score, frame);
+		}
+	}
+
+	private void printFrame(int total, Frame frame){
+		System.out.println("________");
+		System.out.printf("| %s | %s |\n", frame.getFirstRoll(), frame.getSecondRoll());
+		System.out.println("|   ____|");
+		System.out.printf("|   %s   |\n", total);
+		System.out.println("|_______|");
+	}
+
+	private void printTenthFrame(int total, TenthFrame frame){
+		System.out.println("________");
+		System.out.printf("| %s | %s | %s |\n", frame.getFirstRoll(), frame.getSecondRoll(), frame.getThirdRoll());
+		System.out.println("|   ________|");
+		System.out.printf("|     %s     |\n", total);
+		System.out.println("|___________|");
 	}
 }

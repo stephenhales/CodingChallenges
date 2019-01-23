@@ -1,6 +1,6 @@
 package bowling.frame;
 
-import bowling.common.Keys;
+import bowling.common.Score;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,18 +15,21 @@ import lombok.Setter;
 @Setter
 public class Frame {
 
+	public static final int notRolled = -1;
+	public static final int notCalculated = -1;
+
 	private int firstRoll;
 	private int secondRoll;
 	@Setter(AccessLevel.NONE) private int points;
 
 	public Frame(){
-		this.setFirstRoll(Keys.notRolled);
-		this.setSecondRoll(Keys.notRolled);
-		this.points = Keys.notCalculated;
+		this.setFirstRoll(notRolled);
+		this.setSecondRoll(notRolled);
+		this.points = notCalculated;
 	}
 
 	public void roll(int pinsKnockedDown){
-		if(this.getFirstRoll() == Keys.notRolled){
+		if(this.getFirstRoll() == notRolled){
 			this.setFirstRoll(pinsKnockedDown);
 		}
 		else {
@@ -35,44 +38,13 @@ public class Frame {
 	}
 
 	public boolean canRoll(){
-		return (this.getFirstRoll() == Keys.notRolled
-			|| this.getFirstRoll() != 10 && this.getSecondRoll() == Keys.notRolled);
+		return (this.getFirstRoll() == notRolled
+			|| this.getFirstRoll() != 10 && this.getSecondRoll() == notRolled);
 	}
 
 	public void setPoints(int nextFirstRoll, int nextSecondRoll){
 		if(canRoll())
 			return;
-		this.points = calculateScore(nextFirstRoll, nextSecondRoll);
+		this.points = Score.getFrameScore(this, nextFirstRoll, nextSecondRoll);
 	}
-
-	public int calculateScore(int nextFirstRoll, int nextSecondRoll){
-
-		//strike
-		if(this.getFirstRoll() == 10) //TODO Express yourself. This line might read aloud "if roll is strike"
-			return strike(nextFirstRoll, nextSecondRoll); //TODO this line might read aloud "then return strike for the two rolls". Does that sound right?
-
-		//spare
-		if(this.getFirstRoll() + this.getFirstRoll() == 10 )
-			return spare(nextFirstRoll);
-
-		// normal score
-		return this.getFirstRoll() + this.getSecondRoll();
-	}
-
-	public void printFrame(int total){
-		System.out.println("________");
-		System.out.printf("| %s | %s |\n", this.getFirstRoll(), this.getSecondRoll());
-		System.out.println("|   ____|");
-		System.out.printf("|   %s   |\n", total);
-		System.out.println("|_______|");
-	}
-
-	private int strike(int nextFirstRoll, int nextSecondRoll){
-		return(nextFirstRoll == Keys.notRolled || nextSecondRoll == Keys.notRolled) ? Keys.notCalculated : 10 + nextFirstRoll + nextSecondRoll;
-	}
-
-	private int spare(int nextFirstRoll){
-		return (nextFirstRoll == Keys.notRolled) ? Keys.notCalculated : 10 + nextFirstRoll;
-	}
-
 }
