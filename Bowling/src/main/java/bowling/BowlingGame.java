@@ -1,5 +1,8 @@
 package bowling;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import bowling.common.Score;
 import bowling.frame.Frame;
 import bowling.frame.TenthFrame;
@@ -30,14 +33,13 @@ public class BowlingGame{
 	private int noNextRoll = 0;
 
 
-	private Frame[] frames = new Frame[]{
-		new Frame(), new Frame(), new Frame(),
-		new Frame(), new Frame(), new Frame(),
-		new Frame(), new Frame(), new Frame(),
-		new TenthFrame()
-	};
+	private List<Frame> frames = new ArrayList<>();
 
-	BowlingGame(){ }
+	BowlingGame(){
+		for(int round = 1; round <= 10; round++ ){
+			frames.add(new Frame());
+		}
+	}
 
     //TODO try adding a notion of Rounds, which consists of players taking their turn rolling until they fill a Frame.
     //What would a takeRound() method look like in the Game class?
@@ -54,19 +56,28 @@ public class BowlingGame{
 		setFrameScores();
 	}
 
-	public Frame[] getFrames(){
+	public List<Frame> getFrames(){
 		return frames;
 	}
 
 	private Frame getNextOpenFrame(){
-		return getFrame(currentRound).canRoll() ?
+		return canPlayerRoll(getFrame(currentRound)) ?
 			getFrame(currentRound) :
 			getFrame(++currentRound);
 	}
 
+	private boolean canPlayerRoll(Frame frame){
+		return hasNotRolled(frame.getFirstRoll())
+			|| !Score.isStrike(frame.getFirstRoll()) && hasNotRolled(frame.getSecondRoll());
+	}
+
+	private boolean hasNotRolled(int roll){
+		return roll == Frame.notRolled;
+	}
+
 	private Frame getFrame(int frameNumber){
 		if(!isValidFrameNumber(frameNumber)) return new Frame();
-		return frames[frameNumber-1];
+		return frames.get(frameNumber-1);
 	}
 
 	private Frame getNextFrame(int frameNumber){
@@ -92,7 +103,7 @@ public class BowlingGame{
 
 	private int getNextNextRoll(int currentFrame){
 		if(isTenthFrame(currentFrame)) return noNextRoll;
-		if(isStrike(getNextRoll(currentFrame)) && !isNinthFrame(currentFrame)){
+		if(Score.isStrike(getNextRoll(currentFrame)) && !isNinthFrame(currentFrame)){
 			return getNextRoll(currentFrame + 1);
 		}
 		return getNextFrame(currentFrame).getSecondRoll();
@@ -110,11 +121,7 @@ public class BowlingGame{
 		return 0 < frameNumber && frameNumber < 11;
 	}
 
-	private boolean isStrike(int lastRoll){
-		return lastRoll == 10;
-	}
-
-	private void display(Frame[] frames){
+	private void display(List<Frame> frames){
 		int score = 0;
 		for(Frame frame : frames){
 			score += (frame.getPoints() != Frame.notCalculated ? frame.getPoints() : 0 );

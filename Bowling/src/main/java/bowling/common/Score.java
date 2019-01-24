@@ -1,5 +1,7 @@
 package bowling.common;
 
+import java.util.List;
+
 import bowling.frame.Frame;
 
 public class Score {
@@ -15,7 +17,7 @@ public class Score {
 		return frame.getFirstRoll() + frame.getSecondRoll();
 	}
 
-	public static int getTotalScore(Frame[] frames){
+	public static int getTotalScore(List<Frame> frames){
 		int score = 0;
 		for(Frame frame : frames){
 			score += (frame.getPoints() != Frame.notCalculated ? frame.getPoints() : 0 );
@@ -31,11 +33,11 @@ public class Score {
 		return (nextFirstRoll == Frame.notRolled) ? Frame.notCalculated : 10 + nextFirstRoll;
 	}
 
-	private static boolean isStrike(int firstRoll){
+	public static boolean isStrike(int firstRoll){
 		return firstRoll == 10;
 	}
 
-	private static boolean isSpare(Frame frame){
+	public static boolean isSpare(Frame frame){
 		return frame.getFirstRoll() + frame.getFirstRoll() == 10;
 	}
 }

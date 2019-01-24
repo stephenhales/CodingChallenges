@@ -1,15 +1,17 @@
 package bowling.player;
 
 
+import java.util.List;
+
 import bowling.common.Score;
 import bowling.frame.Frame;
 
 //TODO add later after refactoring
 public class Player {
 
-	private Frame[] frames;
+	private List<Frame> frames;
 
-	public Player(Frame[] frames){
+	public Player(List<Frame> frames){
 		this.frames = frames;
 	}
 

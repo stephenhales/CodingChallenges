@@ -96,7 +96,7 @@ public class BowlingGameTest {
 			game.roll(0);
 		}
 
-		int result = game.getFrames()[0].getSecondRoll();
+		int result = game.getFrames().get(0).getSecondRoll();
 		assertEquals((int) Frame.notRolled, result);
 	}
 
@@ -175,7 +175,7 @@ public class BowlingGameTest {
 		game.roll(2);
 		game.roll(0);
 
-		int result = game.getFrames()[0].getPoints();
+		int result = game.getFrames().get(0).getPoints();
 		assertEquals(22, result);
 	}
 
@@ -196,7 +196,7 @@ public class BowlingGameTest {
 			game.roll(10);
 		}
 
-		int result = game.getFrames()[8].getPoints();
+		int result = game.getFrames().get(8).getPoints();
 		assertEquals(30, result);
 	}
 

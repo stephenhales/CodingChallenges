@@ -69,8 +69,8 @@ public class TenthFrame extends Frame {
 	//That last statement could read "Does the series of rolls contain a 10"
 	//What does the second to last statement read as?
 	//Try writing these in an expressive way by extracting some methods.
-	@Override
-	public boolean canRoll(){
+	//TODO next
+	private boolean canRoll(){
 		return (this.getFirstRoll() == Frame.notRolled
 			|| this.getSecondRoll() == Frame.notRolled
 			|| this.getThirdRoll() == Frame.notRolled

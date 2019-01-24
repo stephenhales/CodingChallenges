@@ -37,7 +37,8 @@ public class Frame {
 		}
 	}
 
-	public boolean canRoll(){
+	//TODO next
+	private boolean canRoll(){
 		return (this.getFirstRoll() == notRolled
 			|| this.getFirstRoll() != 10 && this.getSecondRoll() == notRolled);
 	}
