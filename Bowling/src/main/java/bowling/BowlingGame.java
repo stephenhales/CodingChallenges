@@ -5,7 +5,6 @@ import java.util.List;
 
 import bowling.common.Score;
 import bowling.frame.Frame;
-import bowling.frame.TenthFrame;
 
 
 //A game can be a container for all the moving pieces, in this case the Players and the Frames.
@@ -53,6 +52,7 @@ public class BowlingGame{
 
 	public void roll(int knockedDownPins){
 		getNextOpenFrame().roll(knockedDownPins);
+		additionalFrameSetup();
 		setFrameScores();
 	}
 
@@ -89,6 +89,9 @@ public class BowlingGame{
 		Frame frame = getFrame(frameNumber);
 
 		while(frame.getPoints() == Frame.notCalculated && isValidFrameNumber(frameNumber)){
+			if(canPlayerRoll(frame))
+				return;
+
 			frame.setPoints(
 				getNextRoll(frameNumber),
 				getNextNextRoll(frameNumber));
@@ -97,16 +100,34 @@ public class BowlingGame{
 	}
 
 	private int getNextRoll(int currentFrame){
-		if(isTenthFrame(currentFrame)) return noNextRoll;
+		if(!isValidFrameNumber(currentFrame)) return noNextRoll;
 		return getNextFrame(currentFrame).getFirstRoll();
 	}
 
 	private int getNextNextRoll(int currentFrame){
-		if(isTenthFrame(currentFrame)) return noNextRoll;
-		if(Score.isStrike(getNextRoll(currentFrame)) && !isNinthFrame(currentFrame)){
+		if(!isValidFrameNumber(currentFrame)) return noNextRoll;
+		if(Score.isStrike(getNextRoll(currentFrame))){
 			return getNextRoll(currentFrame + 1);
 		}
 		return getNextFrame(currentFrame).getSecondRoll();
+	}
+
+	private void additionalFrameSetup(){
+		if(frameIsStrikeOrSpare(getFrame(10)) && frames.size() == 10){
+			frames.add(new Frame());
+		}
+		if(tenthFrameHasTwoStrikes() && frames.size() == 11){
+			frames.add(new Frame());
+		}
+	}
+
+	private boolean frameIsStrikeOrSpare(Frame frame){
+		return Score.isStrike(frame.getFirstRoll()) || Score.isSpare(frame);
+	}
+
+	private boolean tenthFrameHasTwoStrikes(){
+		return Score.isStrike(getFrame(10).getFirstRoll())
+			&& Score.isStrike(getFrame(11).getFirstRoll());
 	}
 
 	private boolean isTenthFrame(int frameNumber){
@@ -118,7 +139,7 @@ public class BowlingGame{
 	}
 
 	private boolean isValidFrameNumber(int frameNumber){
-		return 0 < frameNumber && frameNumber < 11;
+		return 0 < frameNumber && frameNumber <= frames.size();
 	}
 
 	private void display(List<Frame> frames){
@@ -137,9 +158,9 @@ public class BowlingGame{
 		System.out.println("|_______|");
 	}
 
-	private void printTenthFrame(int total, TenthFrame frame){
+	private void printTenthFrame(int total, int[] rolls){
 		System.out.println("________");
-		System.out.printf("| %s | %s | %s |\n", frame.getFirstRoll(), frame.getSecondRoll(), frame.getThirdRoll());
+		System.out.printf("| %s | %s | %s |\n", rolls[0], rolls[1], rolls[2]);
 		System.out.println("|   ________|");
 		System.out.printf("|     %s     |\n", total);
 		System.out.println("|___________|");

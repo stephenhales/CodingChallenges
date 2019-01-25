@@ -38,6 +38,6 @@ public class Score {
 	}
 
 	public static boolean isSpare(Frame frame){
-		return frame.getFirstRoll() + frame.getFirstRoll() == 10;
+		return frame.getFirstRoll() + frame.getSecondRoll() == 10;
 	}
 }
