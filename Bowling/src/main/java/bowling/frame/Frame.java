@@ -3,8 +3,6 @@ package bowling.frame;
 import lombok.Getter;
 import lombok.Setter;
 
-//TODO What does this do?
-
 @Getter
 @Setter
 public class Frame {
