@@ -68,7 +68,7 @@ public class BowlingGame{
 
 	private boolean canPlayerRoll(Frame frame){
 		return hasNotRolled(frame.getFirstRoll())
-			|| !Score.isStrike(frame.getFirstRoll()) && hasNotRolled(frame.getSecondRoll());
+			|| hasNotRolled(frame.getSecondRoll()) && !Score.isStrike(frame.getFirstRoll());
 	}
 
 	private boolean hasNotRolled(int roll){
@@ -76,7 +76,7 @@ public class BowlingGame{
 	}
 
 	private Frame getFrame(int frameNumber){
-		if(!isValidFrameNumber(frameNumber)) return new Frame();
+		if(isInvalidFrameNumber(frameNumber)) return new Frame();
 		return frames.get(frameNumber-1);
 	}
 
@@ -86,26 +86,29 @@ public class BowlingGame{
 
 	private void setFrameScores(){
 		int frameNumber = currentRound;
+		if( 10 < currentRound )
+			frameNumber = 10;
 		Frame frame = getFrame(frameNumber);
 
-		while(frame.getPoints() == Frame.notCalculated && isValidFrameNumber(frameNumber)){
+		while(frame.getPoints() == Frame.notCalculated){
 			if(canPlayerRoll(frame))
 				return;
 
-			frame.setPoints(
+			frame.setPoints(Score.getFrameScore(frame,
 				getNextRoll(frameNumber),
-				getNextNextRoll(frameNumber));
+				getNextNextRoll(frameNumber)));
+
 			frame = getFrame(--frameNumber);
 		}
 	}
 
 	private int getNextRoll(int currentFrame){
-		if(!isValidFrameNumber(currentFrame)) return noNextRoll;
+		if(isInvalidFrameNumber(currentFrame)) return noNextRoll;
 		return getNextFrame(currentFrame).getFirstRoll();
 	}
 
 	private int getNextNextRoll(int currentFrame){
-		if(!isValidFrameNumber(currentFrame)) return noNextRoll;
+		if(isInvalidFrameNumber(currentFrame)) return noNextRoll;
 		if(Score.isStrike(getNextRoll(currentFrame))){
 			return getNextRoll(currentFrame + 1);
 		}
@@ -119,6 +122,13 @@ public class BowlingGame{
 		if(tenthFrameHasTwoStrikes() && frames.size() == 11){
 			frames.add(new Frame());
 		}
+		if(tenthFrameIsSpare()){
+			getFrame(11).setSecondRoll(0);
+		}
+	}
+
+	private boolean tenthFrameIsSpare(){
+		return Score.isSpare(getFrame(10));
 	}
 
 	private boolean frameIsStrikeOrSpare(Frame frame){
@@ -130,16 +140,8 @@ public class BowlingGame{
 			&& Score.isStrike(getFrame(11).getFirstRoll());
 	}
 
-	private boolean isTenthFrame(int frameNumber){
-		return frameNumber == 10;
-	}
-
-	private boolean isNinthFrame(int frameNumber){
-		return frameNumber == 9;
-	}
-
-	private boolean isValidFrameNumber(int frameNumber){
-		return 0 < frameNumber && frameNumber <= frames.size();
+	private boolean isInvalidFrameNumber(int frameNumber){
+		return !(0 < frameNumber && frameNumber <= frames.size());
 	}
 
 	private void display(List<Frame> frames){

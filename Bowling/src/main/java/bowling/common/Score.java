@@ -26,11 +26,15 @@ public class Score {
 	}
 
 	public static int addNextTwoRolls(int nextFirstRoll, int nextSecondRoll){
-		return(nextFirstRoll == Frame.notRolled || nextSecondRoll == Frame.notRolled) ? Frame.notCalculated : 10 + nextFirstRoll + nextSecondRoll;
+		return(nextFirstRoll == Frame.notRolled || nextSecondRoll == Frame.notRolled)
+			? Frame.notCalculated
+			: 10 + nextFirstRoll + nextSecondRoll;
 	}
 
 	public static int addNextRoll(int nextFirstRoll){
-		return (nextFirstRoll == Frame.notRolled) ? Frame.notCalculated : 10 + nextFirstRoll;
+		return (nextFirstRoll == Frame.notRolled)
+			? Frame.notCalculated
+			: 10 + nextFirstRoll;
 	}
 
 	public static boolean isStrike(int firstRoll){
