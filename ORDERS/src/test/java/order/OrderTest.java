@@ -142,17 +142,4 @@ public class OrderTest {
 		assertThat(result, is(expectedResult));
 	}
 
-	@Test
-	public void getStartingOrder_returnsChangeAtLeft_whenGivenCorrectButTwo(){
-		//Arrange
-		List<Integer> movesPerPerson = Arrays.asList(0,1,0,0,0);
-
-		//Act
-		List<Integer> result = order.getStartingOrder(movesPerPerson);
-
-		//Assert
-		List<Integer> expectedResult = Arrays.asList(2,1,3,4,5);
-		assertThat(result, is(expectedResult));
-	}
-
 }
