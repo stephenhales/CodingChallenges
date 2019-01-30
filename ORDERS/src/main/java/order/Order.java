@@ -7,10 +7,13 @@ public class Order {
 	public List<Integer> getStartingOrder(List<Integer> movesPerPerson){
 		List<Integer> order = getEndingOrder(movesPerPerson.size());
 
-		for(int rank = movesPerPerson.size(); rank >= 1; rank--){
-			int index = order.indexOf(rank);
+		for(int position = movesPerPerson.size()-1; position >= 0; position--){
+			int moves = movesPerPerson.get(position);
+			int index = position-moves;
+			int rank = order.get(index);
+
 			order.remove(index);
-			order.add(index - movesPerPerson.get(rank-1), rank);
+			order.add(position, rank);
 		}
 		return order;
 	}
