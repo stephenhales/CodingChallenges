@@ -16,6 +16,7 @@ node_modules/*
 !Fowler-First-Example/
 !Bowling/
 !ORDERS/
+!CountSubstrings/
 
 !Tennis-Refactoring-kata-master/
 Tennis-Refactoring-kata-master/*
