@@ -17,9 +17,9 @@ public class CountSubstring {
 	}
 
 	private int getFactorial(int number){
-		int total = 1;
-		for(int i = 1; i <= number; i++){
-			total *= i;
+		int total = 0;
+		for(int i = 0; i <= number; i++){
+			total += i;
 		}
 		return total;
 	}

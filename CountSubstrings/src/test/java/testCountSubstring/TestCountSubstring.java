@@ -63,7 +63,7 @@ public class TestCountSubstring {
 	}
 
 	@Test
-	public void getCount_ShouldReturnThree_WhenGivenOneOneOne(){
+	public void getCount_ShouldReturnSix_WhenGivenOneOneOne(){
 		//Arrange
 		String inputString = "111";
 
@@ -72,5 +72,17 @@ public class TestCountSubstring {
 
 		//Assert
 		assertThat(count, is(6));
+	}
+
+	@Test
+	public void getCount_ShouldReturnTen_WhenGivenOneOneOneOne(){
+		//Arrange
+		String inputString = "1111";
+
+		//Act
+		int count = countSubstring.getCount(inputString);
+
+		//Assert
+		assertThat(count, is(10));
 	}
 }
